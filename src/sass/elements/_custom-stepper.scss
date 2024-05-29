@@ -1,0 +1,125 @@
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.round {
+  min-width: 20px;
+  height: 20px;
+  background-color: #d9d9d9;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+.label {
+  position: absolute;
+  bottom: -28px;
+  color: #d9d9d9;
+  font-size: 1.125em;
+  font-weight: 700;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-align: center;
+}
+.line {
+  background: #bebebe;
+  width: 100%;
+  max-width: 17.5rem;
+  height: 1px;
+}
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #009361;
+}
+.tick {
+  width: 0.75rem;
+}
+.isActive {
+  border: 1px solid #009361;
+  background-color: transparent;
+}
+.isLineActive {
+  background: #009361;
+}
+.isCompleted {
+  border: 1px solid #009361;
+  background: #009361;
+}
+
+.isCompleted .label {
+  color: #009361;
+}
+.isActive .label {
+  color: #009361;
+}
+
+.number {
+  display: none;
+}
+
+.active_label {
+  display: none;
+}
+
+@media screen and (max-width: 1199px) {
+  .label {
+    font-size: 1em;
+  }
+  .line {
+    max-width: 14em;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .label {
+    font-size: 0.9em;
+    margin-bottom: 0;
+    top: 1.65rem;
+    line-height: 1.15em;
+  }
+  .line {
+    max-width: 12em;
+  }
+}
+
+@media screen and (max-width: 815px) {
+  .stepper {
+    padding-bottom: 2.5rem;
+    position: relative;
+  }
+  .label {
+    display: none;
+  }
+  .tick {
+    display: none;
+  }
+  .dot {
+    display: none;
+  }
+  .number {
+    display: block;
+    color: $white;
+    font-size: 0.9em;
+    margin-top: -1px;
+  }
+  .isActive .number {
+    color: #009361;
+  }
+  .active_label {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #009361;
+    font-size: 0.9em;
+    font-weight: 700;
+    text-transform: uppercase;
+    width: 100%;
+    text-align: center;
+  }
+}

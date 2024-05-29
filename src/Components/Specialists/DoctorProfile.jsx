@@ -1,11 +1,13 @@
 import { Icon } from "@iconify/react";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import parser from "html-react-parser";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
+import CustomStepper from "../CustomStepper/CustomStepper";
 
 const DoctorProfile = ({ data }) => {
+  const navigate = useNavigate();
   const { img, name, designation, desc, special, contactInfo, shedule } = data;
 
   const [isActive, setIsActive] = useState("biography");
@@ -57,6 +59,8 @@ const DoctorProfile = ({ data }) => {
                 }}
               />
             </div>
+            <button onClick={()=> navigate("/booking/number-verification")}>Book Now</button>
+            <CustomStepper activeStep={2} completedSteps={[1]}/>
           </div>
         </div>
         <div className="st-height-b120 st-height-lg-b80" />
