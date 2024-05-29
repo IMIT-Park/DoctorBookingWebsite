@@ -3,3 +3,94 @@
   display: grid;
   place-items: center;
 }
+.booking_form_card {
+  width: 100%;
+  max-width: 35rem;
+  height: auto;
+  border-radius: 10px;
+  background: $white;
+  box-shadow: 2px 2px 14px 0px #00000026;
+}
+.booking_form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0 5rem;
+}
+.booking_form_card_title {
+  font-size: 1.5em;
+  font-weight: 600;
+  color: $black1;
+}
+.booking_form_card_btn_wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+.booking_form_card_btn {
+  padding: 0.6rem 3.5rem;
+  border-radius: 5px;
+  background-color: $blue;
+  border: none;
+  box-shadow: 2px 2px 14px 0px #00000026;
+  font-size: 1.1em;
+  font-weight: 500;
+  color: $white;
+}
+
+.custom-input-group {
+  position: relative;
+}
+
+.input-group-text {
+  background-color: transparent;
+  color: #7d7d7d;
+  font-weight: 500;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+}
+
+.form-control {
+  padding-left: 10px;
+  padding: 0.65rem;
+  box-shadow: none;
+  transition: border-color 0.3s;
+  border-radius: 5px;
+  font-weight: 500;
+  background-color: transparent;
+}
+
+.form-control:focus {
+  border-color: #c1bfbf;
+  box-shadow: none;
+}
+
+.form-control::placeholder {
+  color: #7d7d7d;
+}
+
+/* Hide number input arrows for Webkit browsers (Chrome, Safari, Edge) */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hide number input arrows for Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+
+@media screen and (max-width: 515px) {
+  .booking_form {
+    padding: 0 2.5rem;
+  }
+}
+@media screen and (max-width: 400px) {
+  .booking_form {
+    padding: 0 1.5rem;
+  }
+}
