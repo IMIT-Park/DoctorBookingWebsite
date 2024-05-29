@@ -1,0 +1,265 @@
+/*--------------------------------------------------------------
+Doctor Profie
+----------------------------------------------------------------*/
+
+.details_wrapper {
+  font-family: "Inter", sans-serif;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background-color: $white;
+  box-shadow: 2px 2px 14px 0px #00000026;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 3rem 2rem;
+}
+
+.profile_details_container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+.profile_left_section {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+.profile_container {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.profile_container_img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.doctor_name {
+  font-size: 30px;
+  font-weight: 600;
+  color: $blue;
+}
+.doctor_designation {
+  margin-top: -10px;
+  font-size: 18px;
+  font-weight: 400;
+  color: $blue;
+}
+.doctor_desc {
+  margin-top: 1rem;
+  font-size: 15px;
+  font-weight: 500;
+  color: $blue;
+}
+.profile_right_section {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.profile_clinic_name {
+  border: 1px solid $blue;
+  border-radius: 5px;
+  font-size: 1em;
+  font-weight: 400;
+  line-height: 1.1em;
+  color: #a0a0a0;
+  padding: 3px 2px 3px 0.5rem;
+  max-width: 388px;
+  display: flex;
+  align-items: center;
+}
+.profile_direction_btn {
+  margin-left: 0.5rem;
+  font-size: 1.18em;
+  font-weight: 500;
+  color: $white;
+  background-color: $blue;
+  min-width: 10em;
+  height: 2.75em;
+  border: none;
+  border-radius: 5px;
+}
+.profile_report_btn {
+  font-size: 1.18em;
+  font-weight: 500;
+  color: #c43030;
+  border: 0.5px solid #c4303080;
+  background-color: transparent;
+  width: 7.9em;
+  height: 46px;
+  border-radius: 5px;
+  transition: all 0.3s;
+}
+.profile_report_btn:hover {
+  color: $white;
+  border: none;
+  background-color: #c43030;
+}
+
+.booking_title_container {
+  margin-top: 2.5rem;
+  width: 100%;
+  font-size: 1.31em;
+  font-weight: 500;
+  line-height: 17.56px;
+  color: $black1;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  gap: 1rem;
+}
+.row_border {
+  width: 100%;
+  height: 1px;
+  background-color: #e6e6e6;
+}
+
+.date_picker_container {
+  margin-top: 2rem;
+}
+/* DatePicker.css */
+.flatpickr-calendar {
+  background-color: $white !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+.flatpickr-day.selected {
+  color: $white !important;
+  border: none !important;
+}
+
+// .flatpickr-current-month {
+//   color: $blue !important;
+// }
+
+.flatpickr-months .flatpickr-prev-month,
+.flatpickr-months .flatpickr-next-month {
+  border: 0.5px solid #d2d2d2;
+  display: grid;
+  place-items: center;
+  border-radius: 5px;
+  padding: 0 10px;
+}
+
+.flatpickr-months .flatpickr-prev-month,
+.flatpickr-months .flatpickr-next-month {
+  color: $black1;
+  fill: $black1;
+}
+
+.flatpickr-months .flatpickr-prev-month:hover svg,
+.flatpickr-months .flatpickr-next-month:hover svg {
+  fill: $blue;
+}
+
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange,
+.flatpickr-day.selected.inRange,
+.flatpickr-day.startRange.inRange,
+.flatpickr-day.endRange.inRange,
+.flatpickr-day.selected:focus,
+.flatpickr-day.startRange:focus,
+.flatpickr-day.endRange:focus,
+.flatpickr-day.selected:hover,
+.flatpickr-day.startRange:hover,
+.flatpickr-day.endRange:hover,
+.flatpickr-day.selected.prevMonthDay,
+.flatpickr-day.startRange.prevMonthDay,
+.flatpickr-day.endRange.prevMonthDay,
+.flatpickr-day.selected.nextMonthDay,
+.flatpickr-day.startRange.nextMonthDay,
+.flatpickr-day.endRange.nextMonthDay {
+  background: $blue;
+  color: #fff;
+}
+
+@media screen and (max-width: 991px) {
+  .details_wrapper {
+    padding: 2rem 1.5rem;
+  }
+
+  .profile_details_container {
+    gap: 1.5rem;
+  }
+  .profile_left_section {
+    gap: 1.5rem;
+  }
+  .profile_container {
+    width: 110px;
+    height: 110px;
+  }
+  .doctor_name {
+    font-size: 26px;
+  }
+  .doctor_designation {
+    font-size: 15px;
+  }
+  .doctor_desc {
+    margin-top: 0.5rem;
+    font-size: 12px;
+  }
+  .profile_clinic_name {
+    font-size: 0.9em;
+  }
+  .profile_direction_btn {
+    font-size: 1em;
+    min-width: 9em;
+  }
+  .profile_report_btn {
+    font-size: 1em;
+    width: 7em;
+    height: 38px;
+  }
+  .booking_title_container {
+    font-size: 1.2em;
+    gap: 0.5rem;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .details_wrapper {
+    padding: 1.5rem 1rem;
+  }
+  .profile_left_section {
+    gap: 1rem;
+  }
+  .profile_container {
+    width: 90px;
+    height: 90px;
+  }
+  .doctor_name {
+    font-size: 22px;
+  }
+  .doctor_designation {
+    font-size: 13px;
+  }
+  .doctor_desc {
+    margin-top: 0.25rem;
+    font-size: 10px;
+  }
+  .profile_right_section {
+    gap: 1rem;
+  }
+  .profile_clinic_name {
+    font-size: 0.85em;
+  }
+  .profile_direction_btn {
+    font-size: 0.9em;
+    min-width: 8.5em;
+  }
+  .profile_report_btn {
+    font-size: 0.9em;
+    width: 6em;
+    height: 33px;
+  }
+  .booking_title_container {
+    font-size: 1.1em;
+  }
+}
