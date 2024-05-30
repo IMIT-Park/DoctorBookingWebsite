@@ -96,7 +96,7 @@ const SelectPatient = () => {
                     </div>
                     <Spacing lg={40} md={30} />
                     <div className="booking_form_card_btn_wrapper">
-                      <button className="booking_form_card_btn">
+                      <button className="booking_form_card_btn"  onClick={() => navigate("/booking/booking-confirmation")}>
                         Book Now
                       </button>
                     </div>
@@ -139,7 +139,7 @@ const SelectPatient = () => {
                     </div>
                     <Spacing lg={40} md={30} />
                     <div className="booking_form_card_btn_wrapper">
-                      <button className="booking_form_card_btn">
+                      <button className="booking_form_card_btn" onClick={() => navigate("/booking/booking-confirmation")}>
                         Book Now
                       </button>
                     </div>
