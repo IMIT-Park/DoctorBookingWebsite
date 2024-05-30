@@ -82,20 +82,18 @@ const BookingConfirmation = () => {
 
               <Spacing lg={40} md={30} />
               <div className="booking_form_card_btn_wrapper">
-                {/* <button
+                <button
                   className="booking_form_card_btn"
-                  //   onClick={() => navigate("/booking/otp-verification")}
                 >
                   Continue
                 </button>
                 <button
                   className="booking_form_card_btn"
-                  //   onClick={() => navigate("/booking/otp-verification")}
                 >
                   Download
-                </button> */}
+                </button>
               </div>
-              <Spacing lg={80} md={40} />
+              <Spacing lg={40} md={30} />
             </div>
           </div>
         </div>

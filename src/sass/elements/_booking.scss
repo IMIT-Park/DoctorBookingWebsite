@@ -86,31 +86,31 @@ input[type="number"] {
 }
 
 // otp verification form style
-.booking_form_otp_verification_text{
-  color: #868D8D;
+.booking_form_otp_verification_text {
+  color: #868d8d;
   font-size: 14px;
 }
-.booking_form_otp_verification{
+.booking_form_otp_verification {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   margin-top: 50px;
   padding: 0 6rem;
 }
-.booking_form_pin_otp{
+.booking_form_pin_otp {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
 }
-.booking_form_otp_verification_text_resend{
+.booking_form_otp_verification_text_resend {
   color: $blue;
   font-weight: 600;
 }
 
 //  Booking Cofirmation
 
-.booking_confirmation_container{
+.booking_confirmation_container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -122,51 +122,48 @@ input[type="number"] {
   align-items: center;
 }
 
-.booking_confirmation_card_title{
+.booking_confirmation_card_title {
   font-weight: 700;
-  color:#006241;
+  color: #006241;
   font-size: 1.5em;
   margin-right: 1rem;
 }
-.booking_share_icon{
+.booking_share_icon {
   position: absolute;
   top: 1.5rem;
   right: 2rem;
   user-select: none;
   cursor: pointer;
   width: 30px;
- 
 }
-.booking_confirmation_booking_id{
+.booking_confirmation_booking_id {
   font-weight: 300;
   color: #626262;
   font-size: 15px;
 }
 
-.booking_varified{
- max-width:7.5rem;
+.booking_varified {
+  max-width: 7.5rem;
 }
 
-.booking_details_wrapper{
+.booking_details_wrapper {
   display: flex;
   align-items: flex-start;
-  gap:0.5rem
+  gap: 0.5rem;
 }
 
-.booking_confirmation_details{
+.booking_confirmation_details {
   font-weight: 700;
   font-size: 16px;
-  line-height:2rem;
+  line-height: 2rem;
 }
 
-.booking_confirmation_detail_label{
-  
-   min-width: 10rem;
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
+.booking_confirmation_detail_label {
+  min-width: 10rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-
 
 .patient_details_wrapper {
   width: 100%;
@@ -226,73 +223,70 @@ input[type="number"] {
   border-color: $blue;
 }
 
-
 @media screen and (max-width: 515px) {
   .booking_form {
     padding: 0 2.5rem;
   }
 
-  .booking_form_otp_verification_text{
+  .booking_form_otp_verification_text {
     font-size: 13px;
 
-  .booking_confirmation_container{   
-    padding: 0 2rem;
-  }
-  .booking_share_icon{
-    top: 3rem;
-    right: 2.5rem;   
-  }
-  
-  .booking_form_card_btn {
-    padding: 0.6rem 3.5rem;
-    font-size: 1em;
-  }
-  //patient booking styles
-  .patient_details_wrapper {
-    padding: 2rem;
-  }
-  .patient_tab {
-    font-size: 1.1em;
-    padding: 0.8rem;
-  }
-  .custom-radio {
-    margin-bottom: 5px;
-  }
-  .custom-radio .form-check-input {
-    margin-left: 10px;
-  }
-  .custom-radio .form-check-label {
-    font-size: 1.1em;
+    .booking_confirmation_container {
+      padding: 0 2rem;
+    }
+    .booking_share_icon {
+      top: 3rem;
+      right: 2.5rem;
+    }
 
+    .booking_form_card_btn {
+      padding: 0.6rem 3.5rem;
+      font-size: 1em;
+    }
+    //patient booking styles
+    .patient_details_wrapper {
+      padding: 2rem;
+    }
+    .patient_tab {
+      font-size: 1.1em;
+      padding: 0.8rem;
+    }
+    .custom-radio {
+      margin-bottom: 5px;
+    }
+    .custom-radio .form-check-input {
+      margin-left: 10px;
+    }
+    .custom-radio .form-check-label {
+      font-size: 1.1em;
+    }
   }
-}
-@media screen and (max-width: 400px) {
-  .booking_form {
-    padding: 0 1.5rem;
+  @media screen and (max-width: 400px) {
+    .booking_form {
+      padding: 0 1.5rem;
+    }
+
+    .booking_form_otp_verification {
+      padding: 0 2rem;
+    }
   }
 
-  .booking_form_otp_verification{
-    padding: 0 2rem;
-  }
-}
-
-  .booking_confirmation_container{   
+  .booking_confirmation_container {
     padding: 0 1rem;
   }
-  .booking_confirmation_details{
+  .booking_confirmation_details {
     font-weight: 700;
     font-size: 14px;
   }
- 
-  .booking_share_icon{
+
+  .booking_share_icon {
     top: 1rem;
-    right: 1rem; 
+    right: 1rem;
     width: 26px;
   }
-  .booking_varified{
-    max-width:7rem;
-   }
- 
+  .booking_varified {
+    max-width: 7rem;
+  }
 
   .booking_form_card_btn {
     padding: 0.5rem 3rem;
@@ -302,5 +296,9 @@ input[type="number"] {
   .patient_details_wrapper {
     padding: 2rem 1rem;
   }
-}
 
+  //confirmation style
+  .booking_confirmation_detail_label {
+    min-width: 8.5rem;
+  }
+}
