@@ -85,6 +85,29 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+// otp verification form style
+.booking_form_otp_verification_text{
+  color: #868D8D;
+  font-size: 14px;
+}
+.booking_form_otp_verification{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 50px;
+  padding: 0 6rem;
+}
+.booking_form_pin_otp{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.booking_form_otp_verification_text_resend{
+  color: $blue;
+  font-weight: 600;
+}
+
 //  Booking Cofirmation
 
 .booking_confirmation_container{
@@ -203,10 +226,15 @@ input[type="number"] {
   border-color: $blue;
 }
 
+
 @media screen and (max-width: 515px) {
   .booking_form {
     padding: 0 2.5rem;
   }
+
+  .booking_form_otp_verification_text{
+    font-size: 13px;
+
   .booking_confirmation_container{   
     padding: 0 2rem;
   }
@@ -235,12 +263,19 @@ input[type="number"] {
   }
   .custom-radio .form-check-label {
     font-size: 1.1em;
+
   }
 }
 @media screen and (max-width: 400px) {
   .booking_form {
     padding: 0 1.5rem;
   }
+
+  .booking_form_otp_verification{
+    padding: 0 2rem;
+  }
+}
+
   .booking_confirmation_container{   
     padding: 0 1rem;
   }
@@ -268,3 +303,4 @@ input[type="number"] {
     padding: 2rem 1rem;
   }
 }
+
