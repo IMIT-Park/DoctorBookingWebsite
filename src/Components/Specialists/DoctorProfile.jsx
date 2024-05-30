@@ -107,7 +107,7 @@ const DoctorProfile = () => {
                     defaultDate: new Date(),
                     inline: true,
                     dateFormat: "d-m-Y",
-                    enable: availableDates,
+                    // enable: availableDates,
                   }}
                 />
               </div>

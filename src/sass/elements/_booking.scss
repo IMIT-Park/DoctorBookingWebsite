@@ -27,6 +27,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
   gap: 0.5rem;
 }
 .booking_form_card_btn {
@@ -83,14 +84,101 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+//patient booking styles
+.patient_details_wrapper {
+  width: 100%;
+  padding: 3rem;
+}
+.patient_tabs_container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  font-family: "Inter", sans-serif;
+  border: 0.5px solid $blue;
+  border-radius: 5px;
+}
+.patient_tab {
+  font-size: 1.25em;
+  font-weight: 600;
+  color: $blue;
+  cursor: pointer;
+  padding: 0.85rem;
+  text-align: center;
+  user-select: none;
+}
+.patient_tab.add-active,
+.patient_tab.select-active {
+  color: $white;
+  background-color: $blue;
+}
+.patient_tab.add-active {
+  border-radius: 0 5px 5px 0;
+}
+.patient_tab.select-active {
+  border-radius: 5px 0 0 5px;
+}
+
+.custom-radio {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1.5px solid #e7e7e7;
+  margin-bottom: 10px;
+}
+
+.custom-radio .form-check-input {
+  margin-left: 10px;
+}
+
+.custom-radio .form-check-label {
+  flex-grow: 1;
+  margin-bottom: 0;
+  font-size: 1.125em;
+  font-weight: 500;
+  color: $black1;
+  padding: 10px;
+}
+.form-check-input:checked {
+  background-color: $blue;
+  border-color: $blue;
+}
 
 @media screen and (max-width: 515px) {
   .booking_form {
     padding: 0 2.5rem;
   }
+  .booking_form_card_btn {
+    padding: 0.6rem 3.5rem;
+    font-size: 1em;
+  }
+  //patient booking styles
+  .patient_details_wrapper {
+    padding: 2rem;
+  }
+  .patient_tab {
+    font-size: 1.1em;
+    padding: 0.8rem;
+  }
+  .custom-radio {
+    margin-bottom: 5px;
+  }
+  .custom-radio .form-check-input {
+    margin-left: 10px;
+  }
+  .custom-radio .form-check-label {
+    font-size: 1.1em;
+  }
 }
 @media screen and (max-width: 400px) {
   .booking_form {
     padding: 0 1.5rem;
+  }
+  .booking_form_card_btn {
+    padding: 0.5rem 3rem;
+    font-size: 1em;
+  }
+  //patient booking styles
+  .patient_details_wrapper {
+    padding: 2rem 1rem;
   }
 }
