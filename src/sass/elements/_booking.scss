@@ -10,6 +10,7 @@
   border-radius: 10px;
   background: $white;
   box-shadow: 2px 2px 14px 0px #00000026;
+  position: relative;
 }
 .booking_form {
   display: flex;
@@ -83,14 +84,105 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+//  Booking Cofirmation
+
+.booking_confirmation_container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 3rem;
+}
+
+.booking_confirmation_header {
+  display: flex;
+  align-items: center;
+}
+
+.booking_confirmation_card_title{
+  font-weight: 700;
+  color:#006241;
+  font-size: 1.5em;
+  margin-right: 1rem;
+}
+.booking_share_icon{
+  position: absolute;
+  top: 1.5rem;
+  right: 2rem;
+  user-select: none;
+  cursor: pointer;
+  width: 30px;
+ 
+}
+.booking_confirmation_booking_id{
+  font-weight: 300;
+  color: #626262;
+  font-size: 15px;
+}
+
+.booking_varified{
+ max-width:7.5rem;
+}
+
+.booking_details_wrapper{
+  display: flex;
+  align-items: flex-start;
+  gap:0.5rem
+}
+
+.booking_confirmation_details{
+  font-weight: 700;
+  font-size: 16px;
+  line-height:2rem;
+}
+
+.booking_confirmation_detail_label{
+  
+   min-width: 10rem;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+
+
+
+
 
 @media screen and (max-width: 515px) {
   .booking_form {
     padding: 0 2.5rem;
   }
+  .booking_confirmation_container{   
+    padding: 0 2rem;
+  }
+  .booking_share_icon{
+    top: 3rem;
+    right: 2.5rem;   
+  }
+  
+ 
 }
 @media screen and (max-width: 400px) {
   .booking_form {
     padding: 0 1.5rem;
   }
+  .booking_confirmation_container{   
+    padding: 0 1rem;
+  }
+  .booking_confirmation_details{
+    font-weight: 700;
+    font-size: 14px;
+  }
+ 
+  .booking_share_icon{
+    top: 1rem;
+    right: 1rem; 
+    width: 26px;
+  }
+  .booking_varified{
+    max-width:7rem;
+   }
+ 
 }
+
+
+

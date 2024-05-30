@@ -42,6 +42,7 @@ import DoctorProfilePage3 from "./Pages/DoctorProfilePage3";
 import NumberVerification from "./Pages/BookingPages/NumberVerification";
 import OtpVerification from "./Pages/BookingPages/OtpVerification";
 import SelectPatient from "./Pages/BookingPages/SelectPatient";
+import BookingConfirmation from "./Pages/BookingPages/BookingCofirmation";
 
 const App = () => {
   const { pathname } = useLocation();
@@ -70,6 +71,7 @@ const App = () => {
         <Route path="/booking/number-verification" element={<NumberVerification />} />
         <Route path="/booking/otp-verification" element={<OtpVerification />} />
         <Route path="/booking/patient-details" element={<SelectPatient />} />
+        <Route path="/booking/booking-confirmation" element={<BookingConfirmation />} />
 
         {/* booking ends here */}
 

@@ -10,7 +10,14 @@ const SelectPatient = () => {
       <Spacing lg={120} md={60} />
       <div className="container mt-5">
         <CustomStepper activeStep={3} completedSteps={[1, 2]} />
-        <div className="booking_container"></div>
+        <div className="booking_container">
+          <button
+            className="booking_form_card_btn"
+            onClick={() => navigate("/booking/booking-confirmation")}
+          >
+            Verify
+          </button>
+        </div>
       </div>
       <Spacing lg={120} md={80} />
     </>
