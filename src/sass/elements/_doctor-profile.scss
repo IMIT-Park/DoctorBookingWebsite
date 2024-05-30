@@ -120,10 +120,33 @@ Doctor Profie
   background-color: #e6e6e6;
 }
 
-.date_picker_container {
-  margin-top: 2rem;
+.booking_title_card {
+  border-radius: 5px;
+  border: 0.5px solid #307bc480;
+  font-size: 1.17em;
+  font-weight: 500;
+  color: $blue;
+  padding: 0.45rem 1.25rem;
 }
-/* DatePicker.css */
+
+.date_selector_wrapper {
+  margin-top: 2rem;
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  align-items: flex-start;
+  gap: 2.5rem;
+  border-bottom: 1px solid #e6e6e6;
+  padding-bottom: 2.5rem;
+}
+
+.date_picker_container {
+  min-width: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
 .flatpickr-calendar {
   background-color: $white !important;
   border: none !important;
@@ -133,10 +156,6 @@ Doctor Profie
   color: $white !important;
   border: none !important;
 }
-
-// .flatpickr-current-month {
-//   color: $blue !important;
-// }
 
 .flatpickr-months .flatpickr-prev-month,
 .flatpickr-months .flatpickr-next-month {
@@ -156,6 +175,7 @@ Doctor Profie
 .flatpickr-months .flatpickr-prev-month:hover svg,
 .flatpickr-months .flatpickr-next-month:hover svg {
   fill: $blue;
+  color: $blue;
 }
 
 .flatpickr-day.selected,
@@ -178,6 +198,95 @@ Doctor Profie
 .flatpickr-day.endRange.nextMonthDay {
   background: $blue;
   color: #fff;
+}
+
+.flatpickr-input {
+  display: none;
+}
+.flatpickr-calendar .dayContainer {
+  font-size: 1.15em;
+}
+
+.time_picker_container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  height: 100%;
+  border-left: 1px solid #e6e6e6;
+  padding-left: 2.5rem;
+}
+
+.booking_time_label {
+  font-size: 1.35rem;
+  font-weight: 500;
+  color: $blue;
+}
+
+.time_selector_list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.time_selector_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  border: 0.5px solid #d2d2d2;
+  border-radius: 5px;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 500;
+  transition: background-color 0.3s, color 0.3s;
+  color: $black1;
+}
+
+.time_selector_btn input {
+  display: none;
+}
+
+.time_selector_btn.disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
+.time_selector_btn:hover {
+  background-color: #d5f5e4;
+}
+
+.time_selector_btn.selected {
+  background-color: $blue;
+  color: $white;
+}
+
+.timeSelector_labels_container {
+  margin-top: 4rem;
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+}
+.timeSelector_label {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 17px;
+  font-weight: 500;
+  color: $black1;
+}
+.timeSelector_label .color_box {
+  width: 23px;
+  height: 23px;
+  border-radius: 3px;
+  background-color: $blue;
+}
+.timeSelector_label .booked {
+  background-color: #cccccc;
+}
+.timeSelector_label .available {
+  background-color: $black1;
 }
 
 @media screen and (max-width: 991px) {
@@ -221,6 +330,40 @@ Doctor Profie
     font-size: 1.2em;
     gap: 0.5rem;
   }
+
+  .booking_title_card {
+    font-size: 1em;
+    padding: 0.4rem 1.1rem;
+  }
+  .date_selector_wrapper {
+    flex-direction: column;
+  }
+  .time_picker_container {
+    border-left: none;
+    padding: 0;
+    border-top: 1px solid #e6e6e6;
+    padding-top: 2.5rem;
+  }
+  .booking_time_label {
+    font-size: 1rem;
+  }
+  .time_selector_btn {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.95em;
+  }
+  .timeSelector_labels_container {
+    margin-top: 2rem;
+    gap: 1.85rem;
+    flex-wrap: wrap;
+  }
+  .timeSelector_label {
+    gap: 0.5rem;
+    font-size: 14px;
+  }
+  .timeSelector_label .color_box {
+    width: 20px;
+    height: 20px;
+  }
 }
 
 @media screen and (max-width: 425px) {
@@ -261,5 +404,62 @@ Doctor Profie
   }
   .booking_title_container {
     font-size: 1.1em;
+  }
+
+  .booking_title_card {
+    font-size: 0.985em;
+  }
+  .booking_time_label {
+    font-size: 0.985rem;
+  }
+  .time_selector_btn {
+    font-size: 0.9em;
+  }
+  .timeSelector_labels_container {
+    gap: 1.5rem;
+  }
+  .timeSelector_label {
+    gap: 0.45rem;
+    font-size: 13px;
+  }
+  .timeSelector_label .color_box {
+    width: 18px;
+    height: 18px;
+  }
+
+  .flatpickr-calendar .dayContainer {
+    font-size: 0.9em;
+    width: 280px;
+    min-width: 280px;
+    max-width: 280px;
+  }
+
+  .flatpickr-calendar .flatpickr-day {
+    max-width: 35px;
+    height: 35px;
+    line-height: 35px;
+  }
+  .flatpickr-current-month {
+    font-size: 1.125em;
+    width: 70%;
+    left: 6%;
+  }
+
+  .flatpickr-weekdays {
+    width: 92%;
+    font-size: 1em;
+  }
+  .flatpickr-calendar {
+    width: 280px;
+  }
+
+  .flatpickr-months .flatpickr-prev-month,
+  .flatpickr-months .flatpickr-next-month {
+    padding: 0px 5px;
+  }
+  .flatpickr-months .flatpickr-prev-month svg,
+  .flatpickr-months .flatpickr-next-month svg {
+    width: 12px;
+    height: 12px;
   }
 }
