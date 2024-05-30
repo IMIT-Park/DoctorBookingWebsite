@@ -203,6 +203,9 @@ Doctor Profie
 .flatpickr-input {
   display: none;
 }
+.flatpickr-calendar .dayContainer {
+  font-size: 1.15em;
+}
 
 .time_picker_container {
   display: flex;
@@ -424,8 +427,39 @@ Doctor Profie
     height: 18px;
   }
 
+  .flatpickr-calendar .dayContainer {
+    font-size: 0.9em;
+    width: 280px;
+    min-width: 280px;
+    max-width: 280px;
+  }
+
+  .flatpickr-calendar .flatpickr-day {
+    max-width: 35px;
+    height: 35px;
+    line-height: 35px;
+  }
+  .flatpickr-current-month {
+    font-size: 1.125em;
+    width: 70%;
+    left: 6%;
+  }
+
+  .flatpickr-weekdays {
+    width: 92%;
+    font-size: 1em;
+  }
   .flatpickr-calendar {
-    max-width: 100%;
-    font-size: 0.875rem;
+    width: 280px;
+  }
+
+  .flatpickr-months .flatpickr-prev-month,
+  .flatpickr-months .flatpickr-next-month {
+    padding: 0px 5px;
+  }
+  .flatpickr-months .flatpickr-prev-month svg,
+  .flatpickr-months .flatpickr-next-month svg {
+    width: 12px;
+    height: 12px;
   }
 }
