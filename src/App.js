@@ -65,13 +65,13 @@ const App = () => {
         <Route path="home10" element={<Home10 />} />
         <Route path="home12" element={<Home12 />} />
         <Route path="home13" element={<Home13 />} />
-        <Route path="/doctor-profile" element={<DoctorProfilePage />} />
+        {/* <Route path="/doctor-profile" element={<DoctorProfilePage />} /> */}
 
         {/* booking starts here */}
-        <Route path="/booking/number-verification" element={<NumberVerification />} />
+        {/* <Route path="/booking/number-verification" element={<NumberVerification />} />
         <Route path="/booking/otp-verification" element={<OtpVerification />} />
         <Route path="/booking/patient-details" element={<SelectPatient />} />
-        <Route path="/booking/booking-confirmation" element={<BookingConfirmation />} />
+        <Route path="/booking/booking-confirmation" element={<BookingConfirmation />} /> */}
 
         {/* booking ends here */}
 
@@ -79,8 +79,13 @@ const App = () => {
         <Route path="*" element={<PageNotFound />} />
       </Route>
 
-      <Route path="/home11" element={<Layout2 />}>
-        <Route index element={<Home11 />} />
+      <Route path="/" element={<Layout2 />}>
+         <Route path="/doctor-profile" element={<DoctorProfilePage />} />
+                {/* booking starts here */}
+        <Route path="/booking/number-verification" element={<NumberVerification />} />
+        <Route path="/booking/otp-verification" element={<OtpVerification />} />
+        <Route path="/booking/patient-details" element={<SelectPatient />} />
+        <Route path="/booking/booking-confirmation" element={<BookingConfirmation />} />
       </Route>
 
       <Route path="/home9" element={<Layout3 />}>

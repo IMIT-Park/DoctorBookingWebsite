@@ -3,6 +3,7 @@ import Footer from '../Footer/Footer'
 import { Outlet } from 'react-router-dom'
 import Preloader from '../Preloader/Preloader'
 import Header2 from '../Header/Header2'
+import DoctorHeader from '../Header/DoctorHeader'
 
 const headerData = {
   "logo": "/images/logo.png"
@@ -28,7 +29,7 @@ const Layout2 = () => {
       {
         isLoading ? <Preloader /> : (
           <>
-            <Header2 data={headerData} />
+            <DoctorHeader/>
             <Outlet />
             <Footer data={footerData} />
           </>

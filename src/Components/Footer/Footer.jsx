@@ -43,7 +43,7 @@ const Footer = ({ data, varient }) => {
             <div className="col-lg-3">
               <div className="st-footer-widget">
                 <div className="st-text-field">
-                  <img src={logo} alt={logo} className="st-footer-logo" />
+                  {/* <img src={logo} alt={logo} className="st-footer-logo" /> */}
                   <div className="st-height-b25 st-height-lg-b25" />
                   <div className="st-footer-text">{subTitle}</div>
                   <div className="st-height-b25 st-height-lg-b25" />
