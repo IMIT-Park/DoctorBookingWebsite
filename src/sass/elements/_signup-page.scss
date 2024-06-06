@@ -1,0 +1,41 @@
+.signup_main {
+  width: 100%;
+  background-color: $white;
+}
+.signup_form {
+  padding: 3rem;
+}
+
+.signup_submit_btn {
+  width: 10rem;
+  height: 2.5rem;
+  border-radius: 5px;
+  background-color: $blue;
+  border: none;
+  box-shadow: 2px 2px 14px 0px #00000026;
+  font-size: 1.1em;
+  font-weight: 500;
+  color: $white;
+}
+.signup_submit_btn:disabled {
+  background-color: #0062419f;
+}
+.loader {
+  margin-top: 0.25rem;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #FFF;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  animation: rotation 1s linear infinite;
+  }
+
+  @keyframes rotation {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+  } 

@@ -43,6 +43,7 @@ import NumberVerification from "./Pages/BookingPages/NumberVerification";
 import OtpVerification from "./Pages/BookingPages/OtpVerification";
 import SelectPatient from "./Pages/BookingPages/SelectPatient";
 import BookingConfirmation from "./Pages/BookingPages/BookingCofirmation";
+import SignupPage from "./Pages/SignupPage/SignupPage";
 
 const App = () => {
   const { pathname } = useLocation();
@@ -65,21 +66,13 @@ const App = () => {
         <Route path="home10" element={<Home10 />} />
         <Route path="home12" element={<Home12 />} />
         <Route path="home13" element={<Home13 />} />
-        {/* <Route path="/doctor-profile" element={<DoctorProfilePage />} /> */}
-
-        {/* booking starts here */}
-        {/* <Route path="/booking/number-verification" element={<NumberVerification />} />
-        <Route path="/booking/otp-verification" element={<OtpVerification />} />
-        <Route path="/booking/patient-details" element={<SelectPatient />} />
-        <Route path="/booking/booking-confirmation" element={<BookingConfirmation />} /> */}
-
-        {/* booking ends here */}
-
         <Route path="post/:postId" element={<PostDetails />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
 
       <Route path="/" element={<Layout2 />}>
+      <Route path="/signup" element={<SignupPage />} />
+
          <Route path="/doctor-profile" element={<DoctorProfilePage />} />
                 {/* booking starts here */}
         <Route path="/booking/number-verification" element={<NumberVerification />} />

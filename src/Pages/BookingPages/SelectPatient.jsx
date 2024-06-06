@@ -41,7 +41,7 @@ const SelectPatient = () => {
                     <div class="mb-2">
                       <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         id="name"
                         placeholder="Name"
                       />
@@ -52,7 +52,7 @@ const SelectPatient = () => {
                       </span>
                       <input
                         type="number"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Phone"
                         aria-label="Phone"
                         aria-describedby="basic-phone"
@@ -62,13 +62,13 @@ const SelectPatient = () => {
                       <div class="col-md-6">
                         <input
                           type="date"
-                          class="form-control"
+                          className="form-control"
                           placeholder="DOB"
                         />
                       </div>
                       <div class="col-md-6">
                         <select
-                          class="form-select form-control"
+                          className="form-select form-control"
                           aria-label="Default select example"
                         >
                           <option selected>Gender</option>

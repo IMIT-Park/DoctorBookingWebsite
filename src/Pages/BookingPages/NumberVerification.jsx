@@ -23,7 +23,7 @@ const NumberVerification = () => {
                 </span>
                 <input
                   type="number"
-                  class="form-control"
+                  className="form-control"
                   placeholder="Phone"
                   aria-label="Phone"
                   aria-describedby="basic-phone"

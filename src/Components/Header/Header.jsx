@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Link as ScrollLink } from 'react-scroll';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Link as ScrollLink } from "react-scroll";
 
 const Header = ({ data }) => {
-  const {logo} = data;
+  const { logo } = data;
 
   const [mobileToggle, setMobileToggle] = useState(false);
   const [lastScrollTop, setLastScrollTop] = useState(0);
@@ -26,17 +26,22 @@ const Header = ({ data }) => {
       setLastScrollTop(windowTop);
     };
 
-    const headerHeight = document.querySelector('.st-sticky-header').offsetHeight + 100;
+    const headerHeight =
+      document.querySelector(".st-sticky-header").offsetHeight + 100;
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, [isSticky, lastScrollTop]);
 
   return (
-    <header className={`st-site-header st-style1 st-sticky-header ${isSticky ? "st-sticky-active" : ""}`}>
+    <header
+      className={`st-site-header st-style1 st-sticky-header ${
+        isSticky ? "st-sticky-active" : ""
+      }`}
+    >
       <div className="st-top-header">
         <div className="container">
           <div className="st-top-header-in">
@@ -49,7 +54,7 @@ const Header = ({ data }) => {
                 >
                   <path d="m434.146 59.882h-389.234c-24.766 0-44.912 20.146-44.912 44.912v269.47c0 24.766 20.146 44.912 44.912 44.912h389.234c24.766 0 44.912-20.146 44.912-44.912v-269.47c0-24.766-20.146-44.912-44.912-44.912zm0 29.941c2.034 0 3.969.422 5.738 1.159l-200.355 173.649-200.356-173.649c1.769-.736 3.704-1.159 5.738-1.159zm0 299.411h-389.234c-8.26 0-14.971-6.71-14.971-14.971v-251.648l199.778 173.141c2.822 2.441 6.316 3.655 9.81 3.655s6.988-1.213 9.81-3.655l199.778-173.141v251.649c-.001 8.26-6.711 14.97-14.971 14.97z" />
                 </svg>
-                <ScrollLink to='contact'> info@nischinto.com </ScrollLink>
+                <ScrollLink to="contact"> info@nischinto.com </ScrollLink>
               </li>
               <li>
                 <svg
@@ -64,10 +69,16 @@ const Header = ({ data }) => {
                     <path d="m368.02 272c-8.836 0-16-7.164-16-16 0-52.935-43.065-96-96-96-8.836 0-16-7.164-16-16s7.164-16 16-16c70.58 0 128 57.42 128 128 0 8.836-7.163 16-16 16z" />
                   </g>
                 </svg>
-                <ScrollLink to='contact'> +01 - 234 567 890 </ScrollLink>
+                <ScrollLink to="contact"> +01 - 234 567 890 </ScrollLink>
               </li>
             </ul>
-            <ScrollLink className="st-top-header-btn st-smooth-move" to="appointment" spy={true} duration={500}>Appointment</ScrollLink>
+            <Link
+              to={"/signup"}
+              style={{ cursor: "pointer", userSelect: "none" }}
+              className="st-top-header-btn st-smooth-move cursor-pointer"
+            >
+              Sign Up
+            </Link>
           </div>
         </div>
       </div>
@@ -75,33 +86,86 @@ const Header = ({ data }) => {
         <div className="container">
           <div className="st-main-header-in">
             <div className="st-main-header-left">
-              <Link to='' className="st-site-branding" >
+              <Link to="" className="st-site-branding">
                 <img src={logo} alt={logo} />
               </Link>
             </div>
             <div className="st-main-header-right">
               <div className="st-nav">
-                <ul className={`st-nav-list st-onepage-nav ${mobileToggle ? "d-block" : "none"}`}>
+                <ul
+                  className={`st-nav-list st-onepage-nav ${
+                    mobileToggle ? "d-block" : "none"
+                  }`}
+                >
                   <li>
-                    <ScrollLink to="home" spy={true} duration={500} onClick={() => setMobileToggle(false)} >Home</ScrollLink>
+                    <ScrollLink
+                      to="home"
+                      spy={true}
+                      duration={500}
+                      onClick={() => setMobileToggle(false)}
+                    >
+                      Home
+                    </ScrollLink>
                   </li>
                   <li>
-                    <ScrollLink to="about" spy={true} duration={500} onClick={() => setMobileToggle(false)} >About</ScrollLink>
+                    <ScrollLink
+                      to="about"
+                      spy={true}
+                      duration={500}
+                      onClick={() => setMobileToggle(false)}
+                    >
+                      About
+                    </ScrollLink>
                   </li>
                   <li>
-                    <ScrollLink to="department" spy={true} duration={500} onClick={() => setMobileToggle(false)} >Department</ScrollLink>
+                    <ScrollLink
+                      to="department"
+                      spy={true}
+                      duration={500}
+                      onClick={() => setMobileToggle(false)}
+                    >
+                      Department
+                    </ScrollLink>
                   </li>
                   <li>
-                    <ScrollLink to="doctors" spy={true} duration={500} onClick={() => setMobileToggle(false)} >Doctors</ScrollLink>
+                    <ScrollLink
+                      to="doctors"
+                      spy={true}
+                      duration={500}
+                      onClick={() => setMobileToggle(false)}
+                    >
+                      Doctors
+                    </ScrollLink>
                   </li>
                   <li>
-                    <ScrollLink to="gallery" spy={true} duration={500} onClick={() => setMobileToggle(false)} >Gallery</ScrollLink>
+                    <ScrollLink
+                      to="gallery"
+                      spy={true}
+                      duration={500}
+                      onClick={() => setMobileToggle(false)}
+                    >
+                      Gallery
+                    </ScrollLink>
                   </li>
                   <li>
-                    <ScrollLink to="pricing" spy={true} duration={500} onClick={() => setMobileToggle(false)} >Pricing</ScrollLink>
+                    <ScrollLink
+                      to="pricing"
+                      spy={true}
+                      duration={500}
+                      onClick={() => setMobileToggle(false)}
+                    >
+                      Pricing
+                    </ScrollLink>
                   </li>
                   <li className="menu-item-has-children">
-                    <ScrollLink to="blog" spy={true} duration={500} onClick={() => setMobileToggle(false)} >Blog</ScrollLink>
+                    <ScrollLink
+                      to="blog"
+                      spy={true}
+                      duration={500}
+                      onClick={() => setMobileToggle(false)}
+                    >
+                      Blog
+                    </ScrollLink>
                     <ul>
                       <li>
                         <Link to="/post/post_details">Single Details</Link>
@@ -109,10 +173,22 @@ const Header = ({ data }) => {
                     </ul>
                   </li>
                   <li>
-                    <ScrollLink to="contact" spy={true} duration={500} onClick={() => setMobileToggle(false)} >Contact</ScrollLink>
+                    <ScrollLink
+                      to="contact"
+                      spy={true}
+                      duration={500}
+                      onClick={() => setMobileToggle(false)}
+                    >
+                      Contact
+                    </ScrollLink>
                   </li>
                 </ul>
-                <div className={`st-munu-toggle ${mobileToggle ? "st-toggle-active" : ""} `} onClick={handleMobileToggle}>
+                <div
+                  className={`st-munu-toggle ${
+                    mobileToggle ? "st-toggle-active" : ""
+                  } `}
+                  onClick={handleMobileToggle}
+                >
                   <span></span>
                 </div>
               </div>
@@ -121,7 +197,7 @@ const Header = ({ data }) => {
         </div>
       </div>
     </header>
-  )
-}
+  );
+};
 
 export default Header;
