@@ -44,6 +44,7 @@ import OtpVerification from "./Pages/BookingPages/OtpVerification";
 import SelectPatient from "./Pages/BookingPages/SelectPatient";
 import BookingConfirmation from "./Pages/BookingPages/BookingCofirmation";
 import SignupPage from "./Pages/SignupPage/SignupPage";
+import ClinicPage from "./Pages/ClinicPage/ClinicPage";
 
 const App = () => {
   const { pathname } = useLocation();
@@ -79,6 +80,8 @@ const App = () => {
         <Route path="/booking/otp-verification" element={<OtpVerification />} />
         <Route path="/booking/patient-details" element={<SelectPatient />} />
         <Route path="/booking/booking-confirmation" element={<BookingConfirmation />} />
+
+        <Route path="/clinic/:clinicId" element={<ClinicPage />} />
       </Route>
 
       <Route path="/home9" element={<Layout3 />}>
