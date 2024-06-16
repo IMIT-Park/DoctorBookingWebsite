@@ -1,6 +1,12 @@
 import axios from "axios";
 
+// dashboard url
+export const dashboardUrl = "https://mydoctorsdashboard.gitdr.com/";
+
+
 const BASIC_URL = "https://doctorbackend.gitdr.com/api";
+
+
 
 
 export const axiosApi = axios.create({
