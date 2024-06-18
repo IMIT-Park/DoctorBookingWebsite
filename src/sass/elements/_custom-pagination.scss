@@ -1,0 +1,37 @@
+.custom-pagination {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  list-style: none;
+  padding: 0;
+}
+
+.custom-pagination li {
+  display: inline-block;
+  margin-bottom: 5px;
+}
+
+.custom-pagination li a {
+  padding: 5px 8px;
+  text-decoration: none;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  user-select: none;
+}
+
+.custom-pagination li a:hover {
+  background-color: #f0f0f0;
+}
+
+.custom-pagination .active a {
+  background-color: $blue;
+  color: $white;
+  border-color: $blue;
+}
+
+.custom-pagination .disabled a {
+  color: #ccc;
+  cursor: not-allowed;
+}

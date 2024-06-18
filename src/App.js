@@ -74,7 +74,7 @@ const App = () => {
       <Route path="/" element={<Layout2 />}>
       <Route path="/signup" element={<SignupPage />} />
 
-         <Route path="/doctor-profile" element={<DoctorProfilePage />} />
+         <Route path="/doctor-profile/:doctorId" element={<DoctorProfilePage />} />
                 {/* booking starts here */}
         <Route path="/booking/number-verification" element={<NumberVerification />} />
         <Route path="/booking/otp-verification" element={<OtpVerification />} />
