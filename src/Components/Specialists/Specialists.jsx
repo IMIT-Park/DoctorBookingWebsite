@@ -1,18 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { imageBase_URL } from "../../axiosInstance";
 
-const Specialists = ({ img, name, designation, authorLink }) => {
+const Specialists = ({ photo, name, specialization, doctor_id }) => {
   return (
     <>
-      <Link className="st-doctor-link" to={authorLink}>
+      <Link className="st-doctor-link" to={`/doctor-profile/${doctor_id}`}>
         <div className="st-member st-style1 st-zoom">
           <div className="st-member-img">
-            <img src={img} alt={img} className="" />
+            <img src={imageBase_URL + photo} alt={"photo"} className="" />
           </div>
           <div className="st-member-meta">
             <div className="st-member-meta-in">
               <h3 className="st-member-name">{name}</h3>
-              <div className="st-member-designation">{designation}</div>
+              <div className="st-member-designation">{specialization}</div>
             </div>
           </div>
         </div>
