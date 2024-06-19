@@ -4,15 +4,19 @@ import parser from "html-react-parser";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 import Spacing from "../Spacing/Spacing";
+import ComplaintModal from "../ComplaintModal/ComplaintModal";
+import { axiosApi, imageBase_URL } from "../../axiosInstance";
 
 const DoctorProfile = ({ data, loading }) => {
   const navigate = useNavigate();
 
   const [selectedTime, setSelectedTime] = useState(null);
+  const [showModal, setShowModal] = useState(false);
   const [reportInput, setReportInput] = useState({
     email: "",
     phone: "",
     content: "",
+    doctor_id: data?.doctor_id,
   });
 
   const morningTimes = [
@@ -52,7 +56,45 @@ const DoctorProfile = ({ data, loading }) => {
     }
   };
 
-  console.log(data);
+  const handleReportClick = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const addComplaint = async () => {
+    if(!reportInput.email || !reportInput.phone || !reportInput.content){
+      return true;
+    }
+    console.log(reportInput);
+    try {
+      const response = await axiosApi.post(
+        "/v1/complaint/sendComplaint",
+        reportInput
+      );
+      console.log("Complaint submitted successfully:", response.data);
+      // Optionally, you can reset the reportInput state after successful submission
+      setReportInput({
+        email: "",
+        phone: "",
+        content: "",
+        doctor_id: data?.doctor_id,
+      });
+      handleCloseModal();
+    } 
+    catch (error) {
+      console.error("Error submitting complaint:", error);
+    }
+  };
+
+  const handleComplaintSubmit = (e) => {
+    e.preventDefault();
+    addComplaint();
+  };
+
+console.log(data);
   return (
     <>
       <section className="st-shape-wrap">
@@ -67,7 +109,7 @@ const DoctorProfile = ({ data, loading }) => {
                 <div className="profile_container">
                   <img
                     src={
-                      "https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&w=600"
+                      imageBase_URL+data?.photo
                     }
                     alt={"profile"}
                     className="profile_container_img"
@@ -78,23 +120,23 @@ const DoctorProfile = ({ data, loading }) => {
                     {data?.name ? parser(data.name) : ""}
                   </h3>
                   <div className="doctor_designation">
-                    {parser("Dental Surgeon")}
+                    {data?.specialization? parser(data.specialization) : ""}
                   </div>
                   <div className="doctor_desc">
-                    {parser("10 Years Experience")}
+                  {data?.qualification? parser(data.qualification) : ""}
                   </div>
                 </div>
               </div>
               <div className="profile_right_section">
                 <div className="profile_clinic_name">
-                  Manakadans Dental Clinic Irinjalakuda
+                {data?.Clinic?.name? parser(data?.Clinic?.name) : ""}
                   <button className="profile_direction_btn">
                     Get Directions
                   </button>
                 </div>
                 <button
                   className="profile_report_btn"
-                  onClick={openReportModal}
+                  onClick={handleReportClick}
                 >
                   Report
                 </button>
@@ -196,6 +238,13 @@ const DoctorProfile = ({ data, loading }) => {
         </div>
         <div className="st-height-b120 st-height-lg-b80" />
       </section>
+      <ComplaintModal 
+      showModal={showModal} 
+      handleClose={handleCloseModal} 
+      reportInput={reportInput}
+      setReportInput={setReportInput}
+      handleComplaintSubmit={handleComplaintSubmit}
+      />
     </>
   );
 };
