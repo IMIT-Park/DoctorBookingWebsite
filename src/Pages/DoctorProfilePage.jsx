@@ -14,7 +14,7 @@ const DoctorProfilePage = () => {
     setLoading(true);
     try {
       const response = await axiosApi.get(`/v1/doctor/getbyIdweb/${doctorId}`);
-      setDoctorDetails(response?.data);
+      setDoctorDetails(response?.data?.Doctor);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -29,11 +29,10 @@ const DoctorProfilePage = () => {
     fetchData();
   }, []);
 
-  console.log(doctorDetails);
   return (
     <>
       <Spacing lg={60} md={30} />
-      <DoctorProfile />
+      <DoctorProfile data={doctorDetails} loading={loading}/>
       <Spacing lg={80} md={40} />
     </>
   );

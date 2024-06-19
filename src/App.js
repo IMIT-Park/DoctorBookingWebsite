@@ -72,7 +72,9 @@ const App = () => {
       </Route>
 
       <Route path="/" element={<Layout2 />}>
+      {/* signup page */}
       <Route path="/signup" element={<SignupPage />} />
+      <Route path="/signup/:salespersoncode" element={<SignupPage />} />
 
          <Route path="/doctor-profile/:doctorId" element={<DoctorProfilePage />} />
                 {/* booking starts here */}

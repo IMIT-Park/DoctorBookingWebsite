@@ -5,7 +5,7 @@ import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 import Spacing from "../Spacing/Spacing";
 
-const DoctorProfile = () => {
+const DoctorProfile = ({data,loading}) => {
   const navigate = useNavigate();
 
   const [selectedTime, setSelectedTime] = useState(null);
@@ -47,12 +47,10 @@ const DoctorProfile = () => {
     }
   };
 
-  const availableDates = [
-    new Date(),
-    new Date(new Date().setDate(new Date().getDate() + 1)),
-    new Date(new Date().setDate(new Date().getDate() + 3)),
-  ];
 
+
+
+console.log(data);
   return (
     <>
       <section className="st-shape-wrap">
@@ -74,7 +72,7 @@ const DoctorProfile = () => {
                   />
                 </div>
                 <div>
-                  <h3 className="doctor_name">{parser("Dr. Nikhil M P")}</h3>
+                  <h3 className="doctor_name">{data?.name ? parser(data.name) : ""}</h3>
                   <div className="doctor_designation">
                     {parser("Dental Surgeon")}
                   </div>

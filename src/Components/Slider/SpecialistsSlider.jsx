@@ -37,7 +37,6 @@ const SpecialistsSlider = ({ data }) => {
     fetchData();
   }, [page]);
 
-
   const handlePageClick = (event) => {
     setPage(event.selected + 1);
   };
@@ -50,12 +49,14 @@ const SpecialistsSlider = ({ data }) => {
         subTitle=" Lorem Ipsum is simply dummy text of the printing and typesetting industry. <br /> Lorem Ipsum the industry's standard dummy text."
       />
       <div className="container">
-        <div style={{ marginBottom: "2rem" }}>
-          Total Doctors: {totalDoctors}
-        </div>
+        {alldoctors?.length > 0 && (
+          <div style={{ marginBottom: "2rem" }}>
+            Total Doctors: {totalDoctors}
+          </div>
+        )}
         {loading ? (
           <div className="custom-loader_container">
-            <span class="custom-loader"></span>
+            <span className="custom-loader"></span>
           </div>
         ) : (
           <>
@@ -86,14 +87,14 @@ const SpecialistsSlider = ({ data }) => {
               <ReactPaginate
                 previousLabel={
                   <img
-                    src={`${process.env.PUBLIC_URL}/icons/left-arrow.svg`}
+                    src={`${process.env.PUBLIC_URL}/icons/pagination-arrow.svg`}
                     alt="Previous"
                   />
                 }
                 nextLabel={
                   <img
                     style={{ rotate: "180deg" }}
-                    src={`${process.env.PUBLIC_URL}/icons/left-arrow.svg`}
+                    src={`${process.env.PUBLIC_URL}/icons/pagination-arrow.svg`}
                     alt="Next"
                   />
                 }

@@ -9,7 +9,7 @@ export const imageBase_URL =
 
 // const BASIC_URL = "https://doctorbackend.gitdr.com/api";
 const BASIC_URL =
-  "https://aeda-2405-201-f018-10d6-605d-8aa4-161b-1443.ngrok-free.app/api";
+  "https://0c17-2405-201-f018-10d6-fdb6-68ab-422e-981e.ngrok-free.app/api";
 
 export const axiosApi = axios.create({
   baseURL: BASIC_URL,

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Spacing from "../../Components/Spacing/Spacing";
 import { axiosApi } from "../../axiosInstance";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const SignupPage = () => {
+  const { salespersoncode } = useParams();
   const navigate = useNavigate();
+
   const [input, setInput] = useState({
     name: "",
     email: "",
@@ -17,6 +19,15 @@ const SignupPage = () => {
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (salespersoncode) {
+      setInput((prevInput) => ({
+        ...prevInput,
+        salespersoncode,
+      }));
+    }
+  }, [salespersoncode]);
 
   useEffect(() => {
     setInput((prevInput) => ({ ...prevInput, user_name: prevInput.email }));
@@ -143,18 +154,6 @@ const SignupPage = () => {
                 value={input?.user_name}
                 onChange={(e) =>
                   setInput({ ...input, user_name: e.target.value })
-                }
-              />
-            </div>
-            <div className="mb-2">
-              <input
-                type="text"
-                className="form-control"
-                id="salesperson-code"
-                placeholder="Sales Person Code"
-                value={input?.salespersoncode}
-                onChange={(e) =>
-                  setInput({ ...input, salespersoncode: e.target.value })
                 }
               />
             </div>
