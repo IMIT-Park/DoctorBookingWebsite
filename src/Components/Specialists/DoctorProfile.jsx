@@ -5,10 +5,15 @@ import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 import Spacing from "../Spacing/Spacing";
 
-const DoctorProfile = ({data,loading}) => {
+const DoctorProfile = ({ data, loading }) => {
   const navigate = useNavigate();
 
   const [selectedTime, setSelectedTime] = useState(null);
+  const [reportInput, setReportInput] = useState({
+    email: "",
+    phone: "",
+    content: "",
+  });
 
   const morningTimes = [
     "10.00 AM",
@@ -47,10 +52,7 @@ const DoctorProfile = ({data,loading}) => {
     }
   };
 
-
-
-
-console.log(data);
+  console.log(data);
   return (
     <>
       <section className="st-shape-wrap">
@@ -72,7 +74,9 @@ console.log(data);
                   />
                 </div>
                 <div>
-                  <h3 className="doctor_name">{data?.name ? parser(data.name) : ""}</h3>
+                  <h3 className="doctor_name">
+                    {data?.name ? parser(data.name) : ""}
+                  </h3>
                   <div className="doctor_designation">
                     {parser("Dental Surgeon")}
                   </div>
@@ -88,7 +92,12 @@ console.log(data);
                     Get Directions
                   </button>
                 </div>
-                <button className="profile_report_btn">Report</button>
+                <button
+                  className="profile_report_btn"
+                  onClick={openReportModal}
+                >
+                  Report
+                </button>
               </div>
             </div>
             <div className="booking_title_container">
