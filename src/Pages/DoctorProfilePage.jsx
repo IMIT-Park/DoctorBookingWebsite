@@ -15,7 +15,6 @@ const DoctorProfilePage = () => {
     try {
       const response = await axiosApi.get(`/v1/doctor/getbyIdweb/${doctorId}`);
       setDoctorDetails(response?.data?.Doctor);
-      setLoading(false);
     } catch (error) {
       console.log(error);
       setLoading(false);
