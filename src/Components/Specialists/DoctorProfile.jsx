@@ -7,16 +7,16 @@ import Spacing from "../Spacing/Spacing";
 import ComplaintModal from "../ComplaintModal/ComplaintModal";
 import { axiosApi, imageBase_URL } from "../../axiosInstance";
 
-const DoctorProfile = ({ data, loading }) => {
+const DoctorProfile = ({ doctorDetails, doctorClinics, loading }) => {
   const navigate = useNavigate();
-  const [buttonLoading, setButtonLoading] = useState(false); 
+  const [buttonLoading, setButtonLoading] = useState(false);
   const [selectedTime, setSelectedTime] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [reportInput, setReportInput] = useState({
     email: "",
     phone: "",
     content: "",
-    doctor_id: data && data.doctor_id, 
+    doctor_id: doctorDetails && doctorDetails?.doctor_id,
   });
 
   const morningTimes = [
@@ -64,7 +64,7 @@ const DoctorProfile = ({ data, loading }) => {
     setShowModal(false);
   };
 
-  // -- POST CRUD --
+  // -- Add complaint function --
   const addComplaint = async () => {
     if (!reportInput.email || !reportInput.phone || !reportInput.content) {
       return true;
@@ -76,19 +76,18 @@ const DoctorProfile = ({ data, loading }) => {
         "/v1/complaint/sendComplaint",
         reportInput
       );
-      console.log("Complaint submitted successfully:", response.data);
-      // Optionally, you can reset the reportInput state after successful submission
+      console.log("Complaint submitted successfully:", response.doctorDetails);
       setReportInput({
         email: "",
         phone: "",
         content: "",
-        doctor_id: data && data.doctor_id,
+        doctor_id: doctorDetails && doctorDetails.doctor_id,
       });
       handleCloseModal();
     } catch (error) {
       console.error("Error submitting complaint:", error);
       setButtonLoading(false);
-    }finally{
+    } finally {
       setButtonLoading(false);
     }
   };
@@ -98,7 +97,7 @@ const DoctorProfile = ({ data, loading }) => {
     addComplaint();
   };
 
-  console.log(data);
+  console.log(doctorDetails);
 
   return (
     <>
@@ -109,39 +108,50 @@ const DoctorProfile = ({ data, loading }) => {
         <div className="st-height-b120 st-height-lg-b80" />
         <div className="container">
           <div className="details_wrapper">
-            {loading ? ( 
-              <span className="loader"></span> 
+            {loading ? (
+              <span className="loader"></span>
             ) : (
               <>
                 <div className="profile_details_container">
                   <div className="profile_left_section">
                     <div className="profile_container">
                       <img
-                        src={imageBase_URL + (data && data.photo)}
+                        src={
+                          imageBase_URL +
+                          (doctorDetails && doctorDetails?.photo)
+                        }
                         alt={"profile"}
                         className="profile_container_img"
                       />
                     </div>
                     <div>
                       <h3 className="doctor_name">
-                        {data && data.name ? parser(data.name) : ""}
+                        {doctorDetails && doctorDetails.name
+                          ? parser(doctorDetails?.name)
+                          : ""}
                       </h3>
                       <div className="doctor_designation">
-                        {data && data.specialization
-                          ? parser(data.specialization)
+                        {doctorDetails && doctorDetails.specialization
+                          ? parser(doctorDetails.specialization)
                           : ""}
                       </div>
                       <div className="doctor_desc">
-                        {data && data.qualification
-                          ? parser(data.qualification)
+                        {doctorDetails && doctorDetails.qualification
+                          ? parser(doctorDetails.qualification)
                           : ""}
                       </div>
                     </div>
                   </div>
-                  <div className="profile_right_section">
+                  <button
+                    className="profile_report_btn"
+                    onClick={handleReportClick}
+                  >
+                    Report
+                  </button>
+                  {/* <div className="profile_right_section">
                     <div className="profile_clinic_name">
-                      {data && data.Clinic && data.Clinic.name
-                        ? parser(data.Clinic.name)
+                      {doctorDetails && doctorDetails.Clinic && doctorDetails.Clinic.name
+                        ? parser(doctorDetails.Clinic.name)
                         : ""}
                       <button className="profile_direction_btn">
                         Get Directions
@@ -153,7 +163,99 @@ const DoctorProfile = ({ data, loading }) => {
                     >
                       Report
                     </button>
+                  </div> */}
+                </div>
+                <div className="booking_title_container">
+                  Clinic Lists
+                  <div className="row_border" />
+                </div>
+                <div className="dr_clinic_card_container">
+                  <div className="dr_clinic_card active">
+                    <img
+                      src="https://images.pexels.com/photos/65438/pexels-photo-65438.jpeg?auto=compress&cs=tinysrgb&w=600"
+                      alt="Clinic"
+                      className="dr_clinic_photo"
+                    />
+                    <div>
+                      <h4 className="dr_clinic_name">Stefin Dental Clinic</h4>
+                      <p className="dr_clinic_place">Irinjalakuda</p>
+                    </div>
+                    <img
+                      src={`${process.env.PUBLIC_URL}/icons/left-arrow.svg`}
+                      alt="Back"
+                      className="dr_clinic_arrow"
+                    />
                   </div>
+
+                  <div className="dr_clinic_card">
+                    <img
+                      src="https://images.pexels.com/photos/65438/pexels-photo-65438.jpeg?auto=compress&cs=tinysrgb&w=600"
+                      alt="Clinic"
+                      className="dr_clinic_photo"
+                    />
+                    <div>
+                      <h4 className="dr_clinic_name">Stefin Dental Clinic</h4>
+                      <p className="dr_clinic_place">Irinjalakuda</p>
+                    </div>
+                    <img
+                      src={`${process.env.PUBLIC_URL}/icons/vector-down.svg`}
+                      alt="Back"
+                      className="dr_clinic_arrow"
+                    />
+                  </div>
+
+                  <div className="dr_clinic_card">
+                    <img
+                      src="https://images.pexels.com/photos/65438/pexels-photo-65438.jpeg?auto=compress&cs=tinysrgb&w=600"
+                      alt="Clinic"
+                      className="dr_clinic_photo"
+                    />
+                    <div>
+                      <h4 className="dr_clinic_name">Stefin Dental Clinic</h4>
+                      <p className="dr_clinic_place">Irinjalakuda</p>
+                    </div>
+                    <img
+                      src={`${process.env.PUBLIC_URL}/icons/vector-down.svg`}
+                      alt="Back"
+                      className="dr_clinic_arrow"
+                    />
+                  </div>
+
+                  <div className="dr_clinic_card">
+                    <img
+                      src="https://images.pexels.com/photos/65438/pexels-photo-65438.jpeg?auto=compress&cs=tinysrgb&w=600"
+                      alt="Clinic"
+                      className="dr_clinic_photo"
+                    />
+                    <div>
+                      <h4 className="dr_clinic_name">Stefin Dental Clinic</h4>
+                      <p className="dr_clinic_place">Irinjalakuda</p>
+                    </div>
+                    <img
+                      src={`${process.env.PUBLIC_URL}/icons/vector-down.svg`}
+                      alt="Back"
+                      className="dr_clinic_arrow"
+                    />
+                  </div>
+
+                  <div className="dr_clinic_card">
+                    <img
+                      src="https://images.pexels.com/photos/65438/pexels-photo-65438.jpeg?auto=compress&cs=tinysrgb&w=600"
+                      alt="Clinic"
+                      className="dr_clinic_photo"
+                    />
+                    <div>
+                      <h4 className="dr_clinic_name">Stefin Dental Clinic 
+                      </h4>
+                      <p className="dr_clinic_place">Irinjalakuda</p>
+                    </div>
+                    <img
+                      src={`${process.env.PUBLIC_URL}/icons/vector-down.svg`}
+                      alt="Back"
+                      className="dr_clinic_arrow"
+                    />
+                  </div>
+
                 </div>
                 <div className="booking_title_container">
                   Booking Availability
@@ -258,7 +360,7 @@ const DoctorProfile = ({ data, loading }) => {
         handleClose={handleCloseModal}
         reportInput={{
           ...reportInput,
-          doctor_id: data && data.doctor_id,
+          doctor_id: doctorDetails && doctorDetails.doctor_id,
         }}
         setReportInput={setReportInput}
         handleComplaintSubmit={handleComplaintSubmit}

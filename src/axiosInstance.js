@@ -5,11 +5,10 @@ export const dashboardUrl = "https://mydoctorsdashboard.gitdr.com/";
 
 // image base url
 export const imageBase_URL =
-  "https://aeda-2405-201-f018-10d6-605d-8aa4-161b-1443.ngrok-free.app/";
+  "https://doctorbackend.gitdr.com/";
 
-// const BASIC_URL = "https://doctorbackend.gitdr.com/api";
-const BASIC_URL =
-  "https://4429-2405-201-f018-10d6-fdb6-68ab-422e-981e.ngrok-free.app/api";
+const BASIC_URL = "https://doctorbackend.gitdr.com/api";
+
 
 export const axiosApi = axios.create({
   baseURL: BASIC_URL,

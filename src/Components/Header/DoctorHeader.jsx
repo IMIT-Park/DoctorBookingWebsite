@@ -14,8 +14,8 @@ const DoctorHeader = () => {
             alt="Back"
           />
         </div>
-        {location?.pathname === "/doctor-profile" && (
-          <h3 className="doc_header_title">Doctors Profile</h3>
+        {location?.pathname?.includes("/doctor-profile") && (
+          <h3 className="doc_header_title">Doctor Profile</h3>
         )}
         <div className="home_button" onClick={() => navigate("/")}>
           <img src={`${process.env.PUBLIC_URL}/icons/home.svg`} alt="Back" />
