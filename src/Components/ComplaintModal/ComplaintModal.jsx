@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import Spacing from "../Spacing/Spacing";
 
 const ComplaintModal = ({
@@ -9,7 +9,9 @@ const ComplaintModal = ({
   handleComplaintSubmit,
   loading,
 }) => {
-    // prevents scrollbar overflow
+  const modalRef = useRef();
+
+  // prevents scrollbar overflow
   useEffect(() => {
     const toggleBodyOverflow = () => {
       const body = document.querySelector("body");
@@ -30,11 +32,27 @@ const ComplaintModal = ({
     };
   }, [showModal]);
 
+  // Handles clicks outside the modal to close it
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        handleClose();
+      }
+    };
+
+    if (showModal) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showModal, handleClose]);
+
   if (!showModal) return null;
 
   return (
     <>
-      {/* Modal backdrop with semi-transparent black */}
       <div className="modal-backdrop fade show"></div>
       <div
         className="modal fade show"
@@ -42,8 +60,8 @@ const ComplaintModal = ({
         tabIndex="-1"
         aria-modal="true"
       >
-        <div className="modal-dialog" >
-          <div className="modal-content" >
+        <div className="modal-dialog" ref={modalRef}>
+          <div className="modal-content">
             <div className="modal-header" style={{ borderBottom: "none" }}>
               <button
                 type="button"
@@ -54,7 +72,11 @@ const ComplaintModal = ({
               ></button>
             </div>
             <div className="modal-body">
-              <form onSubmit={handleComplaintSubmit} className="report_form" style={{margin:"10px"}}>
+              <form
+                onSubmit={handleComplaintSubmit}
+                className="report_form"
+                style={{ margin: "10px" }}
+              >
                 <h3
                   style={{ textAlign: "center" }}
                   className="booking_form_card_title"
@@ -67,7 +89,7 @@ const ComplaintModal = ({
                     type="email"
                     className="form-control"
                     id="reportEmail"
-                    style={{marginBottom:"15px"}}
+                    style={{ marginBottom: "15px" }}
                     placeholder="Enter Email"
                     value={reportInput.email}
                     onChange={(e) =>
@@ -83,7 +105,7 @@ const ComplaintModal = ({
                     aria-label="Phone"
                     aria-describedby="basic-phone"
                     placeholder="Enter Your Phone Number"
-                    style={{marginBottom:"15px"}}
+                    style={{ marginBottom: "15px" }}
                     value={reportInput.phone}
                     onChange={(e) =>
                       setReportInput({ ...reportInput, phone: e.target.value })
@@ -109,7 +131,7 @@ const ComplaintModal = ({
                 </div>
                 <Spacing lg={40} md={30} />
                 <div className="booking_form_card_btn_wrapper">
-                <button
+                  <button
                     type="button"
                     className="btn btn-secondary"
                     data-bs-dismiss="modal"
@@ -117,28 +139,30 @@ const ComplaintModal = ({
                     style={{
                       backgroundColor: "#ffffff",
                       color: "#ff0000",
-                      borderColor: "#ff0000",
+                      borderColor: "#b50404",
                       marginRight: "10px",
-                      marginBottom: "10px" 
+                      marginBottom: "10px",
                     }}
                     onMouseEnter={(e) => {
-                      e.target.style.backgroundColor = "#ff0000";
+                      e.target.style.backgroundColor = "#b50404";
                       e.target.style.color = "#ffffff";
                     }}
                     onMouseLeave={(e) => {
                       e.target.style.backgroundColor = "#ffffff";
-                      e.target.style.color = "#ff0000";
+                      e.target.style.color = "#b50404";
                     }}
                   >
-                    Close
+                    Cancel
                   </button>
                   <button
                     type="submit"
                     className="btn btn-secondary"
-                    style={{ backgroundColor: "#006400", borderColor: "#006400",
-                         marginBottom: "10px"
+                    style={{
+                      backgroundColor: "#006241",
+                      borderColor: "#006241",
+                      marginBottom: "10px",
+                      borderRadius: "5px",
                     }}
-
                     disabled={loading}
                   >
                     {loading ? <span className="loader"></span> : "Submit"}

@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 const DoctorProfilePage = () => {
   const { doctorId } = useParams();
   const [loading, setLoading] = useState(false);
-  const [doctorDetails, setDoctorDetails] = useState({});
+  const [doctorDetails, setDoctorDetails] = useState(null);
   const [doctorClinics, setDoctorClinics] = useState([]);
 
   // fetch doctor details function
