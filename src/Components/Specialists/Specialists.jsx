@@ -8,7 +8,15 @@ const Specialists = ({ photo, name, specialization, doctor_id }) => {
       <Link className="st-doctor-link" to={`/doctor-profile/${doctor_id}`}>
         <div className="st-member st-style1 st-zoom">
           <div className="st-member-img">
-            <img src={imageBase_URL + photo} alt={"photo"} className="" />
+            <img
+              src={
+                photo
+                  ? imageBase_URL + photo
+                  : `${process.env.PUBLIC_URL}/images/empty-user.png`
+              }
+              alt={"photo"}
+              className="st-member-photo"
+            />
           </div>
           <div className="st-member-meta">
             <div className="st-member-meta-in">
