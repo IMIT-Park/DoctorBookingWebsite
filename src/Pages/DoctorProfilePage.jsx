@@ -8,6 +8,7 @@ const DoctorProfilePage = () => {
   const { doctorId } = useParams();
   const [loading, setLoading] = useState(false);
   const [doctorDetails, setDoctorDetails] = useState({});
+  const [doctorClinics, setDoctorClinics] = useState([]);
 
   // fetch doctor details function
   const fetchData = async () => {
@@ -15,6 +16,7 @@ const DoctorProfilePage = () => {
     try {
       const response = await axiosApi.get(`/v1/doctor/getbyIdweb/${doctorId}`);
       setDoctorDetails(response?.data?.Doctor);
+      setDoctorClinics(response?.data?.allclinics);
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -31,7 +33,11 @@ const DoctorProfilePage = () => {
   return (
     <>
       <Spacing lg={60} md={30} />
-      <DoctorProfile data={doctorDetails} loading={loading}/>
+      <DoctorProfile
+        doctorDetails={doctorDetails}
+        doctorClinics={doctorClinics}
+        loading={loading}
+      />
       <Spacing lg={80} md={40} />
     </>
   );
