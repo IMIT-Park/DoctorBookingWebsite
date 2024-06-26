@@ -72,13 +72,13 @@ const Header = ({ data }) => {
                 <ScrollLink to="contact"> +01 - 234 567 890 </ScrollLink>
               </li>
             </ul>
-            <Link
+            {/* <Link
               to={"/signup"}
               style={{ cursor: "pointer", userSelect: "none" }}
               className="st-top-header-btn st-smooth-move cursor-pointer"
             >
               Sign Up
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>
@@ -117,7 +117,7 @@ const Header = ({ data }) => {
                       About
                     </ScrollLink>
                   </li>
-                  <li>
+                  {/* <li>
                     <ScrollLink
                       to="department"
                       spy={true}
@@ -126,7 +126,7 @@ const Header = ({ data }) => {
                     >
                       Department
                     </ScrollLink>
-                  </li>
+                  </li> */}
                   <li>
                     <ScrollLink
                       to="doctors"
@@ -147,7 +147,7 @@ const Header = ({ data }) => {
                       Gallery
                     </ScrollLink>
                   </li>
-                  <li>
+                  {/* <li>
                     <ScrollLink
                       to="pricing"
                       spy={true}
@@ -156,8 +156,8 @@ const Header = ({ data }) => {
                     >
                       Pricing
                     </ScrollLink>
-                  </li>
-                  <li className="menu-item-has-children">
+                  </li> */}
+                  {/* <li className="menu-item-has-children">
                     <ScrollLink
                       to="blog"
                       spy={true}
@@ -171,7 +171,7 @@ const Header = ({ data }) => {
                         <Link to="/post/post_details">Single Details</Link>
                       </li>
                     </ul>
-                  </li>
+                  </li> */}
                   <li>
                     <ScrollLink
                       to="contact"
@@ -181,6 +181,15 @@ const Header = ({ data }) => {
                     >
                       Contact
                     </ScrollLink>
+                  </li>
+                  <li>
+                    <Link to={"/"}> Register as Doctor</Link>
+                  </li>
+                  <li>
+                    <Link to={"/"}>
+                      {" "}
+                      <button className="st-site-book-now-btn">Book Now</button>
+                    </Link>
                   </li>
                 </ul>
                 <div
