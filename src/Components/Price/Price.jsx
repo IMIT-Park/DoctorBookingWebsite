@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Price = ({ price, title, featureList, varient }) => {
   return (
-    <div className={`st-pricing-table st-style1 ${varient ? varient : ""}`}>
+    <div className={`st-pricing-table st-style1 `}>
       <div className="st-pricing-head">
         <h2 className="st-price">${price}</h2>
         <img src="/shape/price-shape.svg" alt="shape" className="st-pricing-head-shape" />

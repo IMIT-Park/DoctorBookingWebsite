@@ -137,7 +137,7 @@ const Header = ({ data }) => {
                       Doctors
                     </ScrollLink>
                   </li>
-                  <li>
+                  {/* <li>
                     <ScrollLink
                       to="gallery"
                       spy={true}
@@ -146,17 +146,14 @@ const Header = ({ data }) => {
                     >
                       Gallery
                     </ScrollLink>
-                  </li>
-                  {/* <li>
-                    <ScrollLink
-                      to="pricing"
-                      spy={true}
-                      duration={500}
-                      onClick={() => setMobileToggle(false)}
-                    >
-                      Pricing
-                    </ScrollLink>
                   </li> */}
+                  <li>
+                    <Link
+                      to={"/SubscriptionPlan"}
+                    >
+                      Plans
+                    </Link>
+                  </li>
                   {/* <li className="menu-item-has-children">
                     <ScrollLink
                       to="blog"

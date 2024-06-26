@@ -45,6 +45,7 @@ import SelectPatient from "./Pages/BookingPages/SelectPatient";
 import BookingConfirmation from "./Pages/BookingPages/BookingCofirmation";
 import SignupPage from "./Pages/SignupPage/SignupPage";
 import ClinicPage from "./Pages/ClinicPage/ClinicPage";
+import SubscriptionPlan from "./Pages/SubscriptionPlan/SubscriptionPlan";
 import PatientLogin from "./Pages/PatientAuth/PatientLogin";
 import PatientRegister from "./Pages/PatientAuth/PatientRegister";
 import BookAsGuest from "./Pages/PatientAuth/BookAsGuest";
@@ -88,6 +89,9 @@ const App = () => {
         <Route path="/booking/booking-confirmation" element={<BookingConfirmation />} />
 
         <Route path="/clinic/:clinicId" element={<ClinicPage />} />
+
+        {/* subscription plans  */}
+        <Route path="/SubscriptionPlan" element={<SubscriptionPlan />} />
         <Route path="/patient-login" element={<PatientLogin />}/>
         <Route path="/patient-login/patient-register" element={<PatientRegister />}/>
         <Route path="/patient-login/book-as-guest" element={<BookAsGuest />}/>
@@ -145,8 +149,6 @@ const App = () => {
         <Route path="contact" element={<ContactPage />} />
         <Route path="post/:postId" element={<PostDetails />} />
       </Route>
-
-    
     </Routes>
   );
 };
