@@ -45,6 +45,7 @@ import SelectPatient from "./Pages/BookingPages/SelectPatient";
 import BookingConfirmation from "./Pages/BookingPages/BookingCofirmation";
 import SignupPage from "./Pages/SignupPage/SignupPage";
 import ClinicPage from "./Pages/ClinicPage/ClinicPage";
+import SubscriptionPlan from "./Pages/SubscriptionPlan/SubscriptionPlan";
 
 const App = () => {
   const { pathname } = useLocation();
@@ -84,6 +85,9 @@ const App = () => {
         <Route path="/booking/booking-confirmation" element={<BookingConfirmation />} />
 
         <Route path="/clinic/:clinicId" element={<ClinicPage />} />
+
+        {/* subscription plans  */}
+        <Route path="/SubscriptionPlan" element={<SubscriptionPlan />} />
       </Route>
 
       <Route path="/home9" element={<Layout3 />}>
@@ -135,6 +139,8 @@ const App = () => {
         <Route path="contact" element={<ContactPage />} />
         <Route path="post/:postId" element={<PostDetails />} />
       </Route>
+
+
     </Routes>
   );
 };
