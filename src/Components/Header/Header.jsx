@@ -186,9 +186,10 @@ const Header = ({ data }) => {
                     <Link to={"/"}> Register as Doctor</Link>
                   </li>
                   <li>
-                    <Link to={"/"}>
+                    <Link to={"/patient-login"}>
                       {" "}
-                      <button className="st-site-book-now-btn">Book Now</button>
+                      <button className="st-site-book-now-btn"
+                        onClick={() => setMobileToggle(false)}>Book Now</button>
                     </Link>
                   </li>
                 </ul>
