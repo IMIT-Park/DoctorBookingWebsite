@@ -14,7 +14,7 @@ import Home7 from "./Pages/Home7";
 import Home8 from "./Pages/Home8";
 import Home9 from "./Pages/Home9";
 import Home10 from "./Pages/Home10";
-import Home11 from "./Pages/Home11";
+// import Home11 from "./Pages/Home11";
 import Home12 from "./Pages/Home12";
 import Home13 from "./Pages/Home13";
 import Layout4 from "./Components/Layout/Layout4";
@@ -46,6 +46,10 @@ import BookingConfirmation from "./Pages/BookingPages/BookingCofirmation";
 import SignupPage from "./Pages/SignupPage/SignupPage";
 import ClinicPage from "./Pages/ClinicPage/ClinicPage";
 import SubscriptionPlan from "./Pages/SubscriptionPlan/SubscriptionPlan";
+import PatientLogin from "./Pages/PatientAuth/PatientLogin";
+import PatientRegister from "./Pages/PatientAuth/PatientRegister";
+import BookAsGuest from "./Pages/PatientAuth/BookAsGuest";
+
 
 const App = () => {
   const { pathname } = useLocation();
@@ -88,7 +92,13 @@ const App = () => {
 
         {/* subscription plans  */}
         <Route path="/SubscriptionPlan" element={<SubscriptionPlan />} />
+        <Route path="/patient-login" element={<PatientLogin />}/>
+        <Route path="/patient-login/patient-register" element={<PatientRegister />}/>
+        <Route path="/patient-login/book-as-guest" element={<BookAsGuest />}/>
+
       </Route>
+
+     
 
       <Route path="/home9" element={<Layout3 />}>
         <Route index element={<Home9 />} />
@@ -139,8 +149,6 @@ const App = () => {
         <Route path="contact" element={<ContactPage />} />
         <Route path="post/:postId" element={<PostDetails />} />
       </Route>
-
-
     </Routes>
   );
 };
