@@ -180,7 +180,7 @@ const Header = ({ data }) => {
                     </ScrollLink>
                   </li>
                   <li>
-                    <Link to={"/"}> Register as Doctor</Link>
+                    <Link to={"/doctor-signup"}> Register as Doctor</Link>
                   </li>
                   <li>
                     <Link to={"/patient-login"}>
