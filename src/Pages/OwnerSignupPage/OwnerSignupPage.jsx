@@ -3,7 +3,7 @@ import Spacing from "../../Components/Spacing/Spacing";
 import { axiosApi } from "../../axiosInstance";
 import { useNavigate, useParams } from "react-router-dom";
 
-const SignupPage = () => {
+const OwnerSignupPage = () => {
   const { salespersoncode } = useParams();
   const navigate = useNavigate();
 
@@ -217,4 +217,4 @@ const SignupPage = () => {
   );
 };
 
-export default SignupPage;
+export default OwnerSignupPage;

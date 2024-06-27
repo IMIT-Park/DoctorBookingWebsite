@@ -43,14 +43,14 @@ import NumberVerification from "./Pages/BookingPages/NumberVerification";
 import OtpVerification from "./Pages/BookingPages/OtpVerification";
 import SelectPatient from "./Pages/BookingPages/SelectPatient";
 import BookingConfirmation from "./Pages/BookingPages/BookingCofirmation";
-import SignupPage from "./Pages/SignupPage/SignupPage";
+import OwnerSignupPage from "./Pages/OwnerSignupPage/OwnerSignupPage";
 import ClinicPage from "./Pages/ClinicPage/ClinicPage";
 import SubscriptionPlan from "./Pages/SubscriptionPlan/SubscriptionPlan";
 import PatientLogin from "./Pages/PatientAuth/PatientLogin";
 import PatientRegister from "./Pages/PatientAuth/PatientRegister";
 import BookAsGuest from "./Pages/PatientAuth/BookAsGuest";
 import ForgotPassword from "./Pages/PatientAuth/ForgotPassword";
-
+import DoctorSignupPage from "./Pages/DoctorSignupPage/DoctorSignupPage";
 
 
 const App = () => {
@@ -80,8 +80,9 @@ const App = () => {
 
       <Route path="/" element={<Layout2 />}>
       {/* signup page */}
-      <Route path="/signup" element={<SignupPage />} />
-      <Route path="/signup/:salespersoncode" element={<SignupPage />} />
+      <Route path="/owner-signup" element={<OwnerSignupPage />} />
+      <Route path="/owner-signup/:salespersoncode" element={<OwnerSignupPage />} />
+      <Route path="/doctor-signup" element={<DoctorSignupPage />} />
 
          <Route path="/doctor-profile/:doctorId" element={<DoctorProfilePage />} />
                 {/* booking starts here */}
