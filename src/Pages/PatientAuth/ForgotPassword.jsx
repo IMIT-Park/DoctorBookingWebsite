@@ -3,7 +3,7 @@ import Spacing from "../../Components/Spacing/Spacing";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-const BookAsGuest = () => {
+const ForgotPassword = () => {
   const navigate = useNavigate();
 
   return (
@@ -14,30 +14,37 @@ const BookAsGuest = () => {
           <div className="booking_form_card">
             <div className="patient_details_wrapper">
               <div className="patient_login_card_header">
-                <p className="book_as_guest_title">Book as Guest</p>
+                <p className="password_reset">Password Reset</p>
               </div>
-              <Spacing lg={35} md={20} />
-              <div class="input-group mb-2">
-                <span class="input-group-text" id="basic-phone">
-                  +91
-                </span>
+              <Spacing lg={25} md={20} />
+              <label className="email_to_recover mb-4">
+                <span>Enter your email to recover your password</span>
+              </label>
+              <div class="mb-2">
                 <input
-                  type="number"
-                  className="form-control"
-                  placeholder="Phone"
-                  aria-label="Phone"
-                  aria-describedby="basic-phone"
+                  type="text"
+                  className="form-control "
+                  id="email"
+                  placeholder="Enter Email"
+                  
                 />
               </div>
 
               <Spacing lg={40} md={30} />
-              <div className="patient_login_btn_wrapper">
+              <div className="recover_btn_wrapper">
                 <button
                   className="booking_form_card_btn"
-                //   onClick={() => navigate("/booking/booking-confirmation")}
+                  //   onClick={() => navigate("/booking/booking-confirmation")}
                 >
-                  Continue
+                  Recover
                 </button>
+              </div>
+
+              <div
+                className="Back_to_Login"
+                onClick={() => navigate("/patient-login")}
+              >
+                Back to Login
               </div>
             </div>
           </div>
@@ -48,4 +55,4 @@ const BookAsGuest = () => {
   );
 };
 
-export default BookAsGuest;
+export default ForgotPassword;
