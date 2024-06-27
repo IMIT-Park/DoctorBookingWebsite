@@ -22,8 +22,8 @@ axiosApi.interceptors.request.use(function (config) {
   const token = sessionStorage.getItem("accessToken");
   if (token) {
     config.headers["Authorization"] = "bearer " + token;
-  } else {
-    console.log("error");
   }
   return config;
 });
+
+

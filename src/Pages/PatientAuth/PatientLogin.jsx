@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import Spacing from "../../Components/Spacing/Spacing";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import Eye from "../../Components/PasswordEye/Eye";
+import CloseEye from "../../Components/PasswordEye/CloseEye";
 
 const PatientLogin = () => {
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+
 
   return (
     <>
@@ -27,18 +31,34 @@ const PatientLogin = () => {
                       placeholder="User Name"
                     />
                   </div>
-                  <div class="mb-2">
+                  <div class="password-input-container mb-2">
                     <input
-                      type="text"
+                      type={showPassword ? "text" : "password"}
                       className="form-control"
                       id="name"
                       placeholder="Password"
                     />
-                  </div>
+                  <div
+                      className="icon-container"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                     {showPassword ? <Eye/> : <CloseEye/>} 
+                    </div>
+                    </div>
+                  <label
+                  className="forgot_Password"
+                  onClick={() =>
+                    navigate("/forgot-password")
+                  }
+                >
+                  <span>
+                    Forgot Password ?
+                  </span>
+                </label>
 
                   <div className="book_as_guest_wrapper">
                     <div className="book_as_guest"  onClick={() =>
-                        navigate("/patient-login/book-as-guest")
+                        navigate("/book-as-guest")
                       }>
                       Book as Guest
                       <span className="register_divider">|</span>
@@ -46,7 +66,7 @@ const PatientLogin = () => {
                     <div
                       className="register"
                       onClick={() =>
-                        navigate("/patient-login/patient-register")
+                        navigate("/patient-register")
                       }
                     >
                       Register
