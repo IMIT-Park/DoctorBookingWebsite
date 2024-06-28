@@ -17,8 +17,8 @@ const BookAsGuest = () => {
                 <p className="book_as_guest_title">Book as Guest</p>
               </div>
               <Spacing lg={35} md={20} />
-              <div class="input-group mb-2">
-                <span class="input-group-text" id="basic-phone">
+              <div className="input-group mb-2">
+                <span className="input-group-text" id="basic-phone">
                   +91
                 </span>
                 <input

@@ -1,10 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import Spacing from "../../Components/Spacing/Spacing";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { BASIC_URL } from "../../axiosInstance";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  //Submit Email
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   setLoading(true);
+  //   try {
+  //     const response = await fetch(`${BASIC_URL}/v1/patient/forgotPasword`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ email: email }),
+  //     });
+
+  //     console.log(response);
+
+  //     if (response.status === 201) {
+  //       setLoading(false);
+  //       alert("Email sent successfully.", "success");
+  //     }
+  //     navigate("/confirm-password");
+  //   } catch (error) {
+  //     alert("An error occurred. Please try again.", "error");
+  //     setLoading(false);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <>
@@ -12,41 +44,45 @@ const ForgotPassword = () => {
       <div className="container mt-5">
         <div className="booking_container patient_login_container">
           <div className="booking_form_card">
-            <div className="patient_details_wrapper">
-              <div className="patient_login_card_header">
-                <p className="password_reset">Password Reset</p>
-              </div>
-              <Spacing lg={25} md={20} />
-              <label className="email_to_recover mb-4">
-                <span>Enter your email to recover your password</span>
-              </label>
-              <div class="mb-2">
-                <input
-                  type="text"
-                  className="form-control "
-                  id="email"
-                  placeholder="Enter Email"
-                  
-                />
-              </div>
+            <form>
+              {/* <form onSubmit={handleSubmit}> */}
+              <div className="patient_details_wrapper">
+                <div className="patient_login_card_header">
+                  <p className="password_reset">Password Reset</p>
+                </div>
+                <Spacing lg={25} md={20} />
+                <label className="email_to_recover mb-4">
+                  <span>Enter your email to recover your password</span>
+                </label>
+                <div class="mb-2">
+                  <input
+                    type="email"
+                    className="form-control "
+                    id="email"
+                    placeholder="Enter Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
 
-              <Spacing lg={40} md={30} />
-              <div className="recover_btn_wrapper">
-                <button
-                  className="booking_form_card_btn"
-                  //   onClick={() => navigate("/booking/booking-confirmation")}
+                <Spacing lg={40} md={30} />
+                <div className="recover_btn_wrapper">
+                  <button
+                    className="booking_form_card_btn"
+                    onClick={() => navigate("/new-password")}
+                  >
+                    {loading ? <span className="loader"></span> : "Recover"}
+                  </button>
+                </div>
+
+                <div
+                  className="Back_to_Login"
+                  onClick={() => navigate("/patient-login")}
                 >
-                  Recover
-                </button>
+                  Back to Login
+                </div>
               </div>
-
-              <div
-                className="Back_to_Login"
-                onClick={() => navigate("/patient-login")}
-              >
-                Back to Login
-              </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
