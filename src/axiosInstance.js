@@ -7,7 +7,7 @@ export const dashboardUrl = "https://mydoctorsdashboard.gitdr.com/";
 export const imageBase_URL =
   "https://doctorbackend.gitdr.com/";
 
-const BASIC_URL = "https://doctorbackend.gitdr.com/api";
+  export const BASIC_URL = "https://doctorbackend.gitdr.com/api";
 
 
 export const axiosApi = axios.create({

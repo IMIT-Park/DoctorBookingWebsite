@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Link as ScrollLink } from "react-scroll";
+import { UserContext } from "../../Contexts/UseContext";
 
 const Header = ({ data }) => {
   const { logo } = data;
@@ -8,6 +9,7 @@ const Header = ({ data }) => {
   const [mobileToggle, setMobileToggle] = useState(false);
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const [isSticky, setIsSticky] = useState(false);
+  const { userDetails } = useContext(UserContext);
 
   const handleMobileToggle = () => {
     setMobileToggle(!mobileToggle);
@@ -183,11 +185,23 @@ const Header = ({ data }) => {
                     <Link to={"/doctor-signup"}> Register as Doctor</Link>
                   </li>
                   <li>
+                    {userDetails ? (
+                  <ScrollLink 
+                   to="doctors"
+                   spy={true}
+                   duration={500}
+                   onClick={() => setMobileToggle(false)}>
+                      {" "}
+                      <button className="st-site-book-now-btn"
+                        onClick={() => setMobileToggle(false)}>Book Now</button>
+                    </ScrollLink>
+                    ):(
                     <Link to={"/patient-login"}>
                       {" "}
                       <button className="st-site-book-now-btn"
                         onClick={() => setMobileToggle(false)}>Book Now</button>
                     </Link>
+                    )}
                   </li>
                 </ul>
                 <div
