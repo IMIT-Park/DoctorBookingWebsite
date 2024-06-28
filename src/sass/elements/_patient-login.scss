@@ -77,6 +77,14 @@
   padding-right: 40px;
   padding-bottom: 15px;
 }
+.form-select {
+box-shadow: none;
+
+}
+.form-select:focus {
+  border-color: #acacac;
+  box-shadow: none
+  }
 
 .icon-container {
   position: absolute;
@@ -140,6 +148,15 @@
   .password_reset {
     font-size: 1.4rem;
   }
+}
+
+//Doctor-Signup-Password Icon
+.password-icon {
+  position: absolute;
+  top: 70%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
 }
 
 @media screen and (max-width: 400px) {

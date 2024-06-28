@@ -4,6 +4,8 @@ import { axiosApi } from "../../axiosInstance";
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Eye from "../../Components/PasswordEye/Eye";
+import CloseEye from "../../Components/PasswordEye/CloseEye";
 
 const DoctorSignupPage = () => {
   const navigate = useNavigate();
@@ -24,16 +26,32 @@ const DoctorSignupPage = () => {
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [specializations, setSpecializations] = useState([]);
 
   useEffect(() => {
-    setInput((prevInput) => ({ ...prevInput, user_name: prevInput.email }));
-  }, [input.email]);
+    fetchSpecializations();
+  }, []);
+
+  const fetchSpecializations = async () => {
+    try {
+      const response = await axiosApi.get("/v1/doctor/specializations");
+      setSpecializations(response?.data?.specializations);
+    } catch (error) {
+      console.error("Error fetching specializations:", error);
+    }
+  };
+
+  const handleSpecializationChange = (e) => {
+    setInput({ ...input, specialization: e.target.value });
+  };
 
   const validate = () => {
     const newErrors = {};
     if (input.password !== input.confirmPassword) {
-        toast.error("Password doesn't match!");
-        newErrors.confirmPassword = "Passwords do not match";
+      toast.error("Password doesn't match!");
+      newErrors.confirmPassword = "Passwords do not match";
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -90,8 +108,7 @@ const DoctorSignupPage = () => {
       } catch (error) {
         console.error("Signup error:", error);
         if (error.response && error.response.status === 403) {
-        //   alert("Email already exists. Please use a different email.");
-        toast.error("Email already exists. Please use a different email!");
+          toast.error("Email already exists. Please use a different email!");
         }
         setLoading(false);
       } finally {
@@ -100,11 +117,13 @@ const DoctorSignupPage = () => {
     }
   };
 
+
   return (
     <div className="container signup_main">
       <Spacing lg={80} md={80} />
       <div className="booking_container">
         <div className="booking_form_card">
+
           <form onSubmit={handleSubmit} className="signup_form">
             <h3
               style={{
@@ -131,8 +150,10 @@ const DoctorSignupPage = () => {
                 required
                 value={input?.name}
                 onChange={(e) => setInput({ ...input, name: e.target.value })}
+                style={{color:"grey"}}
               />
             </div>
+
             <div className="mb-2">
               <label htmlFor="dob" className="form-label mt-2">
                 Phone
@@ -149,6 +170,7 @@ const DoctorSignupPage = () => {
                   aria-describedby="basic-phone"
                   required
                   value={input?.phone}
+                  style={{color:"grey"}}
                   onChange={(e) =>
                     setInput({ ...input, phone: e.target.value })
                   }
@@ -167,6 +189,7 @@ const DoctorSignupPage = () => {
                 placeholder="Email"
                 required
                 value={input?.email}
+                style={{color:"grey"}}
                 onChange={(e) => setInput({ ...input, email: e.target.value })}
               />
             </div>
@@ -187,7 +210,7 @@ const DoctorSignupPage = () => {
                 placeholder="Date of Birth"
                 aria-label="Date of Birth"
                 aria-describedby="basic-dob"
-                style={{ paddingRight: "10px" }}
+                style={{ paddingRight: "10px", color:"grey" }}
               />
             </div>
 
@@ -202,7 +225,8 @@ const DoctorSignupPage = () => {
                   name="gender"
                   value="male"
                   id="genderMale"
-                  checked={input.gender === "male"}
+                  style={{color:"grey"}}
+                  checked={input.gender === "male"} 
                   onChange={(e) =>
                     setInput({ ...input, gender: e.target.value })
                   }
@@ -218,6 +242,7 @@ const DoctorSignupPage = () => {
                   name="gender"
                   value="female"
                   id="genderFemale"
+                  style={{color:"grey"}}
                   checked={input.gender === "female"}
                   onChange={(e) =>
                     setInput({ ...input, gender: e.target.value })
@@ -234,6 +259,7 @@ const DoctorSignupPage = () => {
                   name="gender"
                   value="other"
                   id="genderOther"
+                  style={{color:"grey"}}
                   checked={input.gender === "other"}
                   onChange={(e) =>
                     setInput({ ...input, gender: e.target.value })
@@ -246,7 +272,7 @@ const DoctorSignupPage = () => {
             </div>
 
             <div className="mb-2">
-              <label htmlFor="dob" className="form-label mt-2">
+              <label htmlFor="qualification" className="form-label mt-2">
                 Qualification
               </label>
               <input
@@ -256,6 +282,7 @@ const DoctorSignupPage = () => {
                 placeholder="Qualification"
                 required
                 value={input?.qualification}
+                style={{color:"grey"}}
                 onChange={(e) =>
                   setInput({ ...input, qualification: e.target.value })
                 }
@@ -263,24 +290,28 @@ const DoctorSignupPage = () => {
             </div>
 
             <div className="mb-2">
-              <label htmlFor="dob" className="form-label mt-2">
+              <label htmlFor="specialization" className="form-label mt-2">
                 Specialization
               </label>
-              <input
-                type="text"
-                className="form-control"
+              <select
+                className="form-select p-2 "
                 id="Specialization"
-                placeholder="Specialization"
                 required
+                style={{color:"grey"}}
                 value={input?.specialization}
-                onChange={(e) =>
-                  setInput({ ...input, specialization: e.target.value })
-                }
-              />
+                onChange={handleSpecializationChange}
+              >
+                <option value="">Select Specialization</option>
+                {specializations?.map((spec) => (
+                  <option key={spec?.id} value={spec.name}>
+                    {spec?.name}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className="mb-2">
-              <label htmlFor="dob" className="form-label mt-2">
+              <label htmlFor="fees" className="form-label mt-2">
                 Fees
               </label>
               <input
@@ -289,13 +320,14 @@ const DoctorSignupPage = () => {
                 id="fees"
                 placeholder="Fees"
                 required
+                style={{color:"grey"}}
                 value={input?.fees}
                 onChange={(e) => setInput({ ...input, fees: e.target.value })}
               />
             </div>
 
             <div className="mb-2">
-              <label htmlFor="dob" className="form-label mt-2">
+              <label htmlFor="address" className="form-label mt-2">
                 Address
               </label>
               <textarea
@@ -305,37 +337,48 @@ const DoctorSignupPage = () => {
                 placeholder="Address"
                 required
                 value={input?.address}
+                style={{color:"grey"}}
                 onChange={(e) =>
                   setInput({ ...input, address: e.target.value })
                 }
               ></textarea>
             </div>
-            <div className="mb-2">
-              <label htmlFor="dob" className="form-label mt-2">
+
+            <div className="password-input-container mb-2">
+              <label htmlFor="password" className="form-label mt-2">
                 Password
               </label>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 className="form-control"
                 id="password"
                 placeholder="Password"
                 required
+                style={{color:"grey"}}
                 value={input?.password}
                 onChange={(e) =>
                   setInput({ ...input, password: e.target.value })
                 }
               />
+              <div
+                className="password-icon"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <Eye /> : <CloseEye />}
+              </div>
             </div>
-            <div className="mb-2">
-              <label htmlFor="dob" className="form-label mt-2">
+
+            <div className="password-input-container mb-2">
+              <label htmlFor="confirmPassword" className="form-label mt-2">
                 Confirm Password
               </label>
               <input
-                type="password"
+                type={showConfirmPassword ? "text" : "password"}
                 className="form-control"
                 id="confirm-password"
                 placeholder="Confirm Password"
                 required
+                style={{color:"grey"}}
                 value={input?.confirmPassword}
                 onChange={(e) =>
                   setInput({ ...input, confirmPassword: e.target.value })
@@ -344,7 +387,14 @@ const DoctorSignupPage = () => {
               {errors.confirmPassword && (
                 <p className="text-danger">{errors.confirmPassword}</p>
               )}
+              <div
+                className="password-icon"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                {showConfirmPassword ? <Eye /> : <CloseEye />}
+              </div>
             </div>
+
             <Spacing lg={40} md={30} />
             <div className="booking_form_card_btn_wrapper">
               <button
@@ -356,10 +406,11 @@ const DoctorSignupPage = () => {
               </button>
             </div>
           </form>
+          
         </div>
       </div>
       <Spacing lg={100} md={80} />
-      <ToastContainer  position="top-center" autoClose={2000}/>
+      <ToastContainer position="top-center" autoClose={2000} />
     </div>
   );
 };
