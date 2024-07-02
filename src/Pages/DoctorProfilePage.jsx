@@ -32,8 +32,8 @@ const DoctorProfilePage = () => {
 
   return (
     <>
-      <Spacing lg={60} md={30} />
       <DoctorProfile
+        doctorId={doctorId}
         doctorDetails={doctorDetails}
         doctorClinics={doctorClinics}
         loading={loading}

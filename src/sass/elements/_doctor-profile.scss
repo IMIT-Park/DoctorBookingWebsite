@@ -191,8 +191,8 @@ Doctor Profie
   margin-top: 2rem;
   width: 100%;
   height: fit-content;
-  display: flex;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: 310px 1fr;
   gap: 2.5rem;
   border-bottom: 1px solid #e6e6e6;
   padding-bottom: 2.5rem;
@@ -270,6 +270,7 @@ Doctor Profie
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
+  min-width: 100%;
   height: 100%;
   border-left: 1px solid #e6e6e6;
   padding-left: 2.5rem;
@@ -288,15 +289,16 @@ Doctor Profie
 }
 
 .time_selector_btn {
+  flex: 0 0 190px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0;
   border: 0.5px solid #d2d2d2;
   border-radius: 5px;
   background-color: transparent;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   transition: background-color 0.3s, color 0.3s;
   color: $black1;
@@ -321,22 +323,22 @@ Doctor Profie
 }
 
 .timeSelector_labels_container {
-  margin-top: 4rem;
+  margin-top: auto;
   display: flex;
   align-items: center;
-  gap: 2.5rem;
+  gap: 2.25rem;
 }
 .timeSelector_label {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
-  font-size: 17px;
+  gap: 0.5rem;
+  font-size: 16px;
   font-weight: 500;
   color: $black1;
 }
 .timeSelector_label .color_box {
-  width: 23px;
-  height: 23px;
+  width: 20px;
+  height: 20px;
   border-radius: 3px;
   background-color: $blue;
 }
@@ -347,9 +349,26 @@ Doctor Profie
   background-color: $black1;
 }
 
+.booking_form_radio_wrpper {
+  margin-bottom: 2rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media screen and (max-width: 1399px) {
   .dr_clinic_card_container {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .date_selector_wrapper {
+    grid-template-columns: repeat(1, auto);
+  }
+  .timeSelector_labels_container {
+    margin-top: 4rem;
   }
 }
 
@@ -401,7 +420,7 @@ Doctor Profie
     padding: 0.4rem 1.1rem;
   }
   .date_selector_wrapper {
-    flex-direction: column;
+    grid-template-columns: repeat(1, auto);
   }
   .time_picker_container {
     border-left: none;
@@ -413,8 +432,9 @@ Doctor Profie
     font-size: 1rem;
   }
   .time_selector_btn {
+    flex: 0 0 150px;
     padding: 0.35rem 0.75rem;
-    font-size: 0.95em;
+    font-size: 0.9em;
   }
   .timeSelector_labels_container {
     margin-top: 2rem;
@@ -426,8 +446,8 @@ Doctor Profie
     font-size: 14px;
   }
   .timeSelector_label .color_box {
-    width: 20px;
-    height: 20px;
+    width: 19px;
+    height: 19px;
   }
 
   .dr_clinic_card_container {
@@ -515,7 +535,8 @@ Doctor Profie
     font-size: 0.985rem;
   }
   .time_selector_btn {
-    font-size: 0.9em;
+    flex: 0 0 145px;
+    font-size: 0.85em;
   }
   .timeSelector_labels_container {
     gap: 1.5rem;
