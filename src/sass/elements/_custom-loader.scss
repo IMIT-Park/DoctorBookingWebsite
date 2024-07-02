@@ -46,3 +46,22 @@
     box-shadow: 0 2.5em 0 0;
   }
 }
+
+@media screen and (max-width: 600px) {
+  .custom-loader_container {
+    width: 100%;
+    height: 3rem;
+    display: grid;
+    place-items: center;
+  }
+
+  .custom-loader,
+  .custom-loader:before,
+  .custom-loader:after {
+    width: 2em;
+    height: 2em;
+  }
+  .custom-loader {
+    font-size: 6px;
+  }
+}

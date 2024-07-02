@@ -17,8 +17,8 @@ const NumberVerification = () => {
               <Spacing lg={100} md={50} />
               <h3 className="booking_form_card_title">Verify your number</h3>
               <Spacing lg={15} md={10} />
-              <div class="input-group">
-                <span class="input-group-text" id="basic-phone">
+              <div className="input-group">
+                <span className="input-group-text" id="basic-phone">
                   +91
                 </span>
                 <input
