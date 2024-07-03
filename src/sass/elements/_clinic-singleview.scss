@@ -1,0 +1,107 @@
+.lorem-paragraph {
+    padding: 10px;
+    border: 0.3px solid #ABABAB;
+    border-radius: 5px;
+    color: #6E6E6E;
+  }
+
+  .image-column {
+    margin-right: 20px; /* Adjust the value as needed */
+  }
+  .clinic-address{
+    color: #A9A9A9;
+    font-size: 16px;
+  }
+  .doctor_title{
+    color: #006241;
+    font-size: 25px;
+    font-weight: 600;
+  }
+  .doctor_list_card1{
+    background-color: #F3F3F3;
+   
+    // color: white;
+  }
+  .doctor_list_card{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:10px;
+    width: 100%;
+  }
+
+  .doctorlist_details_wrapper1{
+    font-family: "Inter", sans-serif;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    // background-color: $white;
+    // box-shadow: 2px 2px 14px 0px #00000026;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    // padding: 1rem 1rem;
+  }
+  .doctor_detailbox{
+    padding: 1rem 1rem;
+  }
+  .clini_doctor_name {
+    font-size: 26px;
+    font-weight: 600;
+    color: $blue;
+    text-transform: capitalize;
+  }
+  .docotr_job{
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .doctor_surgery{
+    color: #464646;
+    font-size: 18px;
+    font-weight: 400;
+  }
+ 
+  .clinic_doctor_card_btn{
+    padding: 0.3rem 1.5rem;
+  border-radius: 5px;
+  background-color: $blue;
+  border: none;
+  box-shadow: 2px 2px 14px 0px #00000026;
+  font-size: 1.1em;
+  font-weight: 500;
+  color: $white;
+  }
+
+  .time_selector_btn1 {
+    flex: 0 0 190px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // padding: 0.5rem 0;
+    // border: 0.5px solid #d2d2d2;
+    // border-radius: 5px;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: background-color 0.3s, color 0.3s;
+    color: $black1;
+    border: none;
+  }
+  .time_selector_btn1.disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+  }
+.day{
+  border: 0.5px solid #006241;
+  padding: 0.1px 0.5rem ;
+  margin-right: 6px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+  @media screen and (max-width: 991px) {
+    .doctor_list_card {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }

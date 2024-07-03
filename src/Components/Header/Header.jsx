@@ -185,6 +185,10 @@ const Header = ({ data }) => {
                     <Link to={"/doctor-signup"}> Register as Doctor</Link>
                   </li>
                   <li>
+                    <Link to={"/clinic-single-view"}> scan</Link>
+
+                    </li>
+                  <li>
                     {userDetails ? (
                   <ScrollLink 
                    to="doctors"
