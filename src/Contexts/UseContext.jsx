@@ -7,6 +7,7 @@ const UserProvider = ({ children }) => {
 
   useEffect(() => {
     const userData = sessionStorage.getItem("userData");
+ 
     if (userData) {
       try {
         setUserDetails(JSON.parse(userData));
