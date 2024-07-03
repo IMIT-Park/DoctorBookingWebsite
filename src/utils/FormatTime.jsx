@@ -1,5 +1,5 @@
 export const formatTime = (time) => {
-  const [hours, minutes, seconds] = time.split(":").map(Number);
+  const [hours, minutes, seconds] = time?.split(":")?.map(Number);
 
   const date = new Date();
   date.setHours(hours, minutes, seconds);
