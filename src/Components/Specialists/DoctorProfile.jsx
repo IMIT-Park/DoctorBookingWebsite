@@ -8,15 +8,21 @@ import ComplaintModal from "../ComplaintModal/ComplaintModal";
 import { axiosApi, imageBase_URL } from "../../axiosInstance";
 import { formatTime } from "../../utils/FormatTime";
 import { getMapLocation } from "../../utils/getLocation";
+import axios from "axios";
+import { formatDate } from "../../utils/formatDate";
 
 const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
   const navigate = useNavigate();
   const [buttonLoading, setButtonLoading] = useState(false);
-  const [selectedTime, setSelectedTime] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedClinic, setSelectedClinic] = useState(null);
   const [timeslotsLoading, setTimeslotsLoading] = useState(false);
   const [doctorTimeSlots, setDoctorTimeSlots] = useState([]);
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [consultationLoading, setConsultationLoading] = useState(false);
+  const [consultations, setConsultations] = useState([]);
+  const [selectedConsultation, setSelectedConsultation] = useState(null);
   const [reportInput, setReportInput] = useState({
     email: "",
     phone: "",
@@ -54,15 +60,12 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
     }
   }, [doctorClinics]);
 
-  const handleSelect = (time, disabled) => {
-    if (!disabled) {
-      setSelectedTime(time);
-    }
-  };
-
   // clinic select funtion
   const handleClinicSelect = (clinic) => {
     setSelectedClinic(clinic);
+    setSelectedTimeSlot(null);
+    setConsultations([]);
+    setSelectedConsultation(null);
   };
 
   const handleReportClick = () => {
@@ -106,23 +109,22 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
     addComplaint();
   };
 
-  // fetch timeslots data function
-  const getDoctorTimeslots = async () => {
+  // fetch timeslots function
+  const fetchTimeSlots = async (date) => {
     setTimeslotsLoading(true);
-
     try {
-      const response = await axiosApi.post("/v1/doctor/gettimeslots", {
-        doctor_id: doctorId,
-        clinic_id: selectedClinic?.clinic_id,
-      });
+      const response = await axiosApi.post(
+        `/v1/booking/getdoctordate/${doctorId}`,
+        {
+          date: date,
+          clinic_id: selectedClinic?.clinic_id,
+        }
+      );
 
-      if (response.status === 201) {
-        setTimeslotsLoading(false);
-        setDoctorTimeSlots(response?.data?.timeslots?.rows);
-      }
+      setDoctorTimeSlots(response?.data?.doctorTimeSlots);
     } catch (error) {
-      setTimeslotsLoading(false);
-      console.log(error);
+      setDoctorTimeSlots([]);
+      console.error(error?.response?.data?.error);
     } finally {
       setTimeslotsLoading(false);
     }
@@ -130,15 +132,64 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
 
   useEffect(() => {
     if (selectedClinic?.clinic_id) {
-      getDoctorTimeslots();
+      fetchTimeSlots(formatDate(selectedDate));
     }
-  }, [selectedClinic?.clinic_id]);
+  }, [selectedClinic?.clinic_id, selectedDate]);
+
+  // timeslot select function
+  const handleSelectTimeslot = (time) => {
+    setSelectedTimeSlot(time);
+  };
+
+  const handleDateChange = (selectedDates) => {
+    const date = selectedDates[0];
+    setSelectedDate(formatDate(date));
+    setSelectedTimeSlot(null);
+    setConsultations([]);
+    setSelectedConsultation(null);
+  };
+
+  // fetch consultations function
+  const fetchConsultations = async (date) => {
+    setConsultationLoading(true);
+    try {
+      const response = await axiosApi.post(
+        `/v1/booking/getconsulation/${doctorId}`,
+        {
+          DoctorTimeSlot_id: selectedTimeSlot?.timeSlot?.DoctorTimeSlot_id,
+          date: date,
+          clinic_id: selectedClinic?.clinic_id,
+        }
+      );
+
+      setConsultations(response?.data?.consultationSlots);
+    } catch (error) {
+      setDoctorTimeSlots([]);
+      console.error(error?.response?.data?.error);
+    } finally {
+      setConsultationLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (
+      selectedClinic?.clinic_id &&
+      selectedTimeSlot?.timeSlot?.DoctorTimeSlot_id
+    ) {
+      console.log("iam working");
+      fetchConsultations(formatDate(selectedDate));
+    }
+  }, [selectedTimeSlot?.timeSlot?.DoctorTimeSlot_id]);
+
+  const handleSelectConsultation = (consultation) => {
+    setSelectedConsultation(consultation);
+  };
 
   const handleBookNow = () => {
     if (bookingType === "guest") {
       navigate("/booking/number-verification");
     } else {
-      navigate("/booking/member");
+      navigate("/booking/select-patient");
     }
   };
 
@@ -259,99 +310,125 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
 
                       <Flatpickr
                         options={{
-                          defaultDate: new Date(),
+                          defaultDate: selectedDate,
                           inline: true,
                           dateFormat: "d-m-Y",
+                          enableTime: false,
                         }}
+                        onChange={handleDateChange}
                       />
                     </div>
                     <div className="time_picker_container">
-                      <div className="booking_title_card">Select Time</div>
-                      <Spacing lg={50} md={30} />
-                      {/* <h4 className="booking_time_label">Morning</h4> */}
+                      <div className="booking_title_card">Select Timeslot</div>
+                      <Spacing lg={40} md={30} />
                       {timeslotsLoading ? (
                         <div className="custom-loader_container">
                           <span className="custom-loader"></span>
                         </div>
                       ) : (
-                        <div className="time_selector_list">
-                          {/* {morningTimes.map((time, index) => {
-                          const isDisabled = !availableTimes.includes(time);
-                          return (
+                        <>
+                          {doctorTimeSlots && doctorTimeSlots?.length > 0 ? (
+                            <div className="time_selector_list">
+                              {doctorTimeSlots?.map((timeslot) => (
+                                <label
+                                  key={timeslot?.timeSlot?.DoctorTimeSlot_id}
+                                  className={`timeslot_selector_btn ${
+                                    selectedTimeSlot?.timeSlot
+                                      ?.DoctorTimeSlot_id ===
+                                    timeslot?.timeSlot?.DoctorTimeSlot_id
+                                      ? "selected"
+                                      : ""
+                                  }`}
+                                >
+                                  <input
+                                    type="checkbox"
+                                    checked={
+                                      selectedTimeSlot?.timeSlot
+                                        ?.DoctorTimeSlot_id ===
+                                      timeslot?.timeSlot?.DoctorTimeSlot_id
+                                    }
+                                    //  disabled={true}
+                                    onChange={() =>
+                                      handleSelectTimeslot(timeslot)
+                                    }
+                                  />
+                                  {formatTime(timeslot?.timeSlot?.startTime)} -{" "}
+                                  {formatTime(timeslot?.timeSlot?.endTime)}
+                                </label>
+                              ))}
+                            </div>
+                          ) : (
+                            <div
+                              style={{
+                                display: "grid",
+                                placeItems: "center",
+                                width: "100%",
+                                height: "100%",
+                                textAlign: "center",
+                              }}
+                            >
+                              No slots found on this date
+                            </div>
+                          )}
+                        </>
+                      )}
+
+                      {/* <h4 className="booking_time_label">Afternoon</h4> */}
+                      <Spacing lg={40} md={30} />
+                      {consultations && consultations?.length > 0 && (
+                        <div className="booking_title_card">Select Time</div>
+                      )}
+                      <Spacing lg={30} md={20} />
+
+                      {consultationLoading ? (
+                        <div
+                          className="custom-loader_container"
+                          style={{ height: "3rem" }}
+                        >
+                          <span className="custom-loader"></span>
+                        </div>
+                      ) : (
+                        <div
+                          className="time_selector_list"
+                          style={{ gap: "0.85rem" }}
+                        >
+                          {consultations?.map((consultation, index) => (
                             <label
                               key={index}
                               className={`time_selector_btn ${
-                                selectedTime === time ? "selected" : ""
-                              } ${isDisabled ? "disabled" : ""}`}
-                            >
-                              <input
-                                type="checkbox"
-                                checked={selectedTime === index}
-                                disabled={isDisabled}
-                                onChange={() => handleSelect(time, isDisabled)}
-                              />
-                              {time}
-                            </label>
-                          );
-                        })} */}
-                          {doctorTimeSlots?.map((timeslot) => (
-                            <label
-                              key={timeslot?.DoctorTimeSlot_id}
-                              className={`time_selector_btn ${
-                                selectedTime?.DoctorTimeSlot_id ===
-                                timeslot?.DoctorTimeSlot_id
+                                selectedConsultation?.slot ===
+                                consultation?.slot
                                   ? "selected"
                                   : ""
-                              }`}
+                              } ${!consultation?.Available ? "disabled" : ""}`}
                             >
                               <input
                                 type="checkbox"
                                 checked={
-                                  selectedTime?.DoctorTimeSlot_id ===
-                                  timeslot?.DoctorTimeSlot_id
+                                  selectedConsultation?.slot ===
+                                  consultation?.slot
                                 }
-                                //  disabled={isDisabled}
-                                onChange={() => handleSelect(timeslot)}
+                                disabled={!consultation?.Available}
+                                onChange={() =>
+                                  handleSelectConsultation(consultation)
+                                }
                               />
-                              {formatTime(timeslot?.startTime)} -{" "}
-                              {formatTime(timeslot?.endTime)}
+                              {formatTime(consultation?.slot)}
                             </label>
                           ))}
                         </div>
                       )}
-                      {/* <Spacing lg={40} md={20} /> */}
+                      <Spacing lg={30} md={20} />
 
-                      {/* <h4 className="booking_time_label">Afternoon</h4>
-                      <div className="time_selector_list">
-                        {afternooonTimes.map((time, index) => {
-                          const isDisabled = !availableTimes.includes(time);
-                          return (
-                            <label
-                              key={index}
-                              className={`time_selector_btn ${
-                                selectedTime === time ? "selected" : ""
-                              } ${isDisabled ? "disabled" : ""}`}
-                            >
-                              <input
-                                type="checkbox"
-                                checked={selectedTime === index}
-                                disabled={isDisabled}
-                                onChange={() => handleSelect(time, isDisabled)}
-                              />
-                              {time}
-                            </label>
-                          );
-                        })}
-                      </div> */}
                       <div className="timeSelector_labels_container">
                         <div className="timeSelector_label">
                           <div className="color_box" />
                           Selected
                         </div>
-                        {/* <div className="timeSelector_label">
+                        <div className="timeSelector_label">
                           <div className="color_box booked" />
                           Booked Slots
-                        </div> */}
+                        </div>
                         <div className="timeSelector_label">
                           <div className="color_box available" />
                           Available Slots

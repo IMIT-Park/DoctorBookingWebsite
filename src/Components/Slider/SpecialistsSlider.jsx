@@ -41,7 +41,6 @@ const SpecialistsSlider = ({ data }) => {
     setPage(event.selected + 1);
   };
 
-  console.log(alldoctors);
   return (
     <section id="doctors">
       <div className="st-height-b120 st-height-lg-b80" />

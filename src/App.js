@@ -54,6 +54,7 @@ import ForgotPassword from "./Pages/PatientAuth/ForgotPassword";
 import NewPassword from "./Pages/PatientAuth/NewPassword";
 import DoctorSignupPage from "./Pages/DoctorSignupPage/DoctorSignupPage";
 import ClinicSingleView from "./Pages/ClinicSingleView/ClinicSingleView";
+import PatientList from "./Pages/PatientList/PatientList";
 
 
 const App = () => {
@@ -86,14 +87,19 @@ const App = () => {
       <Route path="/owner-signup" element={<OwnerSignupPage />} />
       <Route path="/owner-signup/:salespersoncode" element={<OwnerSignupPage />} />
       <Route path="/doctor-signup" element={<DoctorSignupPage />} />
+        {/* doctor profile  */}
+      <Route path="/doctor-profile/:doctorId" element={<DoctorProfilePage />} />
 
-         <Route path="/doctor-profile/:doctorId" element={<DoctorProfilePage />} />
-                {/* booking starts here */}
+        {/* guest booking starts here */}
         <Route path="/booking/number-verification" element={<NumberVerification />} />
         <Route path="/booking/otp-verification" element={<OtpVerification />} />
         <Route path="/booking/patient-details" element={<SelectPatient />} />
         <Route path="/booking/booking-confirmation" element={<BookingConfirmation />} />
 
+        {/* guest booking starts here */}
+        <Route path="/booking/select-patient" element={<PatientList />} />
+
+        {/* clinic singleView */}
         <Route path="/clinic/:clinicId" element={<ClinicPage />} />
 
         {/* subscription plans  */}
