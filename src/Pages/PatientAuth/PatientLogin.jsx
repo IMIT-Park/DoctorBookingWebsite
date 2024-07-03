@@ -16,7 +16,8 @@ const PatientLogin = () => {
   const [loading, setLoading] = useState(false);
   // const [isIncorrect, setIsIncorrect] = useState(false);
   const { setUserDetails } = useContext(UserContext); // Using UserContext
-
+  const { userDetails } = useContext(UserContext);
+  console.log("User Details:", userDetails);
   // login
   const handleLogin = async (e) => {
     e.preventDefault();

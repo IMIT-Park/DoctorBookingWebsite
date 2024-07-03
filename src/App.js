@@ -49,6 +49,7 @@ import SubscriptionPlan from "./Pages/SubscriptionPlan/SubscriptionPlan";
 import PatientLogin from "./Pages/PatientAuth/PatientLogin";
 import PatientRegister from "./Pages/PatientAuth/PatientRegister";
 import BookAsGuest from "./Pages/PatientAuth/BookAsGuest";
+import PatientGuest from "./Pages/PatientAuth/PatientGuest";
 import ForgotPassword from "./Pages/PatientAuth/ForgotPassword";
 import NewPassword from "./Pages/PatientAuth/NewPassword";
 import DoctorSignupPage from "./Pages/DoctorSignupPage/DoctorSignupPage";
@@ -99,6 +100,7 @@ const App = () => {
         <Route path="/patient-login" element={<PatientLogin />}/>
         <Route path="/patient-register" element={<PatientRegister />}/>
         <Route path="/book-as-guest" element={<BookAsGuest />}/>
+        <Route path="/patient-guest" element={<PatientGuest />}/>
         <Route path="/forgot-password" element={<ForgotPassword />}/>
         <Route path="/new-password" element={<NewPassword />}/>
       </Route>
