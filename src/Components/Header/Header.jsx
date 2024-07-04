@@ -188,7 +188,7 @@ const Header = ({ data }) => {
                     <Link to={"/clinic-single-view"}> scan</Link>
 
                     </li>
-                  <li>
+                  <li className="booknow_wrapper">
                     {userDetails ? (
                   <ScrollLink 
                    to="doctors"

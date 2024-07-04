@@ -7,11 +7,10 @@ const UserProvider = ({ children }) => {
 
   useEffect(() => {
     const userData = sessionStorage.getItem("userData");
- 
+
     if (userData) {
       try {
         setUserDetails(JSON.parse(userData));
-       
       } catch (error) {
         console.error("Error parsing user data from session storage:", error);
       }

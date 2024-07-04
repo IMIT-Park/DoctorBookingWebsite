@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import Spacing from "../../Components/Spacing/Spacing";
-import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Eye from "../../Components/PasswordEye/Eye";
 import CloseEye from "../../Components/PasswordEye/CloseEye";
@@ -14,29 +13,28 @@ const PatientLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [data, setData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
-  // const [isIncorrect, setIsIncorrect] = useState(false);
-  const { setUserDetails } = useContext(UserContext); // Using UserContext
+  const { setUserDetails } = useContext(UserContext);
   const { userDetails } = useContext(UserContext);
-  console.log("User Details:", userDetails);
-  // login
+
+  // login function
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     if (!data.email && !data.password) {
-      toast.error("Please enter your email and password.");
+      toast.warning("Please enter your email and password.");
       setLoading(false);
       return;
     }
 
     if (!data.email) {
-      toast.error("Please enter your Email.");
+      toast.warning("Please enter your Email.");
       setLoading(false);
       return;
     }
 
     if (!data.password) {
-      toast.error("Please enter your Password.");
+      toast.warning("Please enter your Password.");
       setLoading(false);
       return;
     }
@@ -56,22 +54,26 @@ const PatientLogin = () => {
 
       if (response.ok) {
         const data = await response.json();
-        const user = data?.Patient;
-        // const { accessToken, refreshToken, user } = data;
+
+        const { accessToken, refreshToken, user } = data;
 
         // Store data in sessionStorage
-        // sessionStorage.setItem("accessToken", accessToken);
-        // sessionStorage.setItem("refreshToken", refreshToken);
+        sessionStorage.setItem("accessToken", accessToken);
+        sessionStorage.setItem("refreshToken", refreshToken);
         sessionStorage.setItem("userData", JSON.stringify(user));
 
         // Update the user details in context
         setUserDetails(user);
+
         setLoading(false);
         toast.success("Login Success");
         setData({ email: "", password: "" });
-        navigate("/")
-      } else if (response.status === 401) {
-        toast.error("Incorrect password. Please try again.");
+        navigate("/");
+      } else if (response.status === 403) {
+        const message = await response.json();
+        toast.error(
+          message?.error || "Incorrect email or password. Please try again."
+        );
       } else {
         toast.error("Incorrect email or password. Please try again.");
       }
@@ -79,6 +81,20 @@ const PatientLogin = () => {
       toast.error("An error occurred during login. Please try again later.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleEmailKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      document.getElementById("password").focus();
+    }
+  };
+
+  const handlePasswordKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleLogin(e);
     }
   };
 
@@ -106,6 +122,7 @@ const PatientLogin = () => {
                         onChange={(e) =>
                           setData({ ...data, email: e.target.value })
                         }
+                        onKeyDown={handleEmailKeyDown}
                       />
                     </div>
                     <div className="password-input-container mb-2">
@@ -118,6 +135,7 @@ const PatientLogin = () => {
                         onChange={(e) =>
                           setData({ ...data, password: e.target.value })
                         }
+                        onKeyDown={handlePasswordKeyDown}
                       />
                       <div
                         className="icon-container"
