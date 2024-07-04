@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import Spacing from "../../Components/Spacing/Spacing";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Eye from "../../Components/PasswordEye/Eye";
 import CloseEye from "../../Components/PasswordEye/CloseEye";
 import { BASIC_URL } from "../../axiosInstance";
@@ -9,6 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const PatientLogin = () => {
+  const location = useLocation();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [data, setData] = useState({ email: "", password: "" });
@@ -68,7 +69,12 @@ const PatientLogin = () => {
         setLoading(false);
         toast.success("Login Success");
         setData({ email: "", password: "" });
-        navigate("/");
+
+        if (location?.state?.previousUrl.includes("/doctor-profile")) {
+          navigate("/booking/select-patient");
+        } else {
+          navigate("/");
+        }
       } else if (response.status === 403) {
         const message = await response.json();
         toast.error(
@@ -105,7 +111,7 @@ const PatientLogin = () => {
         <div className="booking_container patient_login_container">
           <div className="booking_form_card">
             <form onSubmit={handleLogin}>
-              <div className="patient_details_wrapper">
+              <div className="patient_details_wrapper patient_details_form_wrapper">
                 <div className="patient_login_card_header">
                   <p className="booking_confirmation_card_title">Login</p>
                 </div>

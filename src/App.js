@@ -96,7 +96,7 @@ const App = () => {
         <Route path="/booking/patient-details" element={<SelectPatient />} />
         <Route path="/booking/booking-confirmation" element={<BookingConfirmation />} />
 
-        {/* guest booking starts here */}
+        {/* user-pateint booking starts here */}
         <Route path="/booking/select-patient" element={<PatientList />} />
 
         {/* clinic singleView */}

@@ -21,7 +21,7 @@ const NumberVerification = () => {
     e.preventDefault();
 
     if (!phoneNumber) {
-      toast.warning("Please enter a valid phone number");
+      toast.warning("Please enter your phone number");
       return;
     }
 
