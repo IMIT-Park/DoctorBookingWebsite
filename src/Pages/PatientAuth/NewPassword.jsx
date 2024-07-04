@@ -20,7 +20,7 @@ const ForgotPassword = () => {
           <div className="booking_form_card">
             <form>
               {/* <form onSubmit={handleSubmit}> */}
-              <div className="patient_details_wrapper">
+              <div className="patient_details_wrapper patient_details_form_wrapper">
                 <div className="patient_login_card_header">
                   <p className="password_reset">Reset password</p>
                 </div>

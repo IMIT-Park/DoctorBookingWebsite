@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import parser from "html-react-parser";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
@@ -8,11 +8,15 @@ import ComplaintModal from "../ComplaintModal/ComplaintModal";
 import { axiosApi, imageBase_URL } from "../../axiosInstance";
 import { formatTime } from "../../utils/FormatTime";
 import { getMapLocation } from "../../utils/getLocation";
-import axios from "axios";
 import { formatDate } from "../../utils/formatDate";
+import { UserContext } from "../../Contexts/UseContext";
 
 const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { userDetails, bookingDetails, setBookingDetails } =
+    useContext(UserContext);
+
   const [buttonLoading, setButtonLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [selectedClinic, setSelectedClinic] = useState(null);
@@ -176,7 +180,6 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
       selectedClinic?.clinic_id &&
       selectedTimeSlot?.timeSlot?.DoctorTimeSlot_id
     ) {
-      console.log("iam working");
       fetchConsultations(formatDate(selectedDate));
     }
   }, [selectedTimeSlot?.timeSlot?.DoctorTimeSlot_id]);
@@ -186,10 +189,26 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
   };
 
   const handleBookNow = () => {
+    setBookingDetails({
+      ...bookingDetails,
+      doctor_id: parseFloat(doctorId),
+      clinic_id: selectedClinic?.clinic_id,
+      schedule_date: formatDate(selectedDate),
+      schedule_time: selectedConsultation?.slot,
+      DoctorTimeSlot_id: selectedTimeSlot?.timeSlot?.DoctorTimeSlot_id,
+      type: "application",
+    });
+
     if (bookingType === "guest") {
       navigate("/booking/number-verification");
     } else {
-      navigate("/patient-login");
+      if (userDetails) {
+        navigate("/booking/select-patient");
+      } else {
+        navigate("/patient-login", {
+          state: { previousUrl: location?.pathname },
+        });
+      }
     }
   };
 

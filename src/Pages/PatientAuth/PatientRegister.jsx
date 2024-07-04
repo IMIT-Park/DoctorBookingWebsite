@@ -91,7 +91,7 @@ const PatientRegister = () => {
         <div className="booking_container patient_login_container">
           <div className="booking_form_card">
             <form onSubmit={handleSubmit}>
-              <div className="patient_details_wrapper">
+              <div className="patient_details_wrapper patient_details_form_wrapper">
                 <div className="patient_login_card_header">
                   <p className="booking_confirmation_card_title">Signup</p>
                 </div>

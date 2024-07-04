@@ -55,7 +55,7 @@ const PatientGuest = () => {
         <div className="booking_container patient_login_container">
           <div className="patient_form_card">
             <form onSubmit={handleSubmit}>
-              <div className="patient_details_wrapper">
+              <div className="patient_details_wrapper patient_details_form_wrapper">
                 <div className="patient_login_card_header">
                   <p className="book_as_guest_title">Book an Appointment</p>
                 </div>
