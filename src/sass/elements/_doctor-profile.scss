@@ -306,7 +306,8 @@ Doctor Profie
   color: $black1;
 }
 .time_selector_btn {
-  flex: 0 0 100px;
+  flex: 0 0 90px;
+  font-size: 15px;
 }
 
 .timeslot_selector_btn input,
@@ -445,6 +446,11 @@ Doctor Profie
     padding: 0.35rem 0.75rem;
     font-size: 0.9em;
   }
+  .time_selector_btn {
+    flex: 0 0 80px;
+    padding: 0.25rem 0;
+    font-size: 0.9em;
+  }
   .timeSelector_labels_container {
     margin-top: 2rem;
     gap: 1.85rem;
@@ -545,6 +551,10 @@ Doctor Profie
   }
   .timeslot_selector_btn {
     flex: 0 0 145px;
+    font-size: 0.85em;
+  }
+  .time_selector_btn {
+    flex: 0 0 75px;
     font-size: 0.85em;
   }
   .timeSelector_labels_container {

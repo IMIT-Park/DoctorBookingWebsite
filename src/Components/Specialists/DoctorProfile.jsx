@@ -189,7 +189,7 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
     if (bookingType === "guest") {
       navigate("/booking/number-verification");
     } else {
-      navigate("/booking/select-patient");
+      navigate("/patient-login");
     }
   };
 

@@ -49,17 +49,13 @@ const PatientRegister = () => {
         console.log(response);
 
         if (response.status === 201) {
-          // const data = await response.json();
-          const user = response.data.user.user_name;
-          const { accessToken, refreshToken } = response.data;
+          const { accessToken, refreshToken, user } = response.data;
 
-          console.log("data", response.data);
-          // Store data in sessionStorage
-          sessionStorage.setItem("accessToken", accessToken);
-          sessionStorage.setItem("refreshToken", refreshToken);
-        
+          // sessionStorage.setItem("accessToken", accessToken);
+          // sessionStorage.setItem("refreshToken", refreshToken);
+          // sessionStorage.setItem("userData", JSON.stringify(user));
 
-          setUserDetails({ user, accessToken, refreshToken });
+          // setUserDetails({ user, accessToken, refreshToken });
 
           toast.success("Signup successful!");
           setInput({
@@ -77,7 +73,11 @@ const PatientRegister = () => {
         }
       } catch (error) {
         console.error("Signup error:", error);
-        toast.error("Signup error. Please try again.");
+        if (error?.response?.status === 403) {
+          toast.error(error?.response?.data?.error || "User already exist");
+        } else {
+          toast.error("Signup error. Please try again.");
+        }
       } finally {
         setLoading(false);
       }

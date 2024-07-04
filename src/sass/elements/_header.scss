@@ -330,6 +330,20 @@
         }
       }
 
+      .booknow_wrapper {
+        position: relative;
+
+        a {
+          &.active {
+            color: $blue;
+
+            &:before {
+              width: 0;
+            }
+          }
+        }
+      }
+
       ul {
         width: 250px;
         background-color: #fff;
@@ -681,7 +695,8 @@
   background: $blue;
   color: $white;
   border-radius: 5px;
-  font-size: 1em;font-weight: 600;
+  font-size: 1em;
+  font-weight: 600;
   border: none;
   padding: 0.25rem 1rem;
 }
