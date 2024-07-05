@@ -3,6 +3,9 @@ import Spacing from "../../Components/Spacing/Spacing";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { BASIC_URL } from "../../axiosInstance";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
@@ -10,33 +13,33 @@ const ForgotPassword = () => {
   const [loading, setLoading] = useState(false);
 
   //Submit Email
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  //   setLoading(true);
-  //   try {
-  //     const response = await fetch(`${BASIC_URL}/v1/patient/forgotPasword`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ email: email }),
-  //     });
+    setLoading(true);
+    try {
+      const response = await fetch(`${BASIC_URL}/v1/patient/forgotPasword`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: email }),
+      });
 
-  //     console.log(response);
+      console.log(response);
 
-  //     if (response.status === 201) {
-  //       setLoading(false);
-  //       alert("Email sent successfully.", "success");
-  //     }
-  //     navigate("/confirm-password");
-  //   } catch (error) {
-  //     alert("An error occurred. Please try again.", "error");
-  //     setLoading(false);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+      if (response.status === 201) {
+        setLoading(false);
+        toast.success("Email sent successfully.", "success");
+      }
+      navigate("/confirm-password");
+    } catch (error) {
+      toast.error("An error occurred. Please try again.", "error");
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -54,7 +57,7 @@ const ForgotPassword = () => {
                 <label className="email_to_recover mb-4">
                   <span>Enter your email to recover your password</span>
                 </label>
-                <div class="mb-2">
+                <div className="mb-2">
                   <input
                     type="email"
                     className="form-control "
