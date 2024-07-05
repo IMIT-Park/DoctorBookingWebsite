@@ -97,17 +97,17 @@ const SelectPatient = () => {
                   <div className="mb-2">
                     <textarea
                       className="form-control"
-                      id="address"
+                      id="Remarks"
                       rows="4"
-                      placeholder="Address"
+                      placeholder="Remarks"
                     ></textarea>
                   </div>
                   <div>
                     <textarea
                       className="form-control"
-                      id="remarks"
+                      id="particulars"
                       rows="4"
-                      placeholder="Remarks"
+                      placeholder="Particulars"
                     ></textarea>
                   </div>
                   <Spacing lg={40} md={30} />
