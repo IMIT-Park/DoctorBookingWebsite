@@ -18,35 +18,35 @@ const NumberVerification = () => {
 
   console.log(validatePhoneNumber());
   const sendPhoneNumber = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
-    if (!phoneNumber) {
-      toast.warning("Please enter your phone number");
-      return;
-    }
+    // if (!phoneNumber) {
+    //   toast.warning("Please enter your phone number");
+    //   return;
+    // }
 
-    if (!validatePhoneNumber()) {
-      toast.error("Please enter a valid phone number");
-      return;
-    }
-    setLoading(true);
+    // if (!validatePhoneNumber()) {
+    //   toast.error("Please enter a valid phone number");
+    //   return;
+    // }
+    // setLoading(true);
 
-    try {
-      const response = await axiosApi.post("v1/patient/getpatient", {
-        phone: phoneNumber,
-      });
+    // try {
+    //   const response = await axiosApi.post("v1/patient/getpatient", {
+    //     phone: phoneNumber,
+    //   });
 
-      console.log(response);
+    //   console.log(response);
 
-      if (response.status === 201) {
+    //   if (response.status === 201) {
         navigate("/booking/otp-verification");
-      }
-    } catch (error) {
-      toast.error("An error occurred while verifying the phone number");
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
+    //   }
+    // } catch (error) {
+    //   toast.error("An error occurred while verifying the phone number");
+    //   console.log(error);
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   return (

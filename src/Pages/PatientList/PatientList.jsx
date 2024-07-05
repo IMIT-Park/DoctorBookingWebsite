@@ -100,7 +100,7 @@ const PatientList = () => {
 
   const createBooking = async (e, patient_id = null) => {
     e.preventDefault();
-
+      console.log(patient_id);
     setBookingLoading(true);
 
     try {
