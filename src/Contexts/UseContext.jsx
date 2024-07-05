@@ -4,6 +4,12 @@ const UserContext = createContext(null);
 
 const UserProvider = ({ children }) => {
   const [userDetails, setUserDetails] = useState(null);
+
+  const [bookingCompleted, setBookingCompleted] = useState(() => {
+    const savedbookingCompleted = sessionStorage.getItem("bookingCompleted");
+    return savedbookingCompleted ? JSON.parse(savedbookingCompleted) : null;
+  });
+
   const [bookingDetails, setBookingDetails] = useState(() => {
     const savedBookingDetails = sessionStorage.getItem("bookingDetails");
     return savedBookingDetails
@@ -35,8 +41,24 @@ const UserProvider = ({ children }) => {
     sessionStorage.setItem("bookingDetails", JSON.stringify(bookingDetails));
   }, [bookingDetails]);
 
+  useEffect(() => {
+    sessionStorage.setItem(
+      "bookingCompleted",
+      JSON.stringify(bookingCompleted)
+    );
+  }, [bookingCompleted]);
+
   return (
-    <UserContext.Provider value={{ userDetails, setUserDetails, bookingDetails, setBookingDetails }}>
+    <UserContext.Provider
+      value={{
+        userDetails,
+        setUserDetails,
+        bookingDetails,
+        setBookingDetails,
+        bookingCompleted,
+        setBookingCompleted,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

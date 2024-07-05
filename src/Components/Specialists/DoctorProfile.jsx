@@ -10,6 +10,8 @@ import { formatTime } from "../../utils/FormatTime";
 import { getMapLocation } from "../../utils/getLocation";
 import { formatDate } from "../../utils/formatDate";
 import { UserContext } from "../../Contexts/UseContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
   const navigate = useNavigate();
@@ -189,6 +191,23 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
   };
 
   const handleBookNow = () => {
+    if (!selectedClinic?.clinic_id) {
+      toast.warning("Please select a clinic.");
+      return;
+    }
+    if (!selectedDate) {
+      toast.warning("Please select a date.");
+      return;
+    }
+    if (!selectedTimeSlot?.timeSlot?.DoctorTimeSlot_id) {
+      toast.warning("Please select a time slot.");
+      return;
+    }
+    if (!selectedConsultation?.slot) {
+      toast.warning("Please select a consultation slot.");
+      return;
+    }
+
     setBookingDetails({
       ...bookingDetails,
       doctor_id: parseFloat(doctorId),
@@ -214,6 +233,7 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
 
   return (
     <>
+      <ToastContainer autoClose={2000} />
       <section className="st-shape-wrap">
         <div className="st-shape6">
           <img src="/shape/contact-shape3.svg" alt="shape3" />
