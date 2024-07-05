@@ -1,4 +1,4 @@
-.lorem-paragraph {
+.address {
     padding: 10px;
     border: 0.3px solid #ABABAB;
     border-radius: 5px;
@@ -11,7 +11,7 @@
   width: 100%;
 }
   .image-column {
-    margin-right: 20px; /* Adjust the value as needed */
+    margin-right: 20px;
   }
   .clinic-address{
     color: #A9A9A9;
@@ -57,11 +57,11 @@
     color: $blue;
     text-transform: capitalize;
   }
-  .docotr_job{
+  .docotr_qualification{
     font-size: 16px;
     font-weight: 500;
   }
-  .doctor_surgery{
+  .doctor_specialization{
     color: #464646;
     font-size: 18px;
     font-weight: 400;
@@ -125,11 +125,11 @@
       // margin-top: 5px;
       gap: 10px;
     }
-    .doctor_surgery{
+    .doctor_specialization{
     font-size: 17px;
 
     }
-    .docotr_job{
+    .docotr_qualification{
       font-size: 14px;
     }
     .clini_doctor_name{
@@ -140,6 +140,7 @@
     padding: 0.3rem 1rem;
 
     }
+    
   }
 
   @media screen and (max-width: 446px) {
