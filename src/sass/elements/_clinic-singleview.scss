@@ -1,22 +1,29 @@
-.lorem-paragraph {
+.address {
     padding: 10px;
     border: 0.3px solid #ABABAB;
     border-radius: 5px;
     color: #6E6E6E;
   }
-
+.clinic_card{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap:10px;
+  width: 100%;
+}
   .image-column {
-    margin-right: 20px; /* Adjust the value as needed */
+    margin-right: 20px;
   }
   .clinic-address{
     color: #A9A9A9;
     font-size: 16px;
   }
+
   .doctor_title{
     color: #006241;
     font-size: 25px;
     font-weight: 600;
   }
+
   .doctor_list_card1{
     background-color: #F3F3F3;
    
@@ -50,11 +57,11 @@
     color: $blue;
     text-transform: capitalize;
   }
-  .docotr_job{
+  .docotr_qualification{
     font-size: 16px;
     font-weight: 500;
   }
-  .doctor_surgery{
+  .doctor_specialization{
     color: #464646;
     font-size: 18px;
     font-weight: 400;
@@ -100,8 +107,44 @@
   font-weight: 500;
 }
 
-  @media screen and (max-width: 991px) {
+  @media screen and (max-width: 1199px) {
     .doctor_list_card {
       grid-template-columns: repeat(1, 1fr);
     }
+  }
+  @media screen and (max-width: 767px) {
+    .clinic_card{
+      grid-template-columns: repeat(1, 1fr);
+
+    }
+    .time_selector_btn1{
+      font-size: 10px;
+      flex-wrap: wrap;
+      align-items: left;
+      justify-content: left;
+      // margin-top: 5px;
+      gap: 10px;
+    }
+    .doctor_specialization{
+    font-size: 17px;
+
+    }
+    .docotr_qualification{
+      font-size: 14px;
+    }
+    .clini_doctor_name{
+    font-size: 25px;
+    }
+    .clinic_doctor_card_btn{
+      font-size: 1em;
+    padding: 0.3rem 1rem;
+
+    }
+    
+  }
+
+  @media screen and (max-width: 446px) {
+    .clini_doctor_name{
+      font-size: 23px;
+      }
   }

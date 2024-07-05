@@ -1,38 +1,88 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { axiosApi,imageBase_URL } from "../../axiosInstance";
+import axios from "axios"; 
 
-const ClinicSingleView = () => {
+const ClinicSingleView = ({ doctor }) => {
   const navigate = useNavigate();
+  const clinicid = 1;
+
+  const [page, setPage] = useState(1);
+  const PAGE_SIZES = [10, 20, 30, 50, 100];
+  const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
+  const [loading, setLoading] = useState(false);
+  const [doctorClinics, setDoctorClinics] = useState([]);
+  const [clinicDetails, setClinicDetails] = useState(null); 
+  const days = [
+    { name: "Sunday", id: "0" },
+    { name: "Monday", id: "1" },
+    { name: "Tuesday", id: "2" },
+    { name: "Wednesday", id: "3" },
+    { name: "Thursday", id: "4" },
+    { name: "Friday", id: "5" },
+    { name: "Saturday", id: "6" },
+  ];
+
+  useEffect(() => {
+    // Fetch clinic details
+    const fetchClinicDetails = async () => {
+      setLoading(true);
+      try {
+        const response = await axiosApi.get(`/v1/clinic/getbyId/${clinicid}`);
+        setClinicDetails(response?.data?.Clinic); 
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching clinic details:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchClinicDetails();
+  }, [clinicid]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const response = await axiosApi.get(`/v1/doctor/getalldr/${clinicid}?page=${page}&pagesize=${pageSize}`);
+        setDoctorClinics(response?.data?.alldoctors);
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [page, pageSize]);
 
   return (
     <div>
       <div className="st-height-b120 st-height-lg-b80" />
       <div className="container">
-        {/* <div className="details_wrapper flex-row"> */}
         <div className="details_wrapper">
           <div className="profile_details_container">
-            <div className="profile_left_section">
-              {/* <div className="profile_container"></div> */}
+            <div className="clinic_card">
               <div className="image-column">
                 <img
-                  src="https://via.placeholder.com/600"
+                  src={imageBase_URL + clinicDetails?.banner_img_url}
                   alt="Clinic"
                   style={{ width: "800px", height: "350px" }}
                 />
               </div>
               <div className="details-column">
-                <h3 className="doctor_name">Dr. Anjo’s Clinic</h3>
+                <h3 className="doctor_name">{clinicDetails?.name}</h3>
                 <p className="clinic-address">Address</p>
-                <p className="lorem-paragraph">
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s,
+                <p className="address">
+                  {clinicDetails?.address}
                 </p>
                 <p className="clinic-address">Phone Number</p>
                 <input
                   type="number"
                   className="form-control"
-                  placeholder="7559 XXXXXX"
+                  placeholder={clinicDetails?.phone}
                   aria-label="Phone"
                   aria-describedby="basic-phone"
                 />
@@ -44,46 +94,13 @@ const ClinicSingleView = () => {
             </div>
           </div>
 
-          <div className="doctor_title mt-4">Doctors List</div>
-          <div className=" doctor_list_card mt-3">
-            <div className=" doctor_list_card1 flex-row doctorlist_details_wrapper1">
-              <img
-                src="https://via.placeholder.com/600"
-                alt="Clinic"
-                style={{
-                  width: "150px",
-                  height: "200px",
-                  margin: "8px",
-                  borderRadius: "5px",
-                }}
-              />
-              <div className="doctor_detailbox">
-                <h2 className="clini_doctor_name mb-1">Dr. Anitta Charly</h2>
-                <p className="docotr_job mb-1">MBBS</p>
-                <p className="doctor_surgery">General Surgery</p>
-
-                <div className="time_selector_btn1">
-                  <div className="day">SUN</div>
-                  <div className="day">MON</div>
-                  <div className="day">TUE</div>
-                  <div className="day">WED</div>
-                  <div className="day">THU</div>
-                  <div className="day">FRI</div>
-                  <div className="day">SAT</div>
-                </div>
-
-                {/* <div className="booking_form_card_btn_wrapper"> */}
-                <button className="clinic_doctor_card_btn mt-3">
-                  Book Appointment
-                </button>
-                {/* </div> */}
-              </div>
-            </div>
-            <div className=" doctor_list_card1">
-              <div className=" doctor_list_card1 flex-row doctorlist_details_wrapper1">
+          <div className="doctor_title mt-5">Doctors List</div>
+          <div className="doctor_list_card mt-3">
+            {doctorClinics.map((doc, index) => (
+              <div key={index} className="doctor_list_card1 flex-row doctorlist_details_wrapper1">
                 <img
-                  src="https://via.placeholder.com/600"
-                  alt="Clinic"
+                  src={imageBase_URL + doc?.photo}
+                  alt="Doctor"
                   style={{
                     width: "150px",
                     height: "200px",
@@ -92,99 +109,24 @@ const ClinicSingleView = () => {
                   }}
                 />
                 <div className="doctor_detailbox">
-                  <h2 className="clini_doctor_name mb-1">Dr. Asha Sunny</h2>
-                  <p className="docotr_job mb-1">MBBS</p>
-                  <p className="doctor_surgery">General Surgery</p>
+                  <h2 className="clini_doctor_name mb-1">{doc?.name}</h2>
+                  <p className="docotr_qualification mb-1">{doc?.qualification}</p>
+                  <p className="doctor_specialization">{doc?.specialization}</p>
 
                   <div className="time_selector_btn1">
-                    <div className="day">SUN</div>
-                    <div className="day">MON</div>
-                    <div className="day">TUE</div>
-                    <div className="day">WED</div>
-                    <div className="day">THU</div>
-                    <div className="day">FRI</div>
-                    <div className="day">SAT</div>
+                    {days.map((day) => (
+                      <div key={day.id} className="day">
+                        {day.name.slice(0, 3).toUpperCase()}
+                      </div>
+                    ))}
                   </div>
 
-                  {/* <div className="booking_form_card_btn_wrapper"> */}
                   <button className="clinic_doctor_card_btn mt-3">
                     Book Appointment
                   </button>
-                  {/* </div> */}
                 </div>
               </div>
-            </div>
-          </div>
-
-          <div className=" doctor_list_card mt-3">
-            <div className=" doctor_list_card1 flex-row doctorlist_details_wrapper1">
-              <img
-                src="https://via.placeholder.com/600"
-                alt="Clinic"
-                style={{
-                  width: "150px",
-                  height: "200px",
-                  margin: "8px",
-                  borderRadius: "5px",
-                }}
-              />
-              <div className="doctor_detailbox">
-                <h2 className="clini_doctor_name mb-1">Dr. Tomson</h2>
-                <p className="docotr_job mb-1">MBBS</p>
-                <p className="doctor_surgery">General Surgery</p>
-
-                <div className="time_selector_btn1">
-                  <div className="day">SUN</div>
-                  <div className="day">MON</div>
-                  <div className="day">TUE</div>
-                  <div className="day">WED</div>
-                  <div className="day">THU</div>
-                  <div className="day">FRI</div>
-                  <div className="day">SAT</div>
-                </div>
-
-                {/* <div className="booking_form_card_btn_wrapper"> */}
-                <button className="clinic_doctor_card_btn mt-3">
-                  Book Appointment
-                </button>
-                {/* </div> */}
-              </div>
-            </div>
-            <div className=" doctor_list_card1">
-              <div className=" doctor_list_card1 flex-row doctorlist_details_wrapper1">
-                <img
-                  src="https://via.placeholder.com/600"
-                  alt="Clinic"
-                  style={{
-                    width: "150px",
-                    height: "200px",
-                    margin: "8px",
-                    borderRadius: "5px",
-                  }}
-                />
-                <div className="doctor_detailbox">
-                  <h2 className="clini_doctor_name mb-1">Dr. Praveena</h2>
-                  <p className="docotr_job mb-1">MBBS, MD</p>
-                  <p className="doctor_surgery">General Surgery</p>
-
-                  <div className="time_selector_btn1">
-                    <div className="day">SUN</div>
-                    <div className="day">MON</div>
-                    <div className="day">TUE</div>
-                    <div className="day">WED</div>
-                    <div className="day">THU</div>
-                    <div className="day">FRI</div>
-                    <div className="day">SAT</div>
-                  </div>
-
-                  {/* <div className="booking_form_card_btn_wrapper"> */}
-                  <button className="clinic_doctor_card_btn mt-3">
-                    Book Appointment
-                  </button>
-                  {/* </div> */}
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
