@@ -7,7 +7,7 @@ import CustomPinInput from "../../Components/CustomPinInput/CustomPinInput";
 const OtpVerification = () => {
   const navigate = useNavigate();
   const handlePinComplete = (pin) => {
-    // alert(`Entered PIN: ${pin}`);
+    navigate("/booking/select-patient");
   };
  
 

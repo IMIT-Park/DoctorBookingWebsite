@@ -1,13 +1,21 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Spacing from "../../Components/Spacing/Spacing";
 import CustomStepper from "../../Components/CustomStepper/CustomStepper";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { axiosApi } from "../../axiosInstance";
+import { UserContext } from "../../Contexts/UseContext";
 
 const SelectPatient = () => {
   const navigate = useNavigate();
+  const {
+    userDetails,
+    bookingDetails,
+    setBookingDetails,
+    setBookingCompleted,
+  } = useContext(UserContext);
+
   const [tab, setTab] = useState("add-patient");
   const [input, setInput] = useState({
     phone: "",
@@ -17,7 +25,8 @@ const SelectPatient = () => {
     remarks: "",
     particulars: "",
   });
-  const [loading, setLoading] = useState(false);
+
+  const [buttonLoading, setButtonLoading] = useState(false);
 
   const handleDateChange = (e) => {
     const date = new Date(e.target.value);
@@ -27,47 +36,77 @@ const SelectPatient = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (
-      !input.phone ||
-      !input.name ||
-      !input.gender ||
-      !input.dateOfBirth ||
-      !input.remarks ||
-      !input.particulars
-    ) {
+    if (!input.phone || !input.name || !input.gender || !input.dateOfBirth) {
+      toast.warning("Please fill in all required fields");
       return;
     }
 
-    setLoading(true);
+    setButtonLoading(true);
 
+    const prepareInput = (input) => {
+      return {
+        ...input,
+        Remarks: input.Remarks || null,
+        Particulars: input.Particulars || null,
+      };
+    };
+
+    const preparedInput = prepareInput(input);
     try {
-      const data = { ...input };
-      const response = await axiosApi.post("/v1/patient/guestpatient", data);
+      const response = await axiosApi.post(
+        "/v1/patient/guestpatient",
+        preparedInput
+      );
 
       console.log(response);
 
       if (response.status === 201) {
-        toast.success("Booking confirmed!");
-        setInput({
-          phone: "",
-          name: "",
-          gender: "",
-          dateOfBirth: "",
-          remarks: "",
-          particulars: "",
-        });
-
-        setTimeout(() => {
-          navigate("/booking/booking-confirmation");
-        }, 2000);
-      } else {
-        console.error("Booking failed:", response);
-        toast.error("Booking failed. Please try again.");
+        createBooking(e, response?.data?.Patient?.patient_id);
       }
     } catch (error) {
       console.error("Booking failed:", error);
     } finally {
-      setLoading(false);
+      setButtonLoading(false);
+    }
+  };
+
+  // CreateBooking
+  const createBooking = async (e, patient_id = null) => {
+    e.preventDefault();
+    console.log("patient_id", patient_id);
+    setButtonLoading(true);
+
+    try {
+      const bookingData = {
+        ...bookingDetails,
+        patient_id: patient_id || bookingDetails.patient_id,
+      };
+
+      const response = await axiosApi.post(
+        "/v1/booking/createBooking",
+        bookingData
+      );
+      console.log(response);
+      if (response.status === 201) {
+        toast.success("Booking Added Successfully");
+        setTimeout(() => {
+          navigate("/booking/booking-confirmation");
+        }, 2000);
+        setBookingDetails({
+          doctor_id: null,
+          clinic_id: null,
+          patient_id: null,
+          schedule_date: "",
+          schedule_time: "",
+          type: "application",
+          DoctorTimeSlot_id: null,
+        });
+        setBookingCompleted(response?.data);
+      }
+    } catch (error) {
+      console.error(error?.response?.data?.error);
+    } finally {
+      setButtonLoading(false);
     }
   };
 
@@ -205,11 +244,8 @@ const SelectPatient = () => {
                     </div>
                     <Spacing lg={40} md={30} />
                     <div className="booking_form_card_btn_wrapper">
-                      <button
-                        className="booking_form_card_btn"
-                        // onClick={() => navigate("/booking/booking-confirmation")}
-                      >
-                        {loading ? (
+                      <button className="booking_form_card_btn">
+                        {buttonLoading ? (
                           <span className="loader"></span>
                         ) : (
                           " Book Now"
