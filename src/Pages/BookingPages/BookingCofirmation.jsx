@@ -1,16 +1,31 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import Spacing from "../../Components/Spacing/Spacing";
 import CustomStepper from "../../Components/CustomStepper/CustomStepper";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../Contexts/UseContext";
+import { formatTime } from "../../utils/FormatTime";
+import { reverseFormatDate } from "../../utils/formatDate";
 
 const BookingConfirmation = () => {
   const navigate = useNavigate();
+  const { bookingCompleted, setBookingCompleted } = useContext(UserContext);
+
+  const backtoHomeHandler = () => {
+    setBookingCompleted(null);
+    navigate("/");
+  };
+
+  useEffect(() => {
+    if (!bookingCompleted) {
+      navigate("/");
+    }
+  }, []);
   return (
     <>
-      <Spacing lg={120} md={60} />
-      <div className="container mt-5">
-        <CustomStepper activeStep={4} completedSteps={[1, 2, 3]} />
-        <Spacing lg={50} md={20} />
+      <Spacing lg={100} md={60} />
+      <div className="container">
+        {/* <CustomStepper activeStep={4} completedSteps={[1, 2, 3]} /> */}
+        {/* <Spacing lg={50} md={20} /> */}
         <div className="booking_container">
           <div className="booking_form_card">
             <div className="booking_confirmation_container">
@@ -26,11 +41,11 @@ const BookingConfirmation = () => {
                 />
               </div>
 
-              <p className="booking_confirmation_booking_id">
-                Booking ID : 3516868
-              </p>
+              {/* <p className="booking_confirmation_booking_id">
+                Token : <span>{bookingCompleted?.newBooking?.token}</span>
+              </p> */}
 
-              <Spacing lg={40} md={30} />
+              <Spacing lg={20} md={10} />
               <div>
                 <img
                   src="/images/verified.png"
@@ -44,11 +59,20 @@ const BookingConfirmation = () => {
               <div className="booking_confirmation_details">
                 <div className="booking_details_wrapper">
                   <div className="booking_confirmation_detail_label">
+                    Token
+                    <span>:</span>
+                  </div>
+                  <div className="booking_confirmation_value">
+                    {bookingCompleted?.newBooking?.token}
+                  </div>
+                </div>
+                <div className="booking_details_wrapper">
+                  <div className="booking_confirmation_detail_label">
                     Doctor's Name
                     <span>:</span>
                   </div>
                   <div className="booking_confirmation_value">
-                    Dr. Nikhil M 
+                    Dr. {bookingCompleted?.Doctor?.name}
                   </div>
                 </div>
 
@@ -58,40 +82,44 @@ const BookingConfirmation = () => {
                     <span>:</span>
                   </div>
                   <div className="booking_confirmation_value">
-                    Manakadans Dental Clinic
+                    {bookingCompleted?.Clinic?.name}
                   </div>
                 </div>
-
-                <div className="booking_details_wrapper">
-                  <div className="booking_confirmation_detail_label">
-                    Date
-                    <span>:</span>
+                {bookingCompleted?.newBooking?.schedule_date && (
+                  <div className="booking_details_wrapper">
+                    <div className="booking_confirmation_detail_label">
+                      Date
+                      <span>:</span>
+                    </div>
+                    <div className="booking_confirmation_value">
+                      {reverseFormatDate(
+                        bookingCompleted?.newBooking?.schedule_date
+                      )}
+                    </div>
                   </div>
-                  <div className="booking_confirmation_value">15/05/2024</div>
-                </div>
-
-                <div className="booking_details_wrapper">
-                  <div className="booking_confirmation_detail_label">
-                    Booking Time
-                    <span>:</span>
+                )}
+                {bookingCompleted?.newBooking?.schedule_time && (
+                  <div className="booking_details_wrapper">
+                    <div className="booking_confirmation_detail_label">
+                      Booking Time
+                      <span>:</span>
+                    </div>
+                    <div className="booking_confirmation_value">
+                      {formatTime(bookingCompleted?.newBooking?.schedule_time)}
+                    </div>
                   </div>
-                  <div className="booking_confirmation_value">11:30 AM</div>
-                </div>
+                )}
               </div>
-
 
               <Spacing lg={40} md={30} />
               <div className="booking_form_card_btn_wrapper">
                 <button
                   className="booking_form_card_btn"
+                  onClick={backtoHomeHandler}
                 >
-                  Continue
+                  Back to Home
                 </button>
-                <button
-                  className="booking_form_card_btn"
-                >
-                  Download
-                </button>
+                <button className="booking_form_card_btn">Download</button>
               </div>
               <Spacing lg={40} md={30} />
             </div>

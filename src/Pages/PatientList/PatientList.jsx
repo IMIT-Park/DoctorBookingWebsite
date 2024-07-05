@@ -8,8 +8,12 @@ import "react-toastify/dist/ReactToastify.css";
 
 const PatientList = () => {
   const navigate = useNavigate();
-  const { userDetails, bookingDetails, setBookingDetails } =
-    useContext(UserContext);
+  const {
+    userDetails,
+    bookingDetails,
+    setBookingDetails,
+    setBookingCompleted,
+  } = useContext(UserContext);
 
   const [loading, setLoading] = useState(false);
   const [patientsList, setPatientsList] = useState([]);
@@ -54,7 +58,6 @@ const PatientList = () => {
       );
       if (response.status === 201) {
         createBooking(e, response?.data?.Patient?.patient_id);
-        // navigate("/booking/booking-confirmation");
       }
     } catch (error) {
       console.error(error?.response?.data?.error);
@@ -110,10 +113,11 @@ const PatientList = () => {
         "/v1/booking/createBooking",
         bookingData
       );
+      console.log(response);
       if (response.status === 201) {
         toast.success("Booking Added Successfully");
         setTimeout(() => {
-          navigate("/");
+          navigate("/booking/booking-confirmation");
         }, 2000);
         setBookingDetails({
           doctor_id: null,
@@ -124,6 +128,7 @@ const PatientList = () => {
           type: "application",
           DoctorTimeSlot_id: null,
         });
+        setBookingCompleted(response?.data);
       }
     } catch (error) {
       console.error(error?.response?.data?.error);
@@ -289,7 +294,7 @@ const PatientList = () => {
                         {patientsList && patientsList?.length > 0 ? (
                           <div>
                             <Spacing lg={50} md={40} />
-                            {patientsList?.map((patient) => (
+                            {patientsList?.map((patient, index) => (
                               <div
                                 key={patient?.patient_id}
                                 className="form-check custom-radio"
@@ -299,7 +304,7 @@ const PatientList = () => {
                                   htmlFor={`flexRadioDefault1${patient?.patient_id}`}
                                   style={{ textTransform: "capitalize" }}
                                 >
-                                  {patient?.name}
+                                  {index + 1}. {patient?.name}
                                 </label>
                                 <input
                                   className="form-check-input"
