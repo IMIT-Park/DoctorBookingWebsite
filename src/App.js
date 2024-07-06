@@ -44,7 +44,6 @@ import OtpVerification from "./Pages/BookingPages/OtpVerification";
 import SelectPatient from "./Pages/BookingPages/SelectPatient";
 import BookingConfirmation from "./Pages/BookingPages/BookingCofirmation";
 import OwnerSignupPage from "./Pages/OwnerSignupPage/OwnerSignupPage";
-import ClinicPage from "./Pages/ClinicPage/ClinicPage";
 import SubscriptionPlan from "./Pages/SubscriptionPlan/SubscriptionPlan";
 import PatientLogin from "./Pages/PatientAuth/PatientLogin";
 import PatientRegister from "./Pages/PatientAuth/PatientRegister";
@@ -55,7 +54,6 @@ import NewPassword from "./Pages/PatientAuth/NewPassword";
 import DoctorSignupPage from "./Pages/DoctorSignupPage/DoctorSignupPage";
 import ClinicSingleView from "./Pages/ClinicSingleView/ClinicSingleView";
 import PatientList from "./Pages/PatientList/PatientList";
-
 
 const App = () => {
   const { pathname } = useLocation();
@@ -83,40 +81,46 @@ const App = () => {
       </Route>
 
       <Route path="/" element={<Layout2 />}>
-      {/* signup page */}
-      <Route path="/owner-signup" element={<OwnerSignupPage />} />
-      <Route path="/owner-signup/:salespersoncode" element={<OwnerSignupPage />} />
-      <Route path="/doctor-signup" element={<DoctorSignupPage />} />
+        {/* signup page */}
+        <Route path="/owner-signup" element={<OwnerSignupPage />} />
+        <Route
+          path="/owner-signup/:salespersoncode"
+          element={<OwnerSignupPage />}
+        />
+        <Route path="/doctor-signup" element={<DoctorSignupPage />} />
         {/* doctor profile  */}
-      <Route path="/doctor-profile/:doctorId" element={<DoctorProfilePage />} />
+        <Route
+          path="/doctor-profile/:doctorId"
+          element={<DoctorProfilePage />}
+        />
 
         {/* guest booking starts here */}
-        <Route path="/booking/number-verification" element={<NumberVerification />} />
+        <Route
+          path="/booking/number-verification"
+          element={<NumberVerification />}
+        />
         <Route path="/booking/otp-verification" element={<OtpVerification />} />
         <Route path="/booking/patient-details" element={<SelectPatient />} />
-        <Route path="/booking/booking-confirmation" element={<BookingConfirmation />} />
+        <Route
+          path="/booking/booking-confirmation"
+          element={<BookingConfirmation />}
+        />
 
         {/* user-pateint booking starts here */}
         <Route path="/booking/select-patient" element={<PatientList />} />
 
-        {/* clinic singleView */}
-        <Route path="/clinic/:clinicId" element={<ClinicPage />} />
-
         {/* subscription plans  */}
         <Route path="/SubscriptionPlan" element={<SubscriptionPlan />} />
-        <Route path="/patient-login" element={<PatientLogin />}/>
-        <Route path="/patient-register" element={<PatientRegister />}/>
-        <Route path="/book-as-guest" element={<BookAsGuest />}/>
-        <Route path="/patient-guest" element={<PatientGuest />}/>
-        <Route path="/forgot-password" element={<ForgotPassword />}/>
-        <Route path="/new-password" element={<NewPassword />}/>
+        <Route path="/patient-login" element={<PatientLogin />} />
+        <Route path="/patient-register" element={<PatientRegister />} />
+        <Route path="/book-as-guest" element={<BookAsGuest />} />
+        <Route path="/patient-guest" element={<PatientGuest />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/new-password" element={<NewPassword />} />
 
         {/* clinicsingleview */}
-      <Route path="/clinic-single-view" element={<ClinicSingleView />} />
-
+        <Route path="/clinic/:clinicId" element={<ClinicSingleView />} />
       </Route>
-
-     
 
       <Route path="/home9" element={<Layout3 />}>
         <Route index element={<Home9 />} />
