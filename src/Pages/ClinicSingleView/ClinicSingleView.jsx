@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { axiosApi, imageBase_URL } from "../../axiosInstance";
 import { getMapLocation } from "../../utils/getLocation";
+import { UserContext } from "../../Contexts/UseContext";
 
 const ClinicSingleView = () => {
   const navigate = useNavigate();
   const { clinicId } = useParams();
+
+  const { userDetails, bookingDetails, setBookingDetails } =
+    useContext(UserContext);
 
   const [page, setPage] = useState(1);
   const PAGE_SIZES = [10, 20, 30, 50, 100];
@@ -14,13 +18,13 @@ const ClinicSingleView = () => {
   const [doctorClinics, setDoctorClinics] = useState([]);
   const [clinicDetails, setClinicDetails] = useState(null);
   const days = [
-    { name: "SUN", id: "0" },
-    { name: "MON", id: "1" },
-    { name: "TUE", id: "2" },
-    { name: "WED", id: "3" },
-    { name: "THU", id: "4" },
-    { name: "FRI", id: "5" },
-    { name: "SAT", id: "6" },
+    { name: "SUN", id: 0 },
+    { name: "MON", id: 1 },
+    { name: "TUE", id: 2 },
+    { name: "WED", id: 3 },
+    { name: "THU", id: 4 },
+    { name: "FRI", id: 5 },
+    { name: "SAT", id: 6 },
   ];
 
   useEffect(() => {
@@ -56,6 +60,19 @@ const ClinicSingleView = () => {
 
     fetchData();
   }, [page, pageSize]);
+
+  const isDayAvailable = (timeslots, dayId) => {
+    return timeslots.some((timeslot) => timeslot.day_id === dayId);
+  };
+
+  const handleBookAppoinment = (doctorId) => {
+    setBookingDetails({
+      ...bookingDetails,
+      clinic_id: parseFloat(clinicId),
+      type: "application",
+    });
+    navigate(`/doctor-profile/${doctorId}`);
+  };
 
   return (
     <div>
@@ -106,13 +123,24 @@ const ClinicSingleView = () => {
 
                   <div className="doctor_day_showing_container">
                     {days.map((day) => (
-                      <div key={day?.id} className="doctor_day_showing_card">
+                      <div
+                        key={day?.id}
+                        // className="doctor_day_showing_card"
+                        className={
+                          isDayAvailable(doc.timeslots, day.id)
+                            ? "doctor_day_showing_card"
+                            : "doctor_day_showing_card disabled"
+                        }
+                      >
                         {day?.name}
                       </div>
                     ))}
                   </div>
 
-                  <button className="clinic_dr_book_appoinment_btn">
+                  <button
+                    onClick={() => handleBookAppoinment(doc?.doctor_id)}
+                    className="clinic_dr_book_appoinment_btn"
+                  >
                     Book Appointment
                   </button>
                 </div>
