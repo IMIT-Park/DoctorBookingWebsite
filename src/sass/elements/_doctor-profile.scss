@@ -283,11 +283,13 @@ Doctor Profie
 }
 
 .time_selector_list {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
 }
 
+.timeslot_selector_btn,
 .time_selector_btn {
   flex: 0 0 190px;
   display: flex;
@@ -303,20 +305,28 @@ Doctor Profie
   transition: background-color 0.3s, color 0.3s;
   color: $black1;
 }
+.time_selector_btn {
+  flex: 0 0 90px;
+  font-size: 15px;
+}
 
+.timeslot_selector_btn input,
 .time_selector_btn input {
   display: none;
 }
 
+.timeslot_selector_btn.disabled,
 .time_selector_btn.disabled {
   opacity: 0.2;
   cursor: not-allowed;
 }
 
+.timeslot_selector_btn:hover,
 .time_selector_btn:hover {
   background-color: #d5f5e4;
 }
 
+.timeslot_selector_btn.selected,
 .time_selector_btn.selected {
   background-color: $blue;
   color: $white;
@@ -431,9 +441,14 @@ Doctor Profie
   .booking_time_label {
     font-size: 1rem;
   }
-  .time_selector_btn {
+  .timeslot_selector_btn {
     flex: 0 0 150px;
     padding: 0.35rem 0.75rem;
+    font-size: 0.9em;
+  }
+  .time_selector_btn {
+    flex: 0 0 80px;
+    padding: 0.25rem 0;
     font-size: 0.9em;
   }
   .timeSelector_labels_container {
@@ -534,8 +549,12 @@ Doctor Profie
   .booking_time_label {
     font-size: 0.985rem;
   }
-  .time_selector_btn {
+  .timeslot_selector_btn {
     flex: 0 0 145px;
+    font-size: 0.85em;
+  }
+  .time_selector_btn {
+    flex: 0 0 75px;
     font-size: 0.85em;
   }
   .timeSelector_labels_container {

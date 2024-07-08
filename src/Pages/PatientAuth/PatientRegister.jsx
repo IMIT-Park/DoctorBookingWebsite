@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Spacing from "../../Components/Spacing/Spacing";
 import Eye from "../../Components/PasswordEye/Eye";
 import CloseEye from "../../Components/PasswordEye/CloseEye";
@@ -6,15 +6,12 @@ import { axiosApi } from "../../axiosInstance";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../Contexts/UseContext";
 
 const PatientRegister = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [input, setInput] = useState({
-    name: "",
-    gender: "",
-    dateOfBirth: "",
-    phone: "",
-    email: "",
+    user_name: "",
     password: "",
     confirmPassword: "",
   });
@@ -22,6 +19,7 @@ const PatientRegister = () => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { setUserDetails } = useContext(UserContext);
 
   const validate = () => {
     const newErrors = {};
@@ -32,24 +30,9 @@ const PatientRegister = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleDateChange = (e) => {
-    const date = new Date(e.target.value);
-    const formattedDate = date.toISOString().split("T")[0];
-    setInput({ ...input, dateOfBirth: formattedDate });
-  };
-
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (
-      !input.name ||
-      !input.gender ||
-      !input.dateOfBirth ||
-      !input.phone ||
-      !input.email ||
-      !input.password ||
-      !input.confirmPassword
-    ) {
+    if (!input.user_name || !input.password) {
       return;
     }
 
@@ -57,33 +40,44 @@ const PatientRegister = () => {
       setLoading(true);
 
       try {
-        const data = {
-          ...input,
-          phone: `+91${input.phone}`,
-        };
-
+        const data = { ...input };
         const response = await axiosApi.post(
           "/v1/patient/registerpatient",
           data
         );
-        console.log("Signup successful:");
-        toast.success("Signup successful!");
-        setLoading(false);
-        setInput({
-          name: "",
-          gender: "",
-          dateOfBirth: "",
-          phone: "",
-          email: "",
-          password: "",
-          confirmPassword: "",
-        });
-        setTimeout(() => {
-          navigate("/patient-login");
-        }, 2000);
+
+        console.log(response);
+
+        if (response.status === 201) {
+          const { accessToken, refreshToken, user } = response.data;
+
+          // sessionStorage.setItem("accessToken", accessToken);
+          // sessionStorage.setItem("refreshToken", refreshToken);
+          // sessionStorage.setItem("userData", JSON.stringify(user));
+
+          // setUserDetails({ user, accessToken, refreshToken });
+
+          toast.success("Signup successful!");
+          setInput({
+            user_name: "",
+            password: "",
+            confirmPassword: "",
+          });
+
+          setTimeout(() => {
+            navigate("/patient-login");
+          }, 2000);
+        } else {
+          console.error("Signup failed:", response);
+          toast.error("Signup failed. Please try again.");
+        }
       } catch (error) {
         console.error("Signup error:", error);
-        setLoading(false);
+        if (error?.response?.status === 403) {
+          toast.error(error?.response?.data?.error || "User already exist");
+        } else {
+          toast.error("Signup error. Please try again.");
+        }
       } finally {
         setLoading(false);
       }
@@ -97,139 +91,28 @@ const PatientRegister = () => {
         <div className="booking_container patient_login_container">
           <div className="booking_form_card">
             <form onSubmit={handleSubmit}>
-              <div className="patient_details_wrapper">
+              <div className="patient_details_wrapper patient_details_form_wrapper">
                 <div className="patient_login_card_header">
-                  <p className="booking_confirmation_card_title">Register</p>
+                  <p className="booking_confirmation_card_title">Signup</p>
                 </div>
-
                 <Spacing lg={35} md={20} />
-                <label htmlFor="gender" className="form-label mb-2">
-                  Patient Name
-                </label>
-                <div className="mb-4">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="name"
-                    value={input?.name}
-                    placeholder="Name"
-                    required
-                    onChange={(e) =>
-                      setInput({ ...input, name: e.target.value })
-                    }
-                  />
-                </div>
-                <label htmlFor="gender" className="form-label mb-2 mt-1">
-                  Select Gender
-                </label>
-                <div className="input-group mb-3">
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="gender"
-                      value="male"
-                      id="genderMale"
-                      checked={input.gender === "male"}
-                      onChange={(e) =>
-                        setInput({ ...input, gender: e.target.value })
-                      }
-                    />
-                    <label className="form-check-label" htmlFor="genderMale">
-                      Male
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="gender"
-                      value="female"
-                      id="genderFemale"
-                      checked={input.gender === "female"}
-                      onChange={(e) =>
-                        setInput({ ...input, gender: e.target.value })
-                      }
-                    />
-                    <label className="form-check-label" htmlFor="genderFemale">
-                      Female
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="gender"
-                      value="other"
-                      id="genderOther"
-                      checked={input.gender === "other"}
-                      onChange={(e) =>
-                        setInput({ ...input, gender: e.target.value })
-                      }
-                    />
-                    <label className="form-check-label" htmlFor="genderOther">
-                      Other
-                    </label>
-                  </div>
-                </div>
-
-                <div className="form-group mb-2 ">
-                  <label htmlFor="dob" className="form-label mt-2">
-                    Date of Birth
-                  </label>
-                  <input
-                    type="date"
-                    className="form-control"
-                    id="dateOfBirth"
-                    name="dateOfBirth"
-                    value={input?.dateOfBirth}
-                    onChange={handleDateChange}
-                    placeholder="Date of Birth"
-                    required
-                    aria-label="Date of Birth"
-                    aria-describedby="basic-dob"
-                    style={{ paddingRight: "10px" }}
-                  />
-                </div>
-
-                <label htmlFor="phone" className="form-label mb-2 mt-2">
-                  Phone
-                </label>
-                <div className="input-group mb-2">
-                  <span className="input-group-text" id="basic-phone">
-                    +91
-                  </span>
-                  <input
-                    type="number"
-                    value={input?.phone}
-                    onChange={(e) =>
-                      setInput({ ...input, phone: e.target.value })
-                    }
-                    className="form-control"
-                    placeholder="Phone"
-                    required
-                    aria-label="Phone"
-                  />
-                </div>
-
-                <label htmlFor="email" className="form-label mb-2 mt-2">
-                  Email
+                <label htmlFor="user_name" className="form-label mb-2 mt-2">
+                  User name
                 </label>
                 <div className="mb-2">
                   <input
                     type="email"
                     className="form-control"
-                    id="email"
-                    placeholder="Email"
+                    id="user_name"
+                    placeholder="User name"
                     required
-                    value={input?.email}
+                    value={input.user_name}
                     onChange={(e) =>
-                      setInput({ ...input, email: e.target.value })
+                      setInput({ ...input, user_name: e.target.value })
                     }
                   />
                 </div>
-
-                <label htmlFor="gender" className="form-label mb-2 mt-2">
+                <label htmlFor="password" className="form-label mb-2 mt-2">
                   Password
                 </label>
                 <div className="password-input-container mb-2">
@@ -237,7 +120,7 @@ const PatientRegister = () => {
                     type={showPassword ? "text" : "password"}
                     className="form-control"
                     id="password"
-                    value={input?.password}
+                    value={input.password}
                     placeholder="Password"
                     required
                     onChange={(e) =>
@@ -251,8 +134,10 @@ const PatientRegister = () => {
                     {showPassword ? <Eye /> : <CloseEye />}
                   </div>
                 </div>
-
-                <label htmlFor="gender" className="form-label mb-2 mt-2">
+                <label
+                  htmlFor="confirm_password"
+                  className="form-label mb-2 mt-2"
+                >
                   Confirm Password
                 </label>
                 <div className="password-input-container mb-2">
@@ -260,14 +145,11 @@ const PatientRegister = () => {
                     type={showPassword ? "text" : "password"}
                     className="form-control"
                     id="confirm_password"
-                    value={input?.confirmPassword}
+                    value={input.confirmPassword}
                     placeholder="Confirm Password"
                     required
                     onChange={(e) =>
-                      setInput({
-                        ...input,
-                        confirmPassword: e.target.value,
-                      })
+                      setInput({ ...input, confirmPassword: e.target.value })
                     }
                   />
                   <div
@@ -280,11 +162,10 @@ const PatientRegister = () => {
                     <p className="text-danger">{errors.confirmPassword}</p>
                   )}
                 </div>
-
                 <Spacing lg={40} md={30} />
                 <div className="patient_login_btn_wrapper">
                   <button className="booking_form_card_btn">
-                    {loading ? <span className="loader"></span> : "Book Now"}
+                    {loading ? <span className="loader"></span> : "Signup"}
                   </button>
                 </div>
               </div>

@@ -1,4 +1,13 @@
-.patient_details_wrapper {
+.patient_form_card {
+  width: 100%;
+  max-width: 39rem;
+  height: auto;
+  border-radius: 10px;
+  background: $white;
+  box-shadow: 2px 2px 14px 0px #00000026;
+  position: relative;
+}
+.patient_details_form_wrapper {
   padding: 4.5rem;
 }
 .patient_login_card_header {
@@ -125,11 +134,11 @@
   text-decoration: underline;
 }
 
-.form-check-label{
-  margin-right: 15px; 
+.form-check-label {
+  margin-right: 15px;
 }
 
-.form-label{
+.form-label {
   color: black;
 }
 

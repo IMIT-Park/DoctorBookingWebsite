@@ -1,150 +1,309 @@
-.address {
-    padding: 10px;
-    border: 0.3px solid #ABABAB;
-    border-radius: 5px;
-    color: #6E6E6E;
-  }
-.clinic_card{
+.clinicProfile_details_wrapper {
+  padding: 1.5rem 1.125rem 5rem 1.125rem;
+}
+.clinic_card {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap:10px;
+  gap: 1.5rem;
   width: 100%;
 }
-  .image-column {
-    margin-right: 20px;
-  }
-  .clinic-address{
-    color: #A9A9A9;
-    font-size: 16px;
-  }
-
-  .doctor_title{
-    color: #006241;
-    font-size: 25px;
-    font-weight: 600;
-  }
-
-  .doctor_list_card1{
-    background-color: #F3F3F3;
-   
-    // color: white;
-  }
-  .doctor_list_card{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap:10px;
-    width: 100%;
-  }
-
-  .doctorlist_details_wrapper1{
-    font-family: "Inter", sans-serif;
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-    // background-color: $white;
-    // box-shadow: 2px 2px 14px 0px #00000026;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    // padding: 1rem 1rem;
-  }
-  .doctor_detailbox{
-    padding: 1rem 1rem;
-  }
-  .clini_doctor_name {
-    font-size: 26px;
-    font-weight: 600;
-    color: $blue;
-    text-transform: capitalize;
-  }
-  .docotr_qualification{
-    font-size: 16px;
-    font-weight: 500;
-  }
-  .doctor_specialization{
-    color: #464646;
-    font-size: 18px;
-    font-weight: 400;
-  }
- 
-  .clinic_doctor_card_btn{
-    padding: 0.3rem 1.5rem;
+.clinicprofile__banner_wrapper {
+  width: 100%;
+  min-height: 330px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.clinicprofile__banner_wrapper_image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.clinic-details-column {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.clinic_name_text {
+  font-size: 38px;
+  font-weight: 600;
+  color: $blue;
+}
+.clinic-address {
+  color: #a9a9a9;
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+  margin-bottom: 5px;
+}
+.clinic_detail_box {
+  border: 0.3px solid #dddada;
   border-radius: 5px;
-  background-color: $blue;
-  border: none;
-  box-shadow: 2px 2px 14px 0px #00000026;
-  font-size: 1.1em;
+  color: #6e6e6e;
+  font-size: 17px;
+  font-weight: 400;
+  padding: 0.875rem 1.125rem;
+  width: 100%;
+  margin: 0;
+  margin-bottom: 1.5rem;
+}
+.clinic_location_view_btn {
+  border: 0.5px solid #307bc480;
+  font-size: 16px;
   font-weight: 500;
   color: $white;
-  }
-
-  .time_selector_btn1 {
-    flex: 0 0 190px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    // padding: 0.5rem 0;
-    // border: 0.5px solid #d2d2d2;
-    // border-radius: 5px;
-    background-color: transparent;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 500;
-    transition: background-color 0.3s, color 0.3s;
-    color: $black1;
-    border: none;
-  }
-  .time_selector_btn1.disabled {
-    opacity: 0.2;
-    cursor: not-allowed;
-  }
-.day{
-  border: 0.5px solid #006241;
-  padding: 0.1px 0.5rem ;
-  margin-right: 6px;
+  background-color: $blue;
   border-radius: 5px;
-  font-size: 12px;
-  font-weight: 500;
+  cursor: pointer;
+  padding: 0.285rem 2.5rem;
+  margin: 0;
+  margin-top: auto;
 }
 
-  @media screen and (max-width: 1199px) {
-    .doctor_list_card {
-      grid-template-columns: repeat(1, 1fr);
-    }
+.doctor_title {
+  margin: 0;
+  margin-top: 3rem;
+  color: $blue;
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.doctor_list_card_container {
+  margin-top: 1.875rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.875rem;
+  width: 100%;
+}
+.doctor_list_detail_card {
+  width: 100%;
+  border-radius: 10px;
+  background-color: #f3f3f3;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+  padding: 6px;
+  overflow: hidden;
+}
+.doctor_list_card_photo_container {
+  min-width: 160px;
+  max-width: 160px;
+  height: 182px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.doctor_list_card_photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.clinic_doctor_detailbox {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0.25rem 0;
+}
+.clini_doctor_name {
+  font-size: 26px;
+  font-weight: 600;
+  color: $blue;
+  text-transform: capitalize;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 100%;
+  margin: 0;
+  margin-bottom: 2px;
+}
+.docotr_qualification {
+  color: #828282;
+  font-size: 16px;
+  font-weight: 500;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 100%;
+  margin: 0;
+  margin-bottom: 2px;
+}
+.doctor_specialization {
+  color: #464646;
+  font-size: 18px;
+  font-weight: 400;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 100%;
+  margin: 0;
+  margin-bottom: 2px;
+}
+.doctor_day_showing_container {
+  margin-top: 0.85rem;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.doctor_day_showing_card {
+  font-size: 12px;
+  font-weight: 500;
+  color: $black1;
+  border: 0.5px solid $blue;
+  background: $white;
+  width: 50px;
+  height: 26px;
+  border-radius: 5px;
+  display: grid;
+  place-items: center;
+}
+.doctor_day_showing_card.disabled {
+  border: 0.5px solid #e6e4e4;
+  color: #aaaaaa;
+}
+.clinic_dr_book_appoinment_btn {
+  margin-top: 1rem;
+  padding: 0.3rem 1.5rem;
+  border-radius: 5px;
+  background-color: $blue;
+  border: 0.5px solid #307bc480;
+  font-size: 15px;
+  font-weight: 500;
+  color: $white;
+}
+
+@media screen and (max-width: 991px) {
+  .clinic_card {
+    grid-template-columns: repeat(1, 1fr);
   }
-  @media screen and (max-width: 767px) {
-    .clinic_card{
-      grid-template-columns: repeat(1, 1fr);
-
-    }
-    .time_selector_btn1{
-      font-size: 10px;
-      flex-wrap: wrap;
-      align-items: left;
-      justify-content: left;
-      // margin-top: 5px;
-      gap: 10px;
-    }
-    .doctor_specialization{
-    font-size: 17px;
-
-    }
-    .docotr_qualification{
-      font-size: 14px;
-    }
-    .clini_doctor_name{
-    font-size: 25px;
-    }
-    .clinic_doctor_card_btn{
-      font-size: 1em;
-    padding: 0.3rem 1rem;
-
-    }
-    
+  .clinic_name_text {
+    font-size: 34px;
+  }
+  .clinic-address {
+    font-size: 15px;
+    margin-bottom: 3px;
+  }
+  .clinic_detail_box {
+    font-size: 15px;
+    padding: 0.785rem 1rem;
+  }
+  .clinic_location_view_btn {
+    font-size: 15px;
+    margin-top: 1rem;
   }
 
-  @media screen and (max-width: 446px) {
-    .clini_doctor_name{
-      font-size: 23px;
-      }
+  .doctor_title {
+    font-size: 22px;
   }
+  .doctor_list_card_container {
+    margin-top: 1.25rem;
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .clini_doctor_name {
+    font-size: 24px;
+  }
+  .docotr_qualification {
+    font-size: 14px;
+  }
+  .doctor_specialization {
+    font-size: 16px;
+  }
+  .doctor_day_showing_container {
+    margin-top: 0.75rem;
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .doctor_day_showing_card {
+    font-size: 11px;
+    width: 45px;
+    height: 24px;
+  }
+  .clinic_dr_book_appoinment_btn {
+    padding: 0.25rem 1.5rem;
+    font-size: 13px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .clinicprofile__banner_wrapper {
+    min-height: 0;
+    aspect-ratio: 16/9;
+  }
+  .clinic_name_text {
+    font-size: 30px;
+  }
+  .clinic-address {
+    font-size: 14px;
+    margin-bottom: 1px;
+  }
+
+  .doctor_title {
+    font-size: 20px;
+  }
+  .doctor_list_detail_card {
+    flex-direction: column;
+  }
+  .doctor_list_card_photo_container {
+    min-width: 140px;
+    max-width: 140px;
+    height: 152px;
+  }
+  .clini_doctor_name {
+    font-size: 22px;
+  }
+  .docotr_qualification {
+    font-size: 13px;
+  }
+  .doctor_specialization {
+    font-size: 15px;
+  }
+  .clinic_dr_book_appoinment_btn {
+    padding: 0.15rem 1.25rem;
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .clinic_name_text {
+    font-size: 28px;
+  }
+  .clinic-address {
+    font-size: 13px;
+    margin-bottom: 0;
+  }
+  .clinic_detail_box {
+    font-size: 14px;
+    padding: 0.5rem 0.785rem;
+  }
+
+  .doctor_title {
+    font-size: 19px;
+  }
+  .doctor_list_card_photo_container {
+    min-width: 130px;
+    max-width: 130px;
+    height: 142px;
+  }
+  .clini_doctor_name {
+    font-size: 21px;
+  }
+  .docotr_qualification {
+    font-size: 12px;
+  }
+  .doctor_specialization {
+    font-size: 14px;
+  }
+  .doctor_day_showing_card {
+    font-size: 10px;
+    width: 40px;
+    height: 23px;
+  }
+  .clinic_dr_book_appoinment_btn {
+    font-size: 11px;
+  }
+}

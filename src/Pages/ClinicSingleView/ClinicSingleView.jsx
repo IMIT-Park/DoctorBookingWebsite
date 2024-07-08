@@ -1,36 +1,38 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { axiosApi,imageBase_URL } from "../../axiosInstance";
-import axios from "axios"; 
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { axiosApi, imageBase_URL } from "../../axiosInstance";
+import { getMapLocation } from "../../utils/getLocation";
+import { UserContext } from "../../Contexts/UseContext";
 
-const ClinicSingleView = ({ doctor }) => {
+const ClinicSingleView = () => {
   const navigate = useNavigate();
-  const clinicid = 1;
+  const { clinicId } = useParams();
+
+  const { userDetails, bookingDetails, setBookingDetails } =
+    useContext(UserContext);
 
   const [page, setPage] = useState(1);
   const PAGE_SIZES = [10, 20, 30, 50, 100];
   const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
   const [loading, setLoading] = useState(false);
   const [doctorClinics, setDoctorClinics] = useState([]);
-  const [clinicDetails, setClinicDetails] = useState(null); 
+  const [clinicDetails, setClinicDetails] = useState(null);
   const days = [
-    { name: "Sunday", id: "0" },
-    { name: "Monday", id: "1" },
-    { name: "Tuesday", id: "2" },
-    { name: "Wednesday", id: "3" },
-    { name: "Thursday", id: "4" },
-    { name: "Friday", id: "5" },
-    { name: "Saturday", id: "6" },
+    { name: "SUN", id: 0 },
+    { name: "MON", id: 1 },
+    { name: "TUE", id: 2 },
+    { name: "WED", id: 3 },
+    { name: "THU", id: 4 },
+    { name: "FRI", id: 5 },
+    { name: "SAT", id: 6 },
   ];
 
   useEffect(() => {
-    // Fetch clinic details
     const fetchClinicDetails = async () => {
       setLoading(true);
       try {
-        const response = await axiosApi.get(`/v1/clinic/getbyId/${clinicid}`);
-        setClinicDetails(response?.data?.Clinic); 
-        console.log(response.data);
+        const response = await axiosApi.get(`/v1/clinic/getbyId/${clinicId}`);
+        setClinicDetails(response?.data?.Clinic);
       } catch (error) {
         console.error("Error fetching clinic details:", error);
       } finally {
@@ -39,15 +41,16 @@ const ClinicSingleView = ({ doctor }) => {
     };
 
     fetchClinicDetails();
-  }, [clinicid]);
+  }, [clinicId]);
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await axiosApi.get(`/v1/doctor/getalldr/${clinicid}?page=${page}&pagesize=${pageSize}`);
+        const response = await axiosApi.get(
+          `/v1/doctor/getalldr/${clinicId}?page=${page}&pagesize=${pageSize}`
+        );
         setDoctorClinics(response?.data?.alldoctors);
-        console.log(response);
       } catch (error) {
         console.log(error);
       } finally {
@@ -58,70 +61,86 @@ const ClinicSingleView = ({ doctor }) => {
     fetchData();
   }, [page, pageSize]);
 
+  const isDayAvailable = (timeslots, dayId) => {
+    return timeslots.some((timeslot) => timeslot.day_id === dayId);
+  };
+
+  const handleBookAppoinment = (doctorId) => {
+    setBookingDetails({
+      ...bookingDetails,
+      clinic_id: parseFloat(clinicId),
+      type: "application",
+    });
+    navigate(`/doctor-profile/${doctorId}`);
+  };
+
   return (
     <div>
       <div className="st-height-b120 st-height-lg-b80" />
       <div className="container">
-        <div className="details_wrapper">
-          <div className="profile_details_container">
-            <div className="clinic_card">
-              <div className="image-column">
-                <img
-                  src={imageBase_URL + clinicDetails?.banner_img_url}
-                  alt="Clinic"
-                  style={{ width: "800px", height: "350px" }}
-                />
-              </div>
-              <div className="details-column">
-                <h3 className="doctor_name">{clinicDetails?.name}</h3>
-                <p className="clinic-address">Address</p>
-                <p className="address">
-                  {clinicDetails?.address}
-                </p>
-                <p className="clinic-address">Phone Number</p>
-                <input
-                  type="number"
-                  className="form-control"
-                  placeholder={clinicDetails?.phone}
-                  aria-label="Phone"
-                  aria-describedby="basic-phone"
-                />
-
-                <button type="button" className="profile_direction_btn mt-5">
+        <div className="details_wrapper clinicProfile_details_wrapper">
+          <div className="clinic_card">
+            <div className="clinicprofile__banner_wrapper">
+              <img
+                src={imageBase_URL + clinicDetails?.banner_img_url}
+                alt="Clinic"
+                className="clinicprofile__banner_wrapper_image"
+              />
+            </div>
+            <div className="clinic-details-column">
+              <h3 className="clinic_name_text">{clinicDetails?.name}</h3>
+              <p className="clinic-address">Address</p>
+              <p className="clinic_detail_box">{clinicDetails?.address}</p>
+              <p className="clinic-address">Phone Number</p>
+              <p className="clinic_detail_box">{clinicDetails?.phone}</p>
+              {clinicDetails?.googleLocation && (
+                <button
+                  type="button"
+                  className="clinic_location_view_btn"
+                  onClick={() => getMapLocation(clinicDetails?.googleLocation)}
+                >
                   Location
                 </button>
-              </div>
+              )}
             </div>
           </div>
 
-          <div className="doctor_title mt-5">Doctors List</div>
-          <div className="doctor_list_card mt-3">
+          <div className="doctor_title">Doctors List</div>
+          <div className="doctor_list_card_container">
             {doctorClinics.map((doc, index) => (
-              <div key={index} className="doctor_list_card1 flex-row doctorlist_details_wrapper1">
-                <img
-                  src={imageBase_URL + doc?.photo}
-                  alt="Doctor"
-                  style={{
-                    width: "150px",
-                    height: "200px",
-                    margin: "8px",
-                    borderRadius: "5px",
-                  }}
-                />
-                <div className="doctor_detailbox">
-                  <h2 className="clini_doctor_name mb-1">{doc?.name}</h2>
-                  <p className="docotr_qualification mb-1">{doc?.qualification}</p>
+              <div key={index} className="doctor_list_detail_card">
+                <div className="doctor_list_card_photo_container">
+                  <img
+                    src={imageBase_URL + doc?.photo}
+                    alt="Doctor"
+                    className="doctor_list_card_photo"
+                  />
+                </div>
+                <div className="clinic_doctor_detailbox">
+                  <h2 className="clini_doctor_name">{doc?.name}</h2>
+                  <p className="docotr_qualification">{doc?.qualification}</p>
                   <p className="doctor_specialization">{doc?.specialization}</p>
 
-                  <div className="time_selector_btn1">
+                  <div className="doctor_day_showing_container">
                     {days.map((day) => (
-                      <div key={day.id} className="day">
-                        {day.name.slice(0, 3).toUpperCase()}
+                      <div
+                        key={day?.id}
+                        // className="doctor_day_showing_card"
+                        className={
+                          isDayAvailable(doc.timeslots, day.id)
+                            ? "doctor_day_showing_card"
+                            : "doctor_day_showing_card disabled"
+                        }
+                      >
+                        {day?.name}
                       </div>
                     ))}
                   </div>
 
-                  <button className="clinic_doctor_card_btn mt-3">
+                  <button
+                    onClick={() => handleBookAppoinment(doc?.doctor_id)}
+                    className="clinic_dr_book_appoinment_btn"
+                  >
                     Book Appointment
                   </button>
                 </div>

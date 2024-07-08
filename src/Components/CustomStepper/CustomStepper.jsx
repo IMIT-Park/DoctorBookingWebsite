@@ -9,7 +9,7 @@ function CustomStepper({ activeStep, completedSteps }) {
     },
     { label: "OTP Verification", isCompleted: completedSteps?.includes(2) },
     { label: "Patients Details", isCompleted: completedSteps?.includes(3) },
-    { label: "Book Confirmation", isCompleted: completedSteps?.includes(4) },
+    // { label: "Book Confirmation", isCompleted: completedSteps?.includes(4) },
   ];
 
   const activeLabel = steps[activeStep - 1]?.label;

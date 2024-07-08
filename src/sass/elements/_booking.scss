@@ -137,9 +137,14 @@ input[type="number"] {
   width: 30px;
 }
 .booking_confirmation_booking_id {
+  margin-top: 1rem;
   font-weight: 300;
   color: #626262;
-  font-size: 15px;
+  font-size: 16px;
+}
+.booking_confirmation_booking_id span {
+  font-weight: 500;
+  font-size: 16px;
 }
 
 .booking_varified {

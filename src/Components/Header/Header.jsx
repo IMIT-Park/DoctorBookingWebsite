@@ -162,11 +162,7 @@ const Header = ({ data }) => {
                     </ScrollLink>
                   </li> */}
                   <li>
-                    <Link
-                      to={"/SubscriptionPlan"}
-                    >
-                      Plans
-                    </Link>
+                    <Link to={"/SubscriptionPlan"}>Plans</Link>
                   </li>
                   {/* <li className="menu-item-has-children">
                     <ScrollLink
@@ -196,27 +192,32 @@ const Header = ({ data }) => {
                   <li>
                     <Link to={"/doctor-signup"}> Register as Doctor</Link>
                   </li>
-                  <li>
-                    <Link to={"/clinic-single-view"}> scan</Link>
-
-                    </li>
-                  <li>
+                  <li className="booknow_wrapper">
                     {userDetails ? (
-                  <ScrollLink 
-                   to="doctors"
-                   spy={true}
-                   duration={500}
-                   onClick={() => setMobileToggle(false)}>
-                      {" "}
-                      <button className="st-site-book-now-btn"
-                        onClick={() => setMobileToggle(false)}>Book Now</button>
-                    </ScrollLink>
-                    ):(
-                    <Link to={"/patient-login"}>
-                      {" "}
-                      <button className="st-site-book-now-btn"
-                        onClick={() => setMobileToggle(false)}>Book Now</button>
-                    </Link>
+                      <ScrollLink
+                        to="doctors"
+                        spy={true}
+                        duration={500}
+                        onClick={() => setMobileToggle(false)}
+                      >
+                        {" "}
+                        <button
+                          className="st-site-book-now-btn"
+                          onClick={() => setMobileToggle(false)}
+                        >
+                          Book Now
+                        </button>
+                      </ScrollLink>
+                    ) : (
+                      <Link to={"/patient-login"}>
+                        {" "}
+                        <button
+                          className="st-site-book-now-btn"
+                          onClick={() => setMobileToggle(false)}
+                        >
+                          Book Now
+                        </button>
+                      </Link>
                     )}
                   </li>
                 </ul>
