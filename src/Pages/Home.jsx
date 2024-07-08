@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import Hero from "../Components/Hero/Hero";
 import LocationInMap from "../Components/Map/LocationInMap";
 import Contact from "../Components/Contact/Contact";
@@ -16,6 +16,7 @@ import PriceSlider from "../Components/Slider/PriceSlider";
 import Funfact from "../Components/Funfact/Funfact";
 import BeforeAfter from "../Components/BeforeAfter/BeforeAfter";
 import MasonryGallery from "../Components/Gallery/Gallery";
+import { UserContext } from "../Contexts/UseContext";
 
 const heroData = {
   bgImg: "images/hero-bg.jpg",
@@ -498,11 +499,23 @@ const brandData = [
   },
 ];
 
-
 const mapLocationURL =
   "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3924.9150083458253!2d76.2147084758732!3d10.348680866936158!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba7f768249c9bf5%3A0x48c8065261fbf396!2sIMIT%20PARK%20-%20International%20Media%20and%20Information%20Technology%20Park%20%7C%20IT%20Company%20In%20Kerala!5e0!3m2!1sen!2sin!4v1719316818259!5m2!1sen!2sin";
 
 const Home = () => {
+  const { setBookingDetails } = useContext(UserContext);
+
+  useEffect(() => {
+    setBookingDetails({
+      doctor_id: null,
+      clinic_id: null,
+      patient_id: null,
+      schedule_date: "",
+      schedule_time: "",
+      type: "application",
+      DoctorTimeSlot_id: null,
+    });
+  }, []);
   return (
     <>
       <Hero data={heroData} />

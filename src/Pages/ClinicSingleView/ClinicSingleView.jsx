@@ -61,8 +61,10 @@ const ClinicSingleView = () => {
     fetchData();
   }, [page, pageSize]);
 
-  const isDayAvailable = (timeslots, dayId) => {
-    return timeslots.some((timeslot) => timeslot.day_id === dayId);
+  const isDayAvailable = (timeslots, dayId, clinicId) => {
+    return timeslots.some(
+      (timeslot) => timeslot.day_id === dayId && timeslot.clinic_id === clinicId
+    );
   };
 
   const handleBookAppoinment = (doctorId) => {
@@ -111,7 +113,11 @@ const ClinicSingleView = () => {
               <div key={index} className="doctor_list_detail_card">
                 <div className="doctor_list_card_photo_container">
                   <img
-                    src={imageBase_URL + doc?.photo}
+                    src={
+                      doc?.photo
+                        ? imageBase_URL + doc?.photo
+                        : `${process.env.PUBLIC_URL}/images/empty-user.png`
+                    }
                     alt="Doctor"
                     className="doctor_list_card_photo"
                   />
@@ -125,9 +131,12 @@ const ClinicSingleView = () => {
                     {days.map((day) => (
                       <div
                         key={day?.id}
-                        // className="doctor_day_showing_card"
                         className={
-                          isDayAvailable(doc.timeslots, day.id)
+                          isDayAvailable(
+                            doc.timeslots,
+                            day.id,
+                            parseFloat(clinicId)
+                          )
                             ? "doctor_day_showing_card"
                             : "doctor_day_showing_card disabled"
                         }
