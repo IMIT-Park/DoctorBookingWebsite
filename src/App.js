@@ -107,7 +107,6 @@ const App = () => {
           element={<BookingConfirmation />}
         />
 
-        <Route path="/clinic/:clinicId" element={<ClinicPage />} />
         <Route path="/bookstatus/bookstatus" element={<BookStatus />} />
         {/* user-pateint booking starts here */}
         <Route path="/booking/select-patient" element={<PatientList />} />
