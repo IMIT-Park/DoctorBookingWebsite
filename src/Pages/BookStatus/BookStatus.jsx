@@ -9,7 +9,7 @@ const BookStatus = () => {
       <div className="st-height-b120 st-height-lg-b80" />
       <div className="container">
         <div className="details_wrapper">
-          <div className="profile_details_container">
+          <div className="profile_details_container book_status-box">
           <div className="doctor_name">Book Status</div>
 
             <div className="book-status-grid">
