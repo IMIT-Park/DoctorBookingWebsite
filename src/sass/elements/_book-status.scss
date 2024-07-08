@@ -1,13 +1,41 @@
-.book-status-grid{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap:10px;
+// // .book-status-grid{
+// //     display: grid;
+// //     grid-template-columns: repeat(3, 1fr);
+// //     gap:10px;
+// //     width: 100%;
+// //   }
+
+//   @media screen and (max-width: 767px) {
+//     .book-status-grid{
+//       grid-template-columns: repeat(1, 1fr);
+
+//     }
+// }
+
+.table_parent{
+    display: flex;
+    flex-wrap: wrap;
     width: 100%;
-  }
-
-  @media screen and (max-width: 767px) {
-    .book-status-grid{
-      grid-template-columns: repeat(1, 1fr);
-
-    }
+}
+.table_width{
+    width: 100%;
+    white-space: nowrap;
+}
+.table-row td {
+    padding: 10px; /* Add padding to create space between cells */
+    color: #646464;
+    font-size: 16px;
+    font-weight: 400;
+}
+.table_head th{
+    border-color: #fff;
+    padding-bottom: 20px;
+    font-size: 19px;
+    font-weight: 600;
+  
+}
+.table-row .queue_position{
+    color: #4361EE;
+    font-size: 18px;
+    font-weight: 600;
 }
