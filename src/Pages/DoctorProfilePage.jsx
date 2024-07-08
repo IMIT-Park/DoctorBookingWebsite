@@ -14,7 +14,7 @@ const DoctorProfilePage = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await axiosApi.get(`/v1/doctor/getbyIdweb/${doctorId}`);
+      const response = await axiosApi.get(`/v1/doctor/getbyId/${doctorId}`);
       setDoctorDetails(response?.data?.Doctor);
       setDoctorClinics(response?.data?.allclinics);
     } catch (error) {
