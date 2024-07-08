@@ -29,6 +29,7 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
   const [consultationLoading, setConsultationLoading] = useState(false);
   const [consultations, setConsultations] = useState([]);
   const [selectedConsultation, setSelectedConsultation] = useState(null);
+  const [timeslotWarning, setTimeslotWarning] = useState("");
   const [reportInput, setReportInput] = useState({
     email: "",
     phone: "",
@@ -87,7 +88,6 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
     if (!reportInput.email || !reportInput.phone || !reportInput.content) {
       return true;
     }
-    console.log(reportInput);
     setButtonLoading(true);
     try {
       const response = await axiosApi.post(
@@ -123,12 +123,22 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
         `/v1/booking/getdoctordate/${doctorId}`,
         {
           date: date,
-          clinic_id: selectedClinic?.clinic_id,
+          clinic_id: selectedClinic?.clinic_id || bookingDetails?.clinic_id,
         }
       );
-
       setDoctorTimeSlots(response?.data?.doctorTimeSlots);
     } catch (error) {
+      if (error?.response?.status === 400) {
+        setTimeslotWarning(
+          error?.response?.data?.error
+            ? error?.response?.data?.error
+            : "DoctorProfile.jsx:141 Doctor is not available on this date."
+        );
+      } else {
+        setTimeslotWarning(
+          "DoctorProfile.jsx:141 Doctor is not available on this date."
+        );
+      }
       setDoctorTimeSlots([]);
       console.error(error?.response?.data?.error);
     } finally {
@@ -137,7 +147,7 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
   };
 
   useEffect(() => {
-    if (selectedClinic?.clinic_id) {
+    if (selectedClinic?.clinic_id || bookingDetails?.clinic_id) {
       fetchTimeSlots(formatDate(selectedDate));
     }
   }, [selectedClinic?.clinic_id, selectedDate]);
@@ -164,10 +174,9 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
         {
           DoctorTimeSlot_id: selectedTimeSlot?.timeSlot?.DoctorTimeSlot_id,
           date: date,
-          clinic_id: selectedClinic?.clinic_id,
+          clinic_id: selectedClinic?.clinic_id || bookingDetails?.clinic_id,
         }
       );
-
       setConsultations(response?.data?.consultationSlots);
     } catch (error) {
       setDoctorTimeSlots([]);
@@ -179,8 +188,10 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
 
   useEffect(() => {
     if (
-      selectedClinic?.clinic_id &&
-      selectedTimeSlot?.timeSlot?.DoctorTimeSlot_id
+      (selectedClinic?.clinic_id &&
+        selectedTimeSlot?.timeSlot?.DoctorTimeSlot_id) ||
+      (bookingDetails?.clinic_id &&
+        selectedTimeSlot?.timeSlot?.DoctorTimeSlot_id)
     ) {
       fetchConsultations(formatDate(selectedDate));
     }
@@ -191,7 +202,7 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
   };
 
   const handleBookNow = () => {
-    if (!selectedClinic?.clinic_id) {
+    if (!selectedClinic?.clinic_id && !bookingDetails?.clinic_id) {
       toast.warning("Please select a clinic.");
       return;
     }
@@ -211,7 +222,7 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
     setBookingDetails({
       ...bookingDetails,
       doctor_id: parseFloat(doctorId),
-      clinic_id: selectedClinic?.clinic_id,
+      clinic_id: selectedClinic?.clinic_id || bookingDetails?.clinic_id,
       schedule_date: formatDate(selectedDate),
       schedule_time: selectedConsultation?.slot,
       DoctorTimeSlot_id: selectedTimeSlot?.timeSlot?.DoctorTimeSlot_id,
@@ -286,61 +297,67 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
                       Report
                     </button>
                   </div>
-                  <div className="booking_title_container">
-                    Clinic Lists
-                    <div className="row_border" />
-                  </div>
-                  <div className="dr_clinic_card_container">
-                    {doctorClinics?.map((clinic) => (
-                      <div
-                        key={clinic?.clinic_id}
-                        className={`dr_clinic_card ${
-                          selectedClinic?.clinic_id === clinic?.clinic_id &&
-                          "active"
-                        }`}
-                        onClick={() => handleClinicSelect(clinic)}
-                      >
-                        <img
-                          src={
-                            clinic?.banner_img_url
-                              ? imageBase_URL + clinic?.banner_img_url
-                              : ""
-                          }
-                          alt="Clinic"
-                          className="dr_clinic_photo"
-                        />
-                        <div>
-                          <h4 className="dr_clinic_name">
-                            {clinic?.name || ""}
-                          </h4>
-                          <p className="dr_clinic_place">
-                            {clinic?.place || ""}
-                          </p>
-                        </div>
-                        <img
-                          src={
-                            selectedClinic?.clinic_id === clinic?.clinic_id
-                              ? `${process.env.PUBLIC_URL}/icons/left-arrow.svg`
-                              : `${process.env.PUBLIC_URL}/icons/vector-down.svg`
-                          }
-                          alt=""
-                          className="dr_clinic_arrow"
-                        />
+                  {!bookingDetails?.clinic_id && (
+                    <>
+                      <div className="booking_title_container">
+                        Clinic Lists
+                        <div className="row_border" />
                       </div>
-                    ))}
-                  </div>
+                      <div className="dr_clinic_card_container">
+                        {doctorClinics?.map((clinic) => (
+                          <div
+                            key={clinic?.clinic_id}
+                            className={`dr_clinic_card ${
+                              selectedClinic?.clinic_id === clinic?.clinic_id &&
+                              "active"
+                            }`}
+                            onClick={() => handleClinicSelect(clinic)}
+                          >
+                            <img
+                              src={
+                                clinic?.banner_img_url
+                                  ? imageBase_URL + clinic?.banner_img_url
+                                  : ""
+                              }
+                              alt="Clinic"
+                              className="dr_clinic_photo"
+                            />
+                            <div>
+                              <h4 className="dr_clinic_name">
+                                {clinic?.name || ""}
+                              </h4>
+                              <p className="dr_clinic_place">
+                                {clinic?.place || ""}
+                              </p>
+                            </div>
+                            <img
+                              src={
+                                selectedClinic?.clinic_id === clinic?.clinic_id
+                                  ? `${process.env.PUBLIC_URL}/icons/left-arrow.svg`
+                                  : `${process.env.PUBLIC_URL}/icons/vector-down.svg`
+                              }
+                              alt=""
+                              className="dr_clinic_arrow"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </>
+                  )}
                   <div className="booking_title_container">
                     Booking Availability
                     <div className="row_border" />
-                    <button
-                      type="button"
-                      className="profile_direction_btn"
-                      onClick={() =>
-                        getMapLocation(selectedClinic?.googleLocation)
-                      }
-                    >
-                      Get Direction
-                    </button>
+                    {!bookingDetails?.clinic_id && (
+                      <button
+                        type="button"
+                        className="profile_direction_btn"
+                        onClick={() =>
+                          getMapLocation(selectedClinic?.googleLocation)
+                        }
+                      >
+                        Get Direction
+                      </button>
+                    )}
                   </div>
                   <div className="date_selector_wrapper">
                     <div className="date_picker_container">
@@ -406,7 +423,8 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
                                 textAlign: "center",
                               }}
                             >
-                              No slots found on this date
+                              {/* {No slots found on this date} */}
+                              {timeslotWarning}
                             </div>
                           )}
                         </>
