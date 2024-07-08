@@ -53,6 +53,7 @@ import ForgotPassword from "./Pages/PatientAuth/ForgotPassword";
 import NewPassword from "./Pages/PatientAuth/NewPassword";
 import DoctorSignupPage from "./Pages/DoctorSignupPage/DoctorSignupPage";
 import ClinicSingleView from "./Pages/ClinicSingleView/ClinicSingleView";
+import BookStatus from "./Pages/BookStatus/BookStatus"
 import PatientList from "./Pages/PatientList/PatientList";
 
 const App = () => {
@@ -106,6 +107,8 @@ const App = () => {
           element={<BookingConfirmation />}
         />
 
+        <Route path="/clinic/:clinicId" element={<ClinicPage />} />
+        <Route path="/bookstatus/bookstatus" element={<BookStatus />} />
         {/* user-pateint booking starts here */}
         <Route path="/booking/select-patient" element={<PatientList />} />
 
