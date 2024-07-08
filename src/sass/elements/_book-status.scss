@@ -1,0 +1,12 @@
+.book-status-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:10px;
+    width: 100%;
+  }
+  @media screen and (max-width: 767px) {
+    .book-status-grid{
+      grid-template-columns: repeat(1, 1fr);
+
+    }
+}

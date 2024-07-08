@@ -2,8 +2,13 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Link as ScrollLink } from "react-scroll";
 import { UserContext } from "../../Contexts/UseContext";
+import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 
 const Header = ({ data }) => {
+  const navigate = useNavigate();
+
   const { logo } = data;
 
   const [mobileToggle, setMobileToggle] = useState(false);
@@ -58,6 +63,7 @@ const Header = ({ data }) => {
                 </svg>
                 <ScrollLink to="contact"> info@nischinto.com </ScrollLink>
               </li>
+              
               <li>
                 <svg
                   enableBackground="new 0 0 512.021 512.021"
@@ -74,6 +80,12 @@ const Header = ({ data }) => {
                 <ScrollLink to="contact"> +01 - 234 567 890 </ScrollLink>
               </li>
             </ul>
+
+           <button 
+                         style={{ cursor: "pointer", userSelect: "none" }}
+                         className="st-site-book-now-btn"
+                         onClick={ ()=> navigate("/BookStatus/BookStatus")}
+                         >Book status</button>
             {/* <Link
               to={"/signup"}
               style={{ cursor: "pointer", userSelect: "none" }}
