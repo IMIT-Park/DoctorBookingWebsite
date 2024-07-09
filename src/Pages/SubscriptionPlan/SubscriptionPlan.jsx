@@ -104,11 +104,11 @@ const SubscriptionPlan = () => {
                   </ul>
                   <div className="st-pricing-btn">
                     <Link
-                      to=""
+                      to="/owner-signup"
                       className="st-btn st-style2 st-color1 st-size-medium"
                     >
                       {" "}
-                      Contact Now
+                      Partner With Us
                     </Link>
                   </div>
                   <div className="st-height-b30 st-height-lg-b30" />
@@ -119,7 +119,7 @@ const SubscriptionPlan = () => {
         )}
       </div>
 
-      <div className="container">
+      {/* <div className="container">
         <div className="row justify-content-center">
           <div className="col-auto">
             <Link to="/owner-signup" className="st-btn st-style2 st-color1 st-size-medium">
@@ -127,7 +127,7 @@ const SubscriptionPlan = () => {
             </Link>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div className="st-height-b30 st-height-lg-b30" />
     </section>
