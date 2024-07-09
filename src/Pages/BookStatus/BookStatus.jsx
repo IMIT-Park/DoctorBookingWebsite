@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
 import { axiosApi } from "../../axiosInstance";
-import axios from "axios";
+import { UserContext } from "../../Contexts/UseContext";
 
 const BookStatus = () => {
-  const userid = 154;
+  const { setPageTitle, userDetails } = useContext(UserContext);
 
-  const [page, setPage] = useState(1);
-  const PAGE_SIZES = [10, 20, 30, 50, 100];
-  const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
+  useEffect(() => {
+    setPageTitle("Booking Status");
+  }, []);
+
+  const userId = userDetails?.user_id;
+
   const [loading, setLoading] = useState(false);
   const [bookings, setBookings] = useState([]);
 
@@ -17,7 +19,7 @@ const BookStatus = () => {
       setLoading(true);
       try {
         const response = await axiosApi.get(
-          `/v1/booking/getallbooking/${userid}`
+          `/v1/booking/getallbooking/${userId}`
         );
         setBookings(response?.data?.consultations);
       } catch (error) {
@@ -28,9 +30,7 @@ const BookStatus = () => {
     };
 
     fetchBookingDetails();
-  }, [userid]);
-
-  console.log(bookings);
+  }, [userId]);
 
   return (
     <div>
@@ -38,7 +38,7 @@ const BookStatus = () => {
       <div className="container">
         <div className="details_wrapper">
           <div className="profile_details_container book_status-box">
-            <div className="doctor_name">Book Status</div>
+            <div className="doctor_name">Booking Status</div>
             {loading ? (
               <div className="custom-loader_container">
                 <span className="custom-loader"></span>
@@ -70,7 +70,9 @@ const BookStatus = () => {
                             className="table-row"
                           >
                             <td>{index + 1}</td>
-                            <td>{booking?.booking?.Patient?.name}</td>
+                            <td style={{ textTransform: "capitalize" }}>
+                              {booking?.booking?.Patient?.name}
+                            </td>
                             <td>{booking?.booking?.token}</td>
                             <td>
                               {new Date(

@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { UserContext } from "../../Contexts/UseContext";
 
 const DoctorHeader = () => {
   const navigate = useNavigate();
-  const location = useLocation();
+
+  const { pageTitle } = useContext(UserContext);
 
   return (
     <header className="doc_header">
@@ -14,8 +16,8 @@ const DoctorHeader = () => {
             alt="Back"
           />
         </div>
-        {location?.pathname?.includes("/doctor-profile") && (
-          <h3 className="doc_header_title">Doctor Profile</h3>
+        {pageTitle && (
+          <h3 className="doc_header_title">{pageTitle}</h3>
         )}
         <div className="home_button" onClick={() => navigate("/")}>
           <img src={`${process.env.PUBLIC_URL}/icons/home.svg`} alt="Back" />

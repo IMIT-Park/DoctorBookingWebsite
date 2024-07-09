@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import Spacing from "../../Components/Spacing/Spacing";
 import CustomStepper from "../../Components/CustomStepper/CustomStepper";
 import { useNavigate } from "react-router-dom";
 import CustomPinInput from "../../Components/CustomPinInput/CustomPinInput";
+import { UserContext } from "../../Contexts/UseContext";
 
 const OtpVerification = () => {
+  const {setPageTitle } = useContext(UserContext);
+  
+  useEffect(() => {
+    setPageTitle("OTP Verification");
+  }, []);
+
   const navigate = useNavigate();
   const handlePinComplete = (pin) => {
     navigate("/booking/select-patient");

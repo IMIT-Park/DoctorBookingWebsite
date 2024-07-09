@@ -1,11 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Spacing from "../../Components/Spacing/Spacing";
 import { axiosApi } from "../../axiosInstance";
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { UserContext } from "../../Contexts/UseContext";
 
 const DoctorSignupPage = () => {
+  const { setPageTitle } = useContext(UserContext);
+
+  useEffect(() => {
+    setPageTitle("Register as Doctor");
+  }, []);
   const navigate = useNavigate();
 
   const [input, setInput] = useState({

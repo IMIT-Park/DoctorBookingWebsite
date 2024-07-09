@@ -3,6 +3,7 @@ import React, { createContext, useState, useEffect } from "react";
 const UserContext = createContext(null);
 
 const UserProvider = ({ children }) => {
+  const [pageTitle, setPageTitle] = useState("");
   const [userDetails, setUserDetails] = useState(null);
 
   const [bookingCompleted, setBookingCompleted] = useState(() => {
@@ -51,6 +52,8 @@ const UserProvider = ({ children }) => {
   return (
     <UserContext.Provider
       value={{
+        pageTitle,
+        setPageTitle,
         userDetails,
         setUserDetails,
         bookingDetails,

@@ -8,12 +8,19 @@ import "react-toastify/dist/ReactToastify.css";
 
 const PatientList = () => {
   const navigate = useNavigate();
+
   const {
+    setPageTitle,
     userDetails,
     bookingDetails,
     setBookingDetails,
     setBookingCompleted,
   } = useContext(UserContext);
+  
+  useEffect(() => {
+    setPageTitle("Select Patient");
+  }, []);
+
 
   const [loading, setLoading] = useState(false);
   const [patientsList, setPatientsList] = useState([]);
@@ -100,7 +107,7 @@ const PatientList = () => {
 
   const createBooking = async (e, patient_id = null) => {
     e.preventDefault();
-      console.log(patient_id);
+    console.log(patient_id);
     setBookingLoading(true);
 
     try {

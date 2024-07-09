@@ -4,30 +4,24 @@
 .st-member.st-style1 {
   border-radius: 5px;
   overflow: hidden;
-  border: 1px solid $black4;
   transition: all 0.3s ease;
-  background-color: #fff;
+  background-color: #F3F3F3;
   display: flex;
   flex-direction: column;
   align-items: center;
-  // gap: 4.5rem;
-  // padding: 0.5rem;
   width: 100%;
-  height: 40vh;
-  background-color: #F3F3F3;
+  padding: 5px;
 
   .st-member-img {
     overflow: hidden;
-    // width: 100px;
+    width: 100%;
+    height: 210px;
+    border-radius: 5px;
   }
   .st-member-img .st-member-photo {
-    // width: 18vw;
-    // width: 100%;
-    // aspect-ratio: 1/1;
-    object-fit: fill;
-    border-radius: 3%;
-    height: 30vh;
-    padding:4px ;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .st-doctor-link {
@@ -60,20 +54,19 @@
   }
 
   .st-member-meta {
-    // text-align: left;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     transition: all 0.4s ease;
     text-align: center;
-    // padding-top: 15px;
-    // padding-bottom: 15px;
   }
 
   .st-member-name {
-    font-size: 17px;
-    margin-bottom: 4px;
+    margin: 0;
+    margin-top: 0.5rem;
+    font-size: 18px;
+    font-weight: 600;
     position: relative;
     opacity: 1;
     visibility: visible;
@@ -92,6 +85,8 @@
     visibility: visible;
     transition: all 0.4s ease;
     font-size: 14px;
+    color: #464646;
+    margin-bottom: 5px;
   }
 
   .st-member-social-wrap {
@@ -217,29 +212,18 @@
   }
 
   @media (max-width: 767px) {
-    // .st-member-img {
-    //   width: 80px;
-    // }
     .st-member-name {
-      font-size: 15px;
+      font-size: 17px;
       margin-bottom: 0;
     }
     .st-member-designation {
-      font-size: 12px;
+      font-size: 13px;
     }
   }
- 
 }
-@media (max-width: 570px)
-{
-  .st-member-img .st-member-photo{
-    width: 95vw;
-    // object-fit: cover;
-  }
-  .st-member.st-style1{
-    height: 60vh;
-  }
-  .st-member.st-style1 .st-member-img .st-member-photo{
-    height: 50vh;
+
+@media (max-width: 767px) {
+  .st-member.st-style1 {
+    max-width: 15rem;
   }
 }
