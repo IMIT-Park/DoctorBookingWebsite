@@ -79,7 +79,7 @@ const SpecialistsSlider = ({ data }) => {
             )}
           </>
         )}
-        {alldoctors?.length > 0 && (
+        {alldoctors?.length > 20 && (
           <>
             <Spacing lg={60} md={30} />
             <div>

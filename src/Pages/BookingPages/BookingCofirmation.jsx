@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from "react";
 import Spacing from "../../Components/Spacing/Spacing";
-import CustomStepper from "../../Components/CustomStepper/CustomStepper";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../Contexts/UseContext";
 import { formatTime } from "../../utils/FormatTime";
@@ -8,7 +7,11 @@ import { reverseFormatDate } from "../../utils/formatDate";
 
 const BookingConfirmation = () => {
   const navigate = useNavigate();
-  const { bookingCompleted, setBookingCompleted } = useContext(UserContext);
+  const {setPageTitle, bookingCompleted, setBookingCompleted } = useContext(UserContext);
+  
+  useEffect(() => {
+    setPageTitle("Booking Confirmation");
+  }, []);
 
   const backtoHomeHandler = () => {
     setBookingCompleted(null);
@@ -24,8 +27,7 @@ const BookingConfirmation = () => {
     <>
       <Spacing lg={100} md={60} />
       <div className="container">
-        {/* <CustomStepper activeStep={4} completedSteps={[1, 2, 3]} /> */}
-        {/* <Spacing lg={50} md={20} /> */}
+    
         <div className="booking_container">
           <div className="booking_form_card">
             <div className="booking_confirmation_container">

@@ -1,13 +1,15 @@
 .plans-slider-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 25px ;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+  width: fit-content;
 }
 .plan-pricing-card {
-    width: 100%;
-    max-width: 25rem;
+  width: 100%;
+  max-width: 30rem;
+  min-height: 40rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .st-plan-price {
@@ -25,10 +27,27 @@
   font-size: 25px;
   margin-bottom: 20px;
 }
+.plan_feature_section {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.basic_plan_text {
+  margin: auto;
+  font-size: medium;
+  font-weight: 500;
+  color: #3c3c3c;
+}
+
+@media (max-width: 991px) {
+  .plans-slider-wrapper {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
 
 @media (max-width: 576px) {
   .st-plan-price {
-  font-size: 50px;
+    font-size: 50px;
   }
   .st-pricing-feature-list li {
     font-size: 1rem;

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Spacing from "../../Components/Spacing/Spacing";
 import CustomStepper from "../../Components/CustomStepper/CustomStepper";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,12 @@ import { axiosApi } from "../../axiosInstance";
 import { UserContext } from "../../Contexts/UseContext";
 
 const SelectPatient = () => {
+  const { setPageTitle } = useContext(UserContext);
+
+  useEffect(() => {
+    setPageTitle("Patient Details");
+  }, []);
+
   const navigate = useNavigate();
   const {
     userDetails,

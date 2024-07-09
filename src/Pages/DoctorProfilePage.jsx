@@ -7,8 +7,12 @@ import { UserContext } from "../Contexts/UseContext";
 
 const DoctorProfilePage = () => {
   const { doctorId } = useParams();
-  const { userDetails, bookingDetails, setBookingDetails } =
+  const { setPageTitle, userDetails, bookingDetails, setBookingDetails } =
     useContext(UserContext);
+
+  useEffect(() => {
+    setPageTitle("Doctor Profile");
+  }, []);
 
   const [loading, setLoading] = useState(false);
   const [doctorDetails, setDoctorDetails] = useState(null);
@@ -36,7 +40,6 @@ const DoctorProfilePage = () => {
       );
       setDoctorClinics(response?.data?.allclinics);
     } catch (error) {
-      console.log(error);
       setLoading(false);
     } finally {
       setLoading(false);

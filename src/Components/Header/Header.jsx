@@ -5,16 +5,15 @@ import { UserContext } from "../../Contexts/UseContext";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-
 const Header = ({ data }) => {
   const navigate = useNavigate();
+  const { userDetails } = useContext(UserContext);
 
   const { logo } = data;
 
   const [mobileToggle, setMobileToggle] = useState(false);
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const [isSticky, setIsSticky] = useState(false);
-  const { userDetails } = useContext(UserContext);
 
   const handleMobileToggle = () => {
     setMobileToggle(!mobileToggle);
@@ -63,7 +62,7 @@ const Header = ({ data }) => {
                 </svg>
                 <ScrollLink to="contact"> info@nischinto.com </ScrollLink>
               </li>
-              
+
               <li>
                 <svg
                   enableBackground="new 0 0 512.021 512.021"
@@ -80,19 +79,15 @@ const Header = ({ data }) => {
                 <ScrollLink to="contact"> +01 - 234 567 890 </ScrollLink>
               </li>
             </ul>
-
-           <button 
-                         style={{ cursor: "pointer", userSelect: "none" }}
-                         className="st-site-book-now-btn"
-                         onClick={ ()=> navigate("/BookStatus/BookStatus")}
-                         >Book status</button>
-            {/* <Link
-              to={"/signup"}
-              style={{ cursor: "pointer", userSelect: "none" }}
-              className="st-top-header-btn st-smooth-move cursor-pointer"
-            >
-              Sign Up
-            </Link> */}
+            {userDetails && (
+              <button
+                style={{ cursor: "pointer", userSelect: "none" }}
+                className="st-site-book-now-btn"
+                onClick={() => navigate("/BookStatus/BookStatus")}
+              >
+                Booking Status
+              </button>
+            )}
           </div>
         </div>
       </div>
