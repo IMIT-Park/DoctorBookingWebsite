@@ -3,6 +3,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { axiosApi, imageBase_URL } from "../../axiosInstance";
 import { getMapLocation } from "../../utils/getLocation";
 import { UserContext } from "../../Contexts/UseContext";
+import ComplaintModal from "../../Components/ComplaintModal/ComplaintModal";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+
+
 
 const ClinicSingleView = () => {
   const navigate = useNavigate();
@@ -11,12 +17,21 @@ const ClinicSingleView = () => {
   const { userDetails, bookingDetails, setBookingDetails } =
     useContext(UserContext);
 
+
+  const [buttonLoading, setButtonLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [page, setPage] = useState(1);
   const PAGE_SIZES = [10, 20, 30, 50, 100];
   const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
   const [loading, setLoading] = useState(false);
   const [doctorClinics, setDoctorClinics] = useState([]);
   const [clinicDetails, setClinicDetails] = useState(null);
+  const [reportInput, setReportInput] = useState({
+    email: "",
+    phone: "",
+    content: "",
+    clinic_id: clinicDetails && clinicDetails?.clinic_id,
+  });
   const days = [
     { name: "SUN", id: 0 },
     { name: "MON", id: 1 },
@@ -26,6 +41,29 @@ const ClinicSingleView = () => {
     { name: "FRI", id: 5 },
     { name: "SAT", id: 6 },
   ];
+
+  useEffect(() => {
+    const handlePageScroll = () => {
+      const body = document.querySelector("body");
+      const html = document.querySelector("html");
+      if (showModal) {
+        const scrollY = window.scrollY;
+        body.style.top = `-${scrollY}px`;
+        body.style.position = "fixed";
+        body.style.width = "100%";
+      } else {
+        const scrollY = body.style.top;
+        body.style.position = "";
+        body.style.top = "";
+        window.scrollTo(0, parseInt(scrollY || "0") * -1);
+      }
+    };
+    handlePageScroll();
+    return () => {
+      document.querySelector("body").style.position = "";
+      document.querySelector("body").style.top = "";
+    };
+  }, [showModal]);
 
   useEffect(() => {
     const fetchClinicDetails = async () => {
@@ -42,6 +80,8 @@ const ClinicSingleView = () => {
 
     fetchClinicDetails();
   }, [clinicId]);
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,6 +101,49 @@ const ClinicSingleView = () => {
     fetchData();
   }, [page, pageSize]);
 
+
+  const handleReportClick = () => {
+    setShowModal(true);
+  };
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+    // -- Add complaint function --
+  const addComplaint = async () => {
+    if (!reportInput.email || !reportInput.phone || !reportInput.content) {
+      return true;
+    }
+    setButtonLoading(true);
+    try {
+      const response = await axiosApi.post(
+        "/v1/complaint/sendComplaint",
+        reportInput
+      );
+      console.log("Complaint submitted successfully:", response.clinicDetails);
+      toast.success("Report Successfully");
+      setReportInput({
+        email: "",
+        phone: "",
+        content: "",
+        clinic_id: clinicDetails && clinicDetails.clinic_id,
+      });
+      handleCloseModal();
+    } catch (error) {
+      console.error("Error submitting complaint:", error);
+      setButtonLoading(false);
+    } finally {
+      setButtonLoading(false);
+    }
+  };
+
+  const handleComplaintSubmit = (e) => {
+    e.preventDefault();
+    addComplaint();
+  };
+
+
+
   const isDayAvailable = (timeslots, dayId, clinicId) => {
     return timeslots.some(
       (timeslot) => timeslot.day_id === dayId && timeslot.clinic_id === clinicId
@@ -78,6 +161,7 @@ const ClinicSingleView = () => {
 
   return (
     <div>
+      <ToastContainer autoClose={2000} position="top-center"/>
       <div className="st-height-b120 st-height-lg-b80" />
       <div className="container">
         <div className="details_wrapper clinicProfile_details_wrapper">
@@ -92,9 +176,11 @@ const ClinicSingleView = () => {
                   <div className="clinic_card">
                     <button
                       className="profile_report_btn clinic_report_btn"
+                      onClick={handleReportClick}
                     >
                       Report
                     </button>
+                  
                     <div className="clinicprofile__banner_wrapper">
                       <img
                         src={imageBase_URL + clinicDetails?.banner_img_url}
@@ -205,6 +291,17 @@ const ClinicSingleView = () => {
           )}
         </div>
       </div>
+      <ComplaintModal
+        showModal={showModal}
+        handleClose={handleCloseModal}
+        reportInput={{
+          ...reportInput,
+          clinic_id: clinicDetails && clinicDetails.clinic_id,
+        }}
+        setReportInput={setReportInput}
+        handleComplaintSubmit={handleComplaintSubmit}
+        loading={buttonLoading}
+      />
       <div className="st-height-b120 st-height-lg-b90" />
     </div>
   );
