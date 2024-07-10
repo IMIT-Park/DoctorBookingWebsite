@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Spacing from "../../Components/Spacing/Spacing";
 import Eye from "../../Components/PasswordEye/Eye";
 import CloseEye from "../../Components/PasswordEye/CloseEye";
@@ -10,6 +10,7 @@ import { UserContext } from "../../Contexts/UseContext";
 
 const PatientRegister = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [input, setInput] = useState({
     user_name: "",
     password: "",
@@ -19,7 +20,11 @@ const PatientRegister = () => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { setUserDetails } = useContext(UserContext);
+  const { setPageTitle, setUserDetails } = useContext(UserContext);
+
+  useEffect(() => {
+    setPageTitle("Patient Register");
+  }, []);
 
   const validate = () => {
     const newErrors = {};
@@ -50,12 +55,6 @@ const PatientRegister = () => {
 
         if (response.status === 201) {
           const { accessToken, refreshToken, user } = response.data;
-
-          // sessionStorage.setItem("accessToken", accessToken);
-          // sessionStorage.setItem("refreshToken", refreshToken);
-          // sessionStorage.setItem("userData", JSON.stringify(user));
-
-          // setUserDetails({ user, accessToken, refreshToken });
 
           toast.success("Signup successful!");
           setInput({
@@ -142,7 +141,7 @@ const PatientRegister = () => {
                 </label>
                 <div className="password-input-container mb-2">
                   <input
-                    type={showPassword ? "text" : "password"}
+                    type={showConfirmPassword ? "text" : "password"}
                     className="form-control"
                     id="confirm_password"
                     value={input.confirmPassword}
@@ -154,9 +153,9 @@ const PatientRegister = () => {
                   />
                   <div
                     className="icon-container"
-                    onClick={() => setShowPassword(!showPassword)}
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   >
-                    {showPassword ? <Eye /> : <CloseEye />}
+                    {showConfirmPassword ? <Eye /> : <CloseEye />}
                   </div>
                   {errors.confirmPassword && (
                     <p className="text-danger">{errors.confirmPassword}</p>

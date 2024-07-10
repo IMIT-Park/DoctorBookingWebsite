@@ -137,7 +137,7 @@ const SelectPatient = () => {
                         }
                       />
                     </div>
-                    <div className="input-group mb-2">
+                    <div className="input-group">
                       <span className="input-group-text" id="basic-phone">
                         +91
                       </span>

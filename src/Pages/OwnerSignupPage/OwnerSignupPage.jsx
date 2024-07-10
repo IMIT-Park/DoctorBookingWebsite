@@ -3,6 +3,8 @@ import Spacing from "../../Components/Spacing/Spacing";
 import { axiosApi, dashboardUrl } from "../../axiosInstance";
 import { useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../../Contexts/UseContext";
+import Eye from "../../Components/PasswordEye/Eye";
+import CloseEye from "../../Components/PasswordEye/CloseEye";
 
 const OwnerSignupPage = () => {
   const { salespersoncode } = useParams();
@@ -25,6 +27,8 @@ const OwnerSignupPage = () => {
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   useEffect(() => {
     if (salespersoncode) {
@@ -176,9 +180,9 @@ const OwnerSignupPage = () => {
                 }
               ></textarea>
             </div>
-            <div className="mb-2">
+            <div className="password-input-container mb-2">
               <input
-                type="text"
+                type={showPassword ? "text" : "password"}
                 className="form-control"
                 id="password"
                 placeholder="Password"
@@ -188,10 +192,16 @@ const OwnerSignupPage = () => {
                   setInput({ ...input, password: e.target.value })
                 }
               />
+              <div
+                className="icon-container"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <Eye /> : <CloseEye />}
+              </div>
             </div>
-            <div className="mb-2">
+            <div className="password-input-container mb-2">
               <input
-                type="text"
+                type={showConfirmPassword ? "text" : "password"}
                 className="form-control"
                 id="confirm-password"
                 placeholder="Confirm Password"
@@ -201,6 +211,12 @@ const OwnerSignupPage = () => {
                   setInput({ ...input, confirmPassword: e.target.value })
                 }
               />
+              <div
+                className="icon-container"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                {showConfirmPassword ? <Eye /> : <CloseEye />}
+              </div>
               {errors.confirmPassword && (
                 <p className="text-danger">{errors.confirmPassword}</p>
               )}

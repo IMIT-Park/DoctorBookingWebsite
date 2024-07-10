@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Spacing from "../../Components/Spacing/Spacing";
 import { useLocation, useNavigate } from "react-router-dom";
 import Eye from "../../Components/PasswordEye/Eye";
@@ -14,8 +14,12 @@ const PatientLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [data, setData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
-  const { setUserDetails } = useContext(UserContext);
+  const { setPageTitle, setUserDetails } = useContext(UserContext);
   const isDocBooking = sessionStorage.getItem("isDoctorBooking");
+
+  useEffect(() => {
+    setPageTitle("Patient Login");
+  }, []);
 
   // login function
   const handleLogin = async (e) => {
