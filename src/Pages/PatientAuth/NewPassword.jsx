@@ -1,16 +1,24 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Spacing from "../../Components/Spacing/Spacing";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { BASIC_URL } from "../../axiosInstance";
 import Eye from "../../Components/PasswordEye/Eye";
 import CloseEye from "../../Components/PasswordEye/CloseEye";
+import { UserContext } from "../../Contexts/UseContext";
 
 const ForgotPassword = () => {
+  const { setPageTitle } = useContext(UserContext);
+
+  useEffect(() => {
+    setPageTitle("Reset Password");
+  }, []);
+
   const navigate = useNavigate();
   const [data, setData] = useState({ newPassword: "", confirmPassword: "" });
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   return (
     <>
@@ -49,7 +57,7 @@ const ForgotPassword = () => {
 
                 <div className="password-input-container mb-2">
                   <input
-                    type={showPassword ? "text" : "password"}
+                    type={showConfirmPassword ? "text" : "password"}
                     className="form-control"
                     id="confirmPassword"
                     placeholder="Confirm Password"
@@ -60,9 +68,9 @@ const ForgotPassword = () => {
                   />
                   <div
                     className="icon-container"
-                    onClick={() => setShowPassword(!showPassword)}
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   >
-                    {showPassword ? <Eye /> : <CloseEye />}
+                    {showConfirmPassword ? <Eye /> : <CloseEye />}
                   </div>
                 </div>
 

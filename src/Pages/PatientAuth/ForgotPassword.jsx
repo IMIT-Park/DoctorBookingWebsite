@@ -1,16 +1,23 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Spacing from "../../Components/Spacing/Spacing";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { BASIC_URL } from "../../axiosInstance";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { UserContext } from "../../Contexts/UseContext";
 
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const { setPageTitle } = useContext(UserContext);
+
+  useEffect(() => {
+    setPageTitle("Forgot Password");
+  }, []);
 
   //Submit Email
   const handleSubmit = async (e) => {
