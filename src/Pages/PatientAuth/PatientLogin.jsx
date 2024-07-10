@@ -15,7 +15,7 @@ const PatientLogin = () => {
   const [data, setData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const { setUserDetails } = useContext(UserContext);
-  const { userDetails } = useContext(UserContext);
+  const isDocBooking = sessionStorage.getItem("isDoctorBooking");
 
   // login function
   const handleLogin = async (e) => {
@@ -158,13 +158,19 @@ const PatientLogin = () => {
                     </label>
 
                     <div className="book_as_guest_wrapper">
-                      <div
-                        className="book_as_guest"
-                        onClick={() => navigate("/book-as-guest")}
-                      >
-                        Book as Guest
-                        <span className="register_divider">|</span>
-                      </div>
+                      {isDocBooking === "isDoctorBooking" && (
+                        <>
+                          <div
+                            className="book_as_guest"
+                            onClick={() =>
+                              navigate("/booking/number-verification")
+                            }
+                          >
+                            Book as Guest
+                          </div>
+                          <span className="register_divider">|</span>
+                        </>
+                      )}
                       <div
                         className="register"
                         onClick={() => navigate("/patient-register")}

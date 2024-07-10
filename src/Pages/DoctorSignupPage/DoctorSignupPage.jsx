@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import Spacing from "../../Components/Spacing/Spacing";
-import { axiosApi } from "../../axiosInstance";
+import { axiosApi, dashboardUrl } from "../../axiosInstance";
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -92,11 +92,10 @@ const DoctorSignupPage = () => {
           fees: "",
         });
 
-        window.location.href = "https://www.youtube.com/";
+        window.location.href = dashboardUrl;
       } catch (error) {
         console.error("Signup error:", error);
         if (error.response && error.response.status === 403) {
-        //   alert("Email already exists. Please use a different email.");
         toast.error("Email already exists. Please use a different email!");
         }
         setLoading(false);

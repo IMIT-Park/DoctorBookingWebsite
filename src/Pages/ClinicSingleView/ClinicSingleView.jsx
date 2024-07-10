@@ -6,25 +6,27 @@ import { UserContext } from "../../Contexts/UseContext";
 import ComplaintModal from "../../Components/ComplaintModal/ComplaintModal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-
-
+import ReactPaginate from "react-paginate";
 
 const ClinicSingleView = () => {
   const navigate = useNavigate();
   const { clinicId } = useParams();
 
-  const { userDetails, bookingDetails, setBookingDetails } =
+  const { setPageTitle, userDetails, bookingDetails, setBookingDetails } =
     useContext(UserContext);
 
+  useEffect(() => {
+    setPageTitle("");
+  }, []);
 
   const [buttonLoading, setButtonLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [page, setPage] = useState(1);
-  const PAGE_SIZES = [10, 20, 30, 50, 100];
-  const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
+  const pageSize = 20;
   const [loading, setLoading] = useState(false);
+  const [doctorLoading, setDoctorLoading] = useState(false);
   const [doctorClinics, setDoctorClinics] = useState([]);
+  const [totalPages, setTotlaPages] = useState(0);
   const [clinicDetails, setClinicDetails] = useState(null);
   const [reportInput, setReportInput] = useState({
     email: "",
@@ -81,26 +83,24 @@ const ClinicSingleView = () => {
     fetchClinicDetails();
   }, [clinicId]);
 
-
-
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
+      setDoctorLoading(true);
       try {
         const response = await axiosApi.get(
-          `/v1/doctor/getalldr/${clinicId}?page=${page}&pagesize=${pageSize}`
+          `/v1/doctor/getalldr/${clinicId}?pageSize=${pageSize}&page=${page}`
         );
+        setTotlaPages(response?.data?.pageInfo?.totalPages);
         setDoctorClinics(response?.data?.alldoctors);
       } catch (error) {
         console.log(error);
       } finally {
-        setLoading(false);
+        setDoctorLoading(false);
       }
     };
 
     fetchData();
   }, [page, pageSize]);
-
 
   const handleReportClick = () => {
     setShowModal(true);
@@ -109,7 +109,7 @@ const ClinicSingleView = () => {
     setShowModal(false);
   };
 
-    // -- Add complaint function --
+  // -- Add complaint function --
   const addComplaint = async () => {
     if (!reportInput.email || !reportInput.phone || !reportInput.content) {
       return true;
@@ -120,8 +120,7 @@ const ClinicSingleView = () => {
         "/v1/complaint/sendComplaint",
         reportInput
       );
-      console.log("Complaint submitted successfully:", response.clinicDetails);
-      toast.success("Report Successfully");
+      toast.success("Report Submitted Successfully");
       setReportInput({
         email: "",
         phone: "",
@@ -142,11 +141,10 @@ const ClinicSingleView = () => {
     addComplaint();
   };
 
-
-
   const isDayAvailable = (timeslots, dayId, clinicId) => {
     return timeslots.some(
-      (timeslot) => timeslot.day_id === dayId && timeslot.clinic_id === clinicId
+      (timeslot) =>
+        timeslot?.day_id === dayId && timeslot?.clinic_id === clinicId
     );
   };
 
@@ -159,9 +157,13 @@ const ClinicSingleView = () => {
     navigate(`/doctor-profile/${doctorId}`);
   };
 
+  const handlePageClick = (event) => {
+    setPage(event.selected + 1);
+  };
+
   return (
     <div>
-      <ToastContainer autoClose={2000} position="top-center"/>
+      <ToastContainer autoClose={2000} position="top-center" />
       <div className="st-height-b120 st-height-lg-b80" />
       <div className="container">
         <div className="details_wrapper clinicProfile_details_wrapper">
@@ -180,7 +182,7 @@ const ClinicSingleView = () => {
                     >
                       Report
                     </button>
-                  
+
                     <div className="clinicprofile__banner_wrapper">
                       <img
                         src={imageBase_URL + clinicDetails?.banner_img_url}
@@ -190,7 +192,7 @@ const ClinicSingleView = () => {
                     </div>
                     <div className="clinic-details-column">
                       <h3 className="clinic_name_text">
-                        {clinicDetails?.name} 
+                        {clinicDetails?.name}
                       </h3>
                       <p className="clinic-address">Address</p>
                       <p className="clinic_detail_box clinic_detail_address_box">
@@ -215,74 +217,132 @@ const ClinicSingleView = () => {
                   </div>
 
                   <div className="doctor_title">Doctors List</div>
-                  <div className="doctor_list_card_container">
-                    {doctorClinics.map((doc, index) => (
-                      <div key={index} className="doctor_list_detail_card">
-                        <div className="doctor_list_detail_top_sec">
-                          <div className="doctor_list_card_photo_container">
-                            <img
-                              src={
-                                doc?.photo
-                                  ? imageBase_URL + doc?.photo
-                                  : `${process.env.PUBLIC_URL}/images/empty-user.png`
-                              }
-                              alt="Doctor"
-                              className="doctor_list_card_photo"
-                            />
-                          </div>
-                          <div className="clini_doctor_web_hidden_details">
-                            <h2 className="clini_doctor_name">
-                              Dr. {doc?.name}
-                            </h2>
-                            <p className="docotr_qualification">
-                              {doc?.qualification}
-                            </p>
-                            <p className="doctor_specialization">
-                              {doc?.specialization}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="clinic_doctor_detailbox">
-                          <div className="clini_doctor_mob_hidden_details">
-                            <h2 className="clini_doctor_name">
-                              Dr. {doc?.name}
-                            </h2>
-                            <p className="docotr_qualification">
-                              {doc?.qualification}
-                            </p>
-                            <p className="doctor_specialization">
-                              {doc?.specialization}
-                            </p>
-                          </div>
-                          <div className="doctor_day_showing_container">
-                            {days.map((day) => (
-                              <div
-                                key={day?.id}
-                                className={
-                                  isDayAvailable(
-                                    doc.timeslots,
-                                    day.id,
-                                    parseFloat(clinicId)
-                                  )
-                                    ? "doctor_day_showing_card"
-                                    : "doctor_day_showing_card disabled"
-                                }
-                              >
-                                {day?.name}
+                  {doctorLoading ? (
+                    <div
+                      className="custom-loader_container"
+                      style={{ height: "20rem" }}
+                    >
+                      <span className="custom-loader"></span>
+                    </div>
+                  ) : (
+                    <>
+                      {doctorClinics && doctorClinics?.length > 0 ? (
+                        <div className="doctor_list_card_container">
+                          {doctorClinics?.map((doc, index) => (
+                            <div
+                              key={index}
+                              className="doctor_list_detail_card"
+                            >
+                              <div className="doctor_list_detail_top_sec">
+                                <div className="doctor_list_card_photo_container">
+                                  <img
+                                    src={
+                                      doc?.photo
+                                        ? imageBase_URL + doc?.photo
+                                        : `${process.env.PUBLIC_URL}/images/empty-user.png`
+                                    }
+                                    alt="Doctor"
+                                    className="doctor_list_card_photo"
+                                  />
+                                </div>
+                                <div className="clini_doctor_web_hidden_details">
+                                  <h2 className="clini_doctor_name">
+                                    Dr. {doc?.name}
+                                  </h2>
+                                  <p className="docotr_qualification">
+                                    {doc?.qualification}
+                                  </p>
+                                  <p className="doctor_specialization">
+                                    {doc?.specialization}
+                                  </p>
+                                </div>
                               </div>
-                            ))}
-                          </div>
+                              <div className="clinic_doctor_detailbox">
+                                <div className="clini_doctor_mob_hidden_details">
+                                  <h2 className="clini_doctor_name">
+                                    Dr. {doc?.name}
+                                  </h2>
+                                  <p className="docotr_qualification">
+                                    {doc?.qualification}
+                                  </p>
+                                  <p className="doctor_specialization">
+                                    {doc?.specialization}
+                                  </p>
+                                </div>
+                                <div className="doctor_day_showing_container">
+                                  {days.map((day) => (
+                                    <div
+                                      key={day?.id}
+                                      className={
+                                        isDayAvailable(
+                                          doc?.timeslots,
+                                          day?.id,
+                                          parseFloat(clinicId)
+                                        )
+                                          ? "doctor_day_showing_card"
+                                          : "doctor_day_showing_card disabled"
+                                      }
+                                    >
+                                      {day?.name}
+                                    </div>
+                                  ))}
+                                </div>
 
-                          <button
-                            onClick={() => handleBookAppoinment(doc?.doctor_id)}
-                            className="clinic_dr_book_appoinment_btn"
-                          >
-                            Book Appointment
-                          </button>
+                                <button
+                                  onClick={() =>
+                                    handleBookAppoinment(doc?.doctor_id)
+                                  }
+                                  className="clinic_dr_book_appoinment_btn"
+                                >
+                                  Book Appointment
+                                </button>
+                              </div>
+                            </div>
+                          ))}
                         </div>
-                      </div>
-                    ))}
-                  </div>
+                      ) : (
+                        <div className="clinic_data_notfound">
+                          No Doctors Found On This Clinic
+                        </div>
+                      )}
+                    </>
+                  )}
+                  {doctorClinics && doctorClinics?.length > 20 && (
+                    <div
+                      style={{
+                        width: "100%",
+                        display: "grid",
+                        placeItems: "center",
+                        marginTop: "3rem",
+                      }}
+                    >
+                      {" "}
+                      <ReactPaginate
+                        previousLabel={
+                          <img
+                            src={`${process.env.PUBLIC_URL}/icons/pagination-arrow.svg`}
+                            alt="Previous"
+                          />
+                        }
+                        nextLabel={
+                          <img
+                            style={{ rotate: "180deg" }}
+                            src={`${process.env.PUBLIC_URL}/icons/pagination-arrow.svg`}
+                            alt="Next"
+                          />
+                        }
+                        breakLabel={"..."}
+                        pageCount={totalPages || 0}
+                        marginPagesDisplayed={2}
+                        pageRangeDisplayed={5}
+                        onPageChange={handlePageClick}
+                        containerClassName={"custom-pagination"}
+                        activeClassName={"active"}
+                        previousClassName={"previous"}
+                        nextClassName={"next"}
+                      />
+                    </div>
+                  )}
                 </>
               ) : (
                 <div className="clinic_data_notfound">No Data Found</div>

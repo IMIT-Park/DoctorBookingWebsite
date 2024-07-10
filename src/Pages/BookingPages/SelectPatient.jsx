@@ -15,14 +15,9 @@ const SelectPatient = () => {
   }, []);
 
   const navigate = useNavigate();
-  const {
-    userDetails,
-    bookingDetails,
-    setBookingDetails,
-    setBookingCompleted,
-  } = useContext(UserContext);
+  const { bookingDetails, setBookingDetails, setBookingCompleted } =
+    useContext(UserContext);
 
-  const [tab, setTab] = useState("add-patient");
   const [input, setInput] = useState({
     phone: "",
     name: "",
@@ -92,7 +87,6 @@ const SelectPatient = () => {
         "/v1/booking/createBooking",
         bookingData
       );
-      console.log(response);
       if (response.status === 201) {
         toast.success("Booking Added Successfully");
         setTimeout(() => {
@@ -126,24 +120,6 @@ const SelectPatient = () => {
           <div className="booking_form_card">
             <form onSubmit={handleSubmit}>
               <div className="patient_details_wrapper">
-                {/* <div className="patient_tabs_container">
-                <div
-                  className={`patient_tab ${
-                    tab === "add-patient" ? "add-active" : ""
-                  }`}
-                  onClick={() => setTab("add-patient")}
-                >
-                  Add Patient
-                </div>
-                <div
-                  className={`patient_tab ${
-                    tab === "select-patient" ? "select-active" : ""
-                  }`}
-                  onClick={() => setTab("select-patient")}
-                >
-                  Select Patient
-                </div>
-              </div> */}
                 <h3 className="booking_form_card_title">Enter your Details</h3>
                 <div className="">
                   <div>
