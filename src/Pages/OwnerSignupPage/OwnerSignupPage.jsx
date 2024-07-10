@@ -1,11 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Spacing from "../../Components/Spacing/Spacing";
-import { axiosApi } from "../../axiosInstance";
+import { axiosApi, dashboardUrl } from "../../axiosInstance";
 import { useNavigate, useParams } from "react-router-dom";
+import { UserContext } from "../../Contexts/UseContext";
 
 const OwnerSignupPage = () => {
   const { salespersoncode } = useParams();
   const navigate = useNavigate();
+  const { setPageTitle } = useContext(UserContext);
+
+  useEffect(() => {
+    setPageTitle("Register as Owner");
+  }, []);
 
   const [input, setInput] = useState({
     name: "",
@@ -84,7 +90,7 @@ const OwnerSignupPage = () => {
           confirmPassword: "",
         });
 
-        window.location.href = "https://www.youtube.com/";
+        window.location.href = dashboardUrl;
       } catch (error) {
         console.error("Signup error:", error);
         setLoading(false);

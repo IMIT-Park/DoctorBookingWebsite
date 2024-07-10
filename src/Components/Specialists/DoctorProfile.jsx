@@ -94,7 +94,8 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
         "/v1/complaint/sendComplaint",
         reportInput
       );
-      console.log("Complaint submitted successfully:", response.doctorDetails);
+      toast.success("Report Submitted Successfully");
+
       setReportInput({
         email: "",
         phone: "",
@@ -235,6 +236,7 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
       if (userDetails) {
         navigate("/booking/select-patient");
       } else {
+        sessionStorage.setItem("isDoctorBooking","isDoctorBooking")
         navigate("/patient-login", {
           state: { previousUrl: location?.pathname },
         });
@@ -297,7 +299,8 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
                       Report
                     </button>
                   </div>
-                  {doctorClinics && doctorClinics?.length > 0 ? (
+                  {(doctorClinics && doctorClinics?.length > 0) ||
+                  bookingDetails?.clinic_id ? (
                     <>
                       {!bookingDetails?.clinic_id && (
                         <>
@@ -556,8 +559,7 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
                     </>
                   ) : (
                     <div className="custom-loader_container pt-4">
-                            <div className="row_border mb-5" />
-
+                      <div className="row_border mb-5" />
                       This doctor currently does not have a clinic listed.
                     </div>
                   )}

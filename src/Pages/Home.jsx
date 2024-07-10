@@ -515,6 +515,7 @@ const Home = () => {
       type: "application",
       DoctorTimeSlot_id: null,
     });
+    sessionStorage.removeItem("isDoctorBooking");
   }, []);
   return (
     <>
