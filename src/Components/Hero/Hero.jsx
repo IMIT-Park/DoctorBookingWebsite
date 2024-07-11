@@ -1,9 +1,8 @@
-import { React, useEffect, useState } from 'react';
-import Social from '../Social/Social';
-import HeroSlider from '../Slider/HeroSlider';
-import { Link as ScrollLink } from 'react-scroll';
-import TextTransition, { presets } from 'react-text-transition';
-
+import { React, useEffect, useState } from "react";
+import Social from "../Social/Social";
+import HeroSlider from "../Slider/HeroSlider";
+import { Link as ScrollLink } from "react-scroll";
+import TextTransition, { presets } from "react-text-transition";
 
 const Hero = ({ data }) => {
   const bgImg = data.bgImg;
@@ -14,8 +13,8 @@ const Hero = ({ data }) => {
   const [index, setIndex] = useState(0);
   useEffect(() => {
     const intervalId = setInterval(
-      () => setIndex(index => index + 1),
-      3000, // every 3 seconds
+      () => setIndex((index) => index + 1),
+      3000 // every 3 seconds
     );
     return () => clearTimeout(intervalId);
   }, []);
@@ -30,7 +29,7 @@ const Hero = ({ data }) => {
         <div className="container">
           <div className="st-hero-text">
             <div className="st-height-b40 st-height-lg-b40" />
-            <h1 className="st-hero-title cd-headline slide">
+            {/* <h1 className="st-hero-title cd-headline slide">
               Take best quality <br />
               treatment for
               <span className="cd-words-wrapper">
@@ -40,19 +39,29 @@ const Hero = ({ data }) => {
                   </span>
                 </TextTransition>
               </span>
+            </h1> */}
+            <h1 className="st-hero-title cd-headline slide">
+              Find the perfect doctor <br /> & book appointments in <br />{" "}
+              minutes with
+              <br />
+              <span style={{ color: "#006241" }}> mydoctorstime</span>
             </h1>
-            <div className="st-hero-subtitle">
+            {/* <div className="st-hero-subtitle">
               The art of medicine consists in amusing the patient while nature
               cures the disease. <br />
               Treatment without prevention is simply unsustainable.
+            </div> */}
+            <div className="st-hero-subtitle">
+              Your one-stop platform for convenient healthcare.
             </div>
+
             <div className="st-hero-btn">
               <ScrollLink
                 to="appointment"
                 className="st-btn st-style1 st-color1 st-smooth-move"
               >
-                {' '}
-                Appointment{' '}
+                {" "}
+                Book Appointment{" "}
               </ScrollLink>
             </div>
           </div>
