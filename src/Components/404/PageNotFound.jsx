@@ -1,17 +1,23 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
+import Spacing from "../Spacing/Spacing";
 
 const PageNotFound = () => {
   return (
     <div className="st-page-not-found st-flex-center text-center">
       <div className="">
-        <h3>4<span>0</span>4</h3>
+        <Spacing lg={150} md={50} />
+        <h3>
+          4<span>0</span>4
+        </h3>
         <h4>Page Not Found</h4>
         <p>oops, the page you are looking for can't be found!</p>
-        <Link to='/' className="st-btn st-style1 st-color1">Go to Home</Link>
+        <Link to="/" className="st-btn st-style1 st-color1">
+          Go to Home
+        </Link>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default PageNotFound;

@@ -14,7 +14,8 @@ const PatientLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [data, setData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
-  const { setPageTitle, setUserDetails } = useContext(UserContext);
+  const { setPageTitle, setUserDetails, bookingDetails } =
+    useContext(UserContext);
   const isDocBooking = sessionStorage.getItem("isDoctorBooking");
 
   useEffect(() => {
@@ -74,7 +75,11 @@ const PatientLogin = () => {
         toast.success("Login Success");
         setData({ email: "", password: "" });
 
-        if (location?.state?.previousUrl.includes("/doctor-profile")) {
+        if (
+          bookingDetails?.doctor_id &&
+          bookingDetails?.clinic_id &&
+          bookingDetails?.schedule_date
+        ) {
           navigate("/booking/select-patient");
         } else {
           navigate("/");
@@ -127,7 +132,7 @@ const PatientLogin = () => {
                         type="text"
                         className="form-control"
                         id="Username"
-                        placeholder="User Name"
+                        placeholder="Email"
                         value={data.email}
                         onChange={(e) =>
                           setData({ ...data, email: e.target.value })

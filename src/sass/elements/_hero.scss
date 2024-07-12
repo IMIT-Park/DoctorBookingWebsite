@@ -35,7 +35,7 @@
     }
 
     &.cd-headline b:before {
-      content: '';
+      content: "";
       position: absolute;
       height: 75px;
       width: 100%;
@@ -252,7 +252,7 @@
 
 .st-color-overlay:before,
 .st-hero-overlay:before {
-  content: '';
+  content: "";
   position: absolute;
   height: 100%;
   width: 100%;
@@ -427,7 +427,7 @@
 }
 
 .st-white-overlay:before {
-  content: '';
+  content: "";
   position: absolute;
   height: 100%;
   width: 100%;
@@ -435,6 +435,18 @@
   top: 0;
   background: rgba($white, 0.15);
   z-index: 1;
+}
+
+.st-hero-btn-container {
+  display: flex;
+  align-items: start;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.st-btn.st-style1.st-color1.st-hero-outline-btn {
+  background-color: transparent;
+  color: $blue;
+  border: 2px solid $blue;
 }
 
 @media screen and (min-width: 1200px) {
@@ -566,7 +578,7 @@
   &:after {
     position: absolute;
     display: inline-block;
-    content: '';
+    content: "";
     width: 100%;
     height: 100%;
     border-radius: 50%;

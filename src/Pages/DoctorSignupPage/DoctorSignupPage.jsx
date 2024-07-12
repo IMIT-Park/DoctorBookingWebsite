@@ -14,7 +14,6 @@ const DoctorSignupPage = () => {
   useEffect(() => {
     setPageTitle("Register as Doctor");
   }, []);
-  const navigate = useNavigate();
 
   const [input, setInput] = useState({
     name: "",
@@ -66,6 +65,7 @@ const DoctorSignupPage = () => {
       !input.gender ||
       !input.fees
     ) {
+      toast.warning("Please fill in all input fields");
       return;
     }
 
@@ -79,7 +79,9 @@ const DoctorSignupPage = () => {
         };
 
         const response = await axiosApi.post("/v1/doctor/Dr-sign-up", data);
+
         toast.success("Signup successful!");
+
         setLoading(false);
         setInput({
           name: "",
@@ -96,7 +98,9 @@ const DoctorSignupPage = () => {
           fees: "",
         });
 
-        window.location.href = dashboardUrl;
+        setTimeout(() => {
+          window.location.href = dashboardUrl;
+        }, 5000);
       } catch (error) {
         console.error("Signup error:", error);
         if (error.response && error.response.status === 403) {
@@ -337,7 +341,7 @@ const DoctorSignupPage = () => {
                 {showPassword ? <Eye /> : <CloseEye />}
               </div>
             </div>
-            <div className="password-input-container mb-2">
+            <div className="password-input-container">
               <input
                 type={showConfirmPassword ? "text" : "password"}
                 className="form-control"
@@ -355,10 +359,10 @@ const DoctorSignupPage = () => {
               >
                 {showConfirmPassword ? <Eye /> : <CloseEye />}
               </div>
-              {errors.confirmPassword && (
-                <p className="text-danger">{errors.confirmPassword}</p>
-              )}
             </div>
+            {errors.confirmPassword && (
+              <p className="text-danger">{errors.confirmPassword}</p>
+            )}
             <Spacing lg={40} md={30} />
             <div className="booking_form_card_btn_wrapper">
               <button

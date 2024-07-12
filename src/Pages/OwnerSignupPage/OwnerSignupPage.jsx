@@ -5,6 +5,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../../Contexts/UseContext";
 import Eye from "../../Components/PasswordEye/Eye";
 import CloseEye from "../../Components/PasswordEye/CloseEye";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const OwnerSignupPage = () => {
   const { salespersoncode } = useParams();
@@ -55,6 +57,9 @@ const OwnerSignupPage = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setInput((prevInput) => ({ ...prevInput, user_name: prevInput.email }));
+
     if (
       !input.name ||
       !input.email ||
@@ -64,6 +69,7 @@ const OwnerSignupPage = () => {
       !input.password ||
       !input.confirmPassword
     ) {
+      toast.warning("Please fill in all input fields");
       return;
     }
 
@@ -81,7 +87,8 @@ const OwnerSignupPage = () => {
         }
 
         const response = await axiosApi.post("/v1/auth/sign-up", data);
-        console.log("Signup successful:");
+        toast.success("Signup successful!");
+
         setLoading(false);
         setInput({
           name: "",
@@ -94,7 +101,9 @@ const OwnerSignupPage = () => {
           confirmPassword: "",
         });
 
-        window.location.href = dashboardUrl;
+        setTimeout(() => {
+          window.location.href = dashboardUrl;
+        }, 5000);
       } catch (error) {
         console.error("Signup error:", error);
         setLoading(false);
@@ -117,7 +126,7 @@ const OwnerSignupPage = () => {
               Sign up
             </h3>
             <Spacing lg={30} md={20} />
-            <div className="mb-2">
+            <div className="mb-3">
               <input
                 type="text"
                 className="form-control"
@@ -128,7 +137,7 @@ const OwnerSignupPage = () => {
                 onChange={(e) => setInput({ ...input, name: e.target.value })}
               />
             </div>
-            <div className="input-group mb-2">
+            <div className="input-group mb-3">
               <span className="input-group-text" id="basic-phone">
                 +91
               </span>
@@ -143,7 +152,7 @@ const OwnerSignupPage = () => {
                 onChange={(e) => setInput({ ...input, phone: e.target.value })}
               />
             </div>
-            <div className="mb-2">
+            <div className="mb-3">
               <input
                 type="email"
                 className="form-control"
@@ -152,9 +161,10 @@ const OwnerSignupPage = () => {
                 required
                 value={input?.email}
                 onChange={(e) => setInput({ ...input, email: e.target.value })}
+                autoComplete="off"
               />
             </div>
-            <div className="mb-2">
+            <div className="mb-3">
               <input
                 type="text"
                 className="form-control"
@@ -165,9 +175,10 @@ const OwnerSignupPage = () => {
                 onChange={(e) =>
                   setInput({ ...input, user_name: e.target.value })
                 }
+                readOnly
               />
             </div>
-            <div className="mb-2">
+            <div className="mb-3">
               <textarea
                 className="form-control"
                 id="address"
@@ -180,7 +191,7 @@ const OwnerSignupPage = () => {
                 }
               ></textarea>
             </div>
-            <div className="password-input-container mb-2">
+            <div className="password-input-container mb-3">
               <input
                 type={showPassword ? "text" : "password"}
                 className="form-control"
@@ -199,7 +210,7 @@ const OwnerSignupPage = () => {
                 {showPassword ? <Eye /> : <CloseEye />}
               </div>
             </div>
-            <div className="password-input-container mb-2">
+            <div className="password-input-container">
               <input
                 type={showConfirmPassword ? "text" : "password"}
                 className="form-control"
@@ -217,10 +228,10 @@ const OwnerSignupPage = () => {
               >
                 {showConfirmPassword ? <Eye /> : <CloseEye />}
               </div>
-              {errors.confirmPassword && (
-                <p className="text-danger">{errors.confirmPassword}</p>
-              )}
             </div>
+            {errors.confirmPassword && (
+              <p className="text-danger">{errors.confirmPassword}</p>
+            )}
             <Spacing lg={40} md={30} />
             <div className="booking_form_card_btn_wrapper">
               <button
@@ -235,6 +246,7 @@ const OwnerSignupPage = () => {
         </div>
       </div>
       <Spacing lg={100} md={80} />
+      <ToastContainer position="top-center" autoClose={2000} />
     </div>
   );
 };
