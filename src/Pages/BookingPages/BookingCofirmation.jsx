@@ -7,8 +7,9 @@ import { reverseFormatDate } from "../../utils/formatDate";
 
 const BookingConfirmation = () => {
   const navigate = useNavigate();
-  const {setPageTitle, bookingCompleted, setBookingCompleted } = useContext(UserContext);
-  
+  const { setPageTitle, bookingCompleted, setBookingCompleted } =
+    useContext(UserContext);
+
   useEffect(() => {
     setPageTitle("Booking Confirmation");
   }, []);
@@ -27,7 +28,6 @@ const BookingConfirmation = () => {
     <>
       <Spacing lg={100} md={60} />
       <div className="container">
-    
         <div className="booking_container">
           <div className="booking_form_card">
             <div className="booking_confirmation_container">
@@ -36,16 +36,7 @@ const BookingConfirmation = () => {
                 <p className="booking_confirmation_card_title">
                   Booking Confirmed
                 </p>
-                <img
-                  src="/images/share.svg"
-                  alt="shape3"
-                  className="booking_share_icon"
-                />
               </div>
-
-              {/* <p className="booking_confirmation_booking_id">
-                Token : <span>{bookingCompleted?.newBooking?.token}</span>
-              </p> */}
 
               <Spacing lg={20} md={10} />
               <div>
@@ -121,7 +112,6 @@ const BookingConfirmation = () => {
                 >
                   Back to Home
                 </button>
-                <button className="booking_form_card_btn">Download</button>
               </div>
               <Spacing lg={40} md={30} />
             </div>

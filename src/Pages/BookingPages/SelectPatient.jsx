@@ -204,7 +204,6 @@ const SelectPatient = () => {
                         id="Remarks"
                         rows="4"
                         placeholder="Remarks"
-                        required
                         value={input.remarks}
                         onChange={(e) =>
                           setInput({ ...input, remarks: e.target.value })
@@ -217,7 +216,6 @@ const SelectPatient = () => {
                         id="particulars"
                         rows="4"
                         placeholder="Particulars"
-                        required
                         value={input.particulars}
                         onChange={(e) =>
                           setInput({ ...input, particulars: e.target.value })

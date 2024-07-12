@@ -65,7 +65,7 @@ const PatientRegister = () => {
 
           setTimeout(() => {
             navigate("/patient-login");
-          }, 2000);
+          }, 3000);
         } else {
           console.error("Signup failed:", response);
           toast.error("Signup failed. Please try again.");
@@ -96,14 +96,14 @@ const PatientRegister = () => {
                 </div>
                 <Spacing lg={35} md={20} />
                 <label htmlFor="user_name" className="form-label mb-2 mt-2">
-                  User name
+                  Email
                 </label>
                 <div className="mb-2">
                   <input
                     type="email"
                     className="form-control"
                     id="user_name"
-                    placeholder="User name"
+                    placeholder="Email"
                     required
                     value={input.user_name}
                     onChange={(e) =>
@@ -139,7 +139,7 @@ const PatientRegister = () => {
                 >
                   Confirm Password
                 </label>
-                <div className="password-input-container mb-2">
+                <div className="password-input-container">
                   <input
                     type={showConfirmPassword ? "text" : "password"}
                     className="form-control"
@@ -157,10 +157,10 @@ const PatientRegister = () => {
                   >
                     {showConfirmPassword ? <Eye /> : <CloseEye />}
                   </div>
-                  {errors.confirmPassword && (
-                    <p className="text-danger">{errors.confirmPassword}</p>
-                  )}
                 </div>
+                {errors.confirmPassword && (
+                  <p className="text-danger">{errors.confirmPassword}</p>
+                )}
                 <Spacing lg={40} md={30} />
                 <div className="patient_login_btn_wrapper">
                   <button className="booking_form_card_btn">

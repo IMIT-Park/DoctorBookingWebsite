@@ -1,10 +1,14 @@
-import { React, useEffect, useState } from "react";
+import { React, useContext, useEffect, useState } from "react";
 import Social from "../Social/Social";
 import HeroSlider from "../Slider/HeroSlider";
 import { Link as ScrollLink } from "react-scroll";
 import TextTransition, { presets } from "react-text-transition";
+import { Link } from "react-router-dom";
+import { UserContext } from "../../Contexts/UseContext";
 
 const Hero = ({ data }) => {
+  const { userDetails } = useContext(UserContext);
+
   const bgImg = data.bgImg;
   const bgShape = data.bgShape;
   const sliderImages = data.sliderImages;
@@ -55,14 +59,25 @@ const Hero = ({ data }) => {
               Your one-stop platform for convenient healthcare.
             </div>
 
-            <div className="st-hero-btn">
-              <ScrollLink
-                to="appointment"
-                className="st-btn st-style1 st-color1 st-smooth-move"
-              >
-                {" "}
-                Book Appointment{" "}
-              </ScrollLink>
+            <div className="st-hero-btn-container">
+              <div className="st-hero-btn">
+                <ScrollLink
+                  to="appointment"
+                  className="st-btn st-style1 st-color1 st-smooth-move"
+                >
+                  {" "}
+                  Book Appointment{" "}
+                </ScrollLink>
+              </div>
+              <div className="st-hero-btn ">
+                <Link
+                  to={userDetails ? "/BookStatus/BookStatus" : "/patient-login"}
+                  className="st-btn st-style1 st-color1 st-smooth-move st-hero-outline-btn"
+                >
+                  {" "}
+                  Track Appointment{" "}
+                </Link>
+              </div>
             </div>
           </div>
         </div>

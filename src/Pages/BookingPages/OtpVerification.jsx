@@ -14,7 +14,7 @@ const OtpVerification = () => {
 
   const navigate = useNavigate();
   const handlePinComplete = (pin) => {
-    navigate("/booking/select-patient");
+    navigate("/booking/patient-details");
   };
  
 
