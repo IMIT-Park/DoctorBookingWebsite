@@ -127,7 +127,7 @@ const PatientLogin = () => {
                 <div className="">
                   <div>
                     <Spacing lg={35} md={20} />
-                    <div className="mb-2">
+                    <div className="mb-3">
                       <input
                         type="email"
                         className="form-control"
@@ -191,7 +191,7 @@ const PatientLogin = () => {
 
                     <Spacing lg={25} md={25} />
                     <div className="patient_login_btn_wrapper">
-                      <button className="patient_login_btn">
+                      <button className="patient_login_btn" disabled={loading}>
                         {loading ? <span className="loader"></span> : "Login"}
                       </button>
                     </div>

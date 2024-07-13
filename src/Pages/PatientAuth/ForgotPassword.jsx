@@ -7,7 +7,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UserContext } from "../../Contexts/UseContext";
 
-
 const ForgotPassword = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -23,6 +22,11 @@ const ForgotPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!email) {
+      toast.warning("Please enter your email!");
+      return;
+    }
+
     setLoading(true);
     try {
       const response = await fetch(`${BASIC_URL}/v1/patient/forgotPasword`, {
@@ -37,12 +41,16 @@ const ForgotPassword = () => {
 
       if (response.status === 201) {
         setLoading(false);
-        toast.success("Email sent successfully.", "success");
+        toast.success("Email sent successfully.");
+
+        setTimeout(() => {
+          navigate("/new-password");
+        }, 2000);
+      } else {
+        toast.error("An error occurred. Please try again.");
       }
-      navigate("/confirm-password");
     } catch (error) {
-      toast.error("An error occurred. Please try again.", "error");
-      setLoading(false);
+      toast.error("An error occurred. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -54,8 +62,7 @@ const ForgotPassword = () => {
       <div className="container mt-5">
         <div className="booking_container patient_login_container">
           <div className="booking_form_card">
-            <form>
-              {/* <form onSubmit={handleSubmit}> */}
+            <form onSubmit={handleSubmit}>
               <div className="patient_details_wrapper patient_details_form_wrapper">
                 <div className="patient_login_card_header">
                   <p className="password_reset">Password Reset</p>
@@ -79,7 +86,9 @@ const ForgotPassword = () => {
                 <div className="recover_btn_wrapper">
                   <button
                     className="booking_form_card_btn"
-                    onClick={() => navigate("/new-password")}
+                    type="submit"
+                    style={{ minWidth: "13rem", height: "2.75rem" }}
+                    disabled={loading}
                   >
                     {loading ? <span className="loader"></span> : "Recover"}
                   </button>
@@ -97,6 +106,7 @@ const ForgotPassword = () => {
         </div>
       </div>
       <Spacing lg={120} md={80} />
+      <ToastContainer position="top-center" autoClose={2000} />
     </>
   );
 };

@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { axiosApi } from "../../axiosInstance";
 import { UserContext } from "../../Contexts/UseContext";
+import PhoneNumberInput from "../../Components/PhoneNumberInput/PhoneNumberInput";
 
 const SelectPatient = () => {
   const { setPageTitle } = useContext(UserContext);
@@ -28,11 +29,23 @@ const SelectPatient = () => {
   });
 
   const [buttonLoading, setButtonLoading] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const handleDateChange = (e) => {
     const date = new Date(e.target.value);
     const formattedDate = date.toISOString().split("T")[0];
     setInput({ ...input, dateOfBirth: formattedDate });
+  };
+
+  const validate = () => {
+    const newErrors = {};
+
+    if (input.phone.length !== 10) {
+      newErrors.phone = "Phone number must be exactly 10 digits";
+      toast.warning("Phone number must be exactly 10 digits");
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
@@ -42,32 +55,33 @@ const SelectPatient = () => {
       return;
     }
 
-    setButtonLoading(true);
+    if (validate()) {
+      setButtonLoading(true);
 
-    const prepareInput = (input) => {
-      return {
-        ...input,
-        Remarks: input.Remarks || null,
-        Particulars: input.Particulars || null,
+      const prepareInput = (input) => {
+        return {
+          ...input,
+          phone: `+91${input.phone}`,
+          Remarks: input.Remarks || null,
+          Particulars: input.Particulars || null,
+        };
       };
-    };
 
-    const preparedInput = prepareInput(input);
-    try {
-      const response = await axiosApi.post(
-        "/v1/patient/guestpatient",
-        preparedInput
-      );
+      const preparedInput = prepareInput(input);
+      try {
+        const response = await axiosApi.post(
+          "/v1/patient/guestpatient",
+          preparedInput
+        );
 
-      console.log(response);
-
-      if (response.status === 201) {
-        createBooking(e, response?.data?.Patient?.patient_id);
+        if (response.status === 201) {
+          createBooking(e, response?.data?.Patient?.patient_id);
+        }
+      } catch (error) {
+        console.error("Booking failed:", error);
+      } finally {
+        setButtonLoading(false);
       }
-    } catch (error) {
-      console.error("Booking failed:", error);
-    } finally {
-      setButtonLoading(false);
     }
   };
 
@@ -110,6 +124,13 @@ const SelectPatient = () => {
     }
   };
 
+  const handlePhoneChange = (value) => {
+    setInput({ ...input, phone: value });
+    if (value.length === 10) {
+      setErrors((prevErrors) => ({ ...prevErrors, phone: "" }));
+    }
+  };
+
   return (
     <>
       <Spacing lg={120} md={60} />
@@ -124,7 +145,7 @@ const SelectPatient = () => {
                 <div className="">
                   <div>
                     <Spacing lg={35} md={20} />
-                    <div className="mb-2">
+                    <div className="mb-3">
                       <input
                         type="text"
                         className="form-control"
@@ -137,31 +158,21 @@ const SelectPatient = () => {
                         }
                       />
                     </div>
-                    <div className="input-group">
-                      <span className="input-group-text" id="basic-phone">
-                        +91
-                      </span>
-                      <input
-                        type="number"
-                        className="form-control"
-                        placeholder="Phone"
-                        aria-label="Phone"
-                        aria-describedby="basic-phone"
-                        required
-                        value={input.phone}
-                        onChange={(e) =>
-                          setInput({ ...input, phone: e.target.value })
-                        }
-                      />
-                    </div>
-                    <div className="row g-2 mb-2">
+
+                    <PhoneNumberInput
+                      value={input?.phone}
+                      onChange={handlePhoneChange}
+                      error={errors?.phone}
+                      maxLength="10"
+                    />
+                    <div className="row g-2 mb-3 mt-1">
                       <div className="col-md-6">
                         <label
                           style={{ color: "gray" }}
                           htmlFor="dob"
                           className="form-label mb-0"
                         >
-                          DOB
+                          Date of Birth
                         </label>
                         <input
                           id="dob"
@@ -198,7 +209,7 @@ const SelectPatient = () => {
                         </select>
                       </div>
                     </div>
-                    <div className="mb-2">
+                    <div className="mb-3">
                       <textarea
                         className="form-control"
                         id="Remarks"
@@ -224,7 +235,16 @@ const SelectPatient = () => {
                     </div>
                     <Spacing lg={40} md={30} />
                     <div className="booking_form_card_btn_wrapper">
-                      <button className="booking_form_card_btn">
+                      <button
+                        className="booking_form_card_btn"
+                        type="submit"
+                        style={{
+                          minWidth: "12rem",
+                          height: "2.5rem",
+                          padding: "0",
+                        }}
+                        disabled={buttonLoading}
+                      >
                         {buttonLoading ? (
                           <span className="loader"></span>
                         ) : (

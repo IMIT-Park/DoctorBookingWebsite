@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Spacing from "../../Components/Spacing/Spacing";
 import CustomStepper from "../../Components/CustomStepper/CustomStepper";
 import { useNavigate } from "react-router-dom";
@@ -6,8 +6,9 @@ import CustomPinInput from "../../Components/CustomPinInput/CustomPinInput";
 import { UserContext } from "../../Contexts/UseContext";
 
 const OtpVerification = () => {
-  const {setPageTitle } = useContext(UserContext);
-  
+  const { setPageTitle } = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     setPageTitle("OTP Verification");
   }, []);
@@ -16,7 +17,6 @@ const OtpVerification = () => {
   const handlePinComplete = (pin) => {
     navigate("/booking/patient-details");
   };
- 
 
   return (
     <>
@@ -34,21 +34,26 @@ const OtpVerification = () => {
                 Enter the verification code we just sent on your 755983 XXXX
               </p>
               <Spacing lg={15} md={10} />
-            <div className="booking_form_pin_otp">
-              <CustomPinInput
-                length={4}
-                onComplete={handlePinComplete}
-              />
-             <Spacing lg={40} md={30} />
-             <p className="booking_form_otp_verification_text">Didn’t received code? <span className="booking_form_otp_verification_text_resend"> Resend </span></p>
-            </div>
+              <div className="booking_form_pin_otp">
+                <CustomPinInput length={4} onComplete={handlePinComplete} />
+                <Spacing lg={40} md={30} />
+                <p className="booking_form_otp_verification_text">
+                  Didn’t received code?{" "}
+                  <span className="booking_form_otp_verification_text_resend">
+                    {" "}
+                    Resend{" "}
+                  </span>
+                </p>
+              </div>
               <Spacing lg={40} md={30} />
               <div className="booking_form_card_btn_wrapper">
                 <button
                   className="booking_form_card_btn"
                   onClick={() => navigate("/booking/patient-details")}
+                  style={{ minWidth: "12rem", height: "2.5rem", padding: "0" }}
+                  disabled={loading}
                 >
-                  Confirm
+                  {loading ? <span className="loader"></span> : "Confirm"}
                 </button>
               </div>
             </div>

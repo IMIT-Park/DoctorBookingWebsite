@@ -1,5 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Spacing from "../Spacing/Spacing";
+import PhoneNumberInput from "../PhoneNumberInput/PhoneNumberInput";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ComplaintModal = ({
   showModal,
@@ -10,6 +13,17 @@ const ComplaintModal = ({
   loading,
 }) => {
   const modalRef = useRef();
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    const newErrors = {};
+    if (reportInput.phone.length !== 10) {
+      newErrors.phone = "Phone number must be exactly 10 digits";
+      toast.warning("Phone number must be exactly 10 digits");
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   // prevents scrollbar overflow
   useEffect(() => {
@@ -51,6 +65,20 @@ const ComplaintModal = ({
 
   if (!showModal) return null;
 
+  const handlePhoneChange = (value) => {
+    setReportInput({ ...reportInput, phone: value });
+    if (value.length === 10) {
+      setErrors((prevErrors) => ({ ...prevErrors, phone: "" }));
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validate()) {
+      handleComplaintSubmit();
+    }
+  };
+
   return (
     <>
       <div className="modal-backdrop fade show"></div>
@@ -73,7 +101,7 @@ const ComplaintModal = ({
             </div>
             <div className="modal-body">
               <form
-                onSubmit={handleComplaintSubmit}
+                onSubmit={handleSubmit}
                 className="report_form"
                 style={{ margin: "10px" }}
               >
@@ -84,7 +112,7 @@ const ComplaintModal = ({
                   Report
                 </h3>
                 <Spacing lg={30} md={20} />
-                <div className="mb-2">
+                <div className="mb-3">
                   <input
                     type="email"
                     className="form-control"
@@ -98,22 +126,14 @@ const ComplaintModal = ({
                     required
                   />
                 </div>
-                <div className="input-group mb-2">
-                  <input
-                    type="tel"
-                    className="form-control"
-                    aria-label="Phone"
-                    aria-describedby="basic-phone"
-                    placeholder="Enter Your Phone Number"
-                    style={{ marginBottom: "15px" }}
-                    value={reportInput.phone}
-                    onChange={(e) =>
-                      setReportInput({ ...reportInput, phone: e.target.value })
-                    }
-                    required
-                  />
-                </div>
-                <div className="mb-2">
+
+                <PhoneNumberInput
+                  value={reportInput?.phone}
+                  onChange={handlePhoneChange}
+                  error={errors?.phone}
+                  maxLength="10"
+                />
+                <div className="mb-2 mt-3">
                   <textarea
                     className="form-control"
                     id="reportContent"

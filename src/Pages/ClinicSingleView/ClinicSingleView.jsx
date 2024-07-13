@@ -34,6 +34,16 @@ const ClinicSingleView = () => {
     content: "",
     clinic_id: clinicDetails && clinicDetails?.clinic_id,
   });
+
+  const resetReportInput = () => {
+    setReportInput({
+      email: "",
+      phone: "",
+      content: "",
+      clinic_id: clinicDetails && clinicDetails?.clinic_id,
+    });
+  };
+
   const days = [
     { name: "SUN", id: 0 },
     { name: "MON", id: 1 },
@@ -107,6 +117,7 @@ const ClinicSingleView = () => {
   };
   const handleCloseModal = () => {
     setShowModal(false);
+    resetReportInput();
   };
 
   // -- Add complaint function --
@@ -115,18 +126,19 @@ const ClinicSingleView = () => {
       return true;
     }
     setButtonLoading(true);
+
+    const updatedInput = {
+      ...reportInput,
+      phone: `+91${reportInput.phone}`,
+    };
+
     try {
       const response = await axiosApi.post(
         "/v1/complaint/sendComplaint",
-        reportInput
+        updatedInput
       );
       toast.success("Report Submitted Successfully");
-      setReportInput({
-        email: "",
-        phone: "",
-        content: "",
-        clinic_id: clinicDetails && clinicDetails.clinic_id,
-      });
+      resetReportInput();
       handleCloseModal();
     } catch (error) {
       console.error("Error submitting complaint:", error);
@@ -136,8 +148,7 @@ const ClinicSingleView = () => {
     }
   };
 
-  const handleComplaintSubmit = (e) => {
-    e.preventDefault();
+  const handleComplaintSubmit = () => {
     addComplaint();
   };
 

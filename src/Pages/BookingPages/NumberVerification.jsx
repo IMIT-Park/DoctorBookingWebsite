@@ -7,12 +7,12 @@ import "react-toastify/dist/ReactToastify.css";
 import { UserContext } from "../../Contexts/UseContext";
 
 const NumberVerification = () => {
-  const {setPageTitle } = useContext(UserContext);
-  
+  const { setPageTitle } = useContext(UserContext);
+
   useEffect(() => {
     setPageTitle("Verify Number");
   }, []);
-  
+
   const navigate = useNavigate();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [loading, setLoading] = useState(false);
@@ -45,7 +45,7 @@ const NumberVerification = () => {
     //   console.log(response);
 
     //   if (response.status === 201) {
-        navigate("/booking/otp-verification");
+    navigate("/booking/otp-verification");
     //   }
     // } catch (error) {
     //   toast.error("An error occurred while verifying the phone number");
@@ -57,7 +57,7 @@ const NumberVerification = () => {
 
   return (
     <>
-    <ToastContainer autoClose={2000}/>
+      <ToastContainer autoClose={2000} />
       <Spacing lg={120} md={60} />
       <div className="container mt-5">
         <CustomStepper activeStep={1} completedSteps={[]} />
@@ -87,9 +87,10 @@ const NumberVerification = () => {
                 <button
                   type="submit"
                   className="booking_form_card_btn"
+                  style={{ minWidth: "12rem", height: "2.5rem", padding: "0" }}
+                  disabled={loading}
                 >
-                  {/* Verify */}
-                  {loading ? "Verifying..." : "Verify"}
+                  {loading ? <span className="loader"></span> : "Verify"}
                 </button>
               </div>
               <Spacing lg={80} md={40} />
