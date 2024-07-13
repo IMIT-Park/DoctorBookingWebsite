@@ -1,16 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
 import Spacing from "../../Components/Spacing/Spacing";
 import { axiosApi, dashboardUrl } from "../../axiosInstance";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { UserContext } from "../../Contexts/UseContext";
 import Eye from "../../Components/PasswordEye/Eye";
 import CloseEye from "../../Components/PasswordEye/CloseEye";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PhoneNumberInput from "../../Components/PhoneNumberInput/PhoneNumberInput";
+import Swal from "sweetalert2";
 
 const OwnerSignupPage = () => {
   const { salespersoncode } = useParams();
-  const navigate = useNavigate();
   const { setPageTitle } = useContext(UserContext);
 
   useEffect(() => {
@@ -41,14 +42,14 @@ const OwnerSignupPage = () => {
     }
   }, [salespersoncode]);
 
-  useEffect(() => {
-    setInput((prevInput) => ({ ...prevInput, user_name: prevInput.email }));
-  }, [input.email]);
-
   const validate = () => {
     const newErrors = {};
     if (input.password !== input.confirmPassword) {
       newErrors.confirmPassword = "Passwords do not match";
+    }
+    if (input.phone.length !== 10) {
+      newErrors.phone = "Phone number must be exactly 10 digits";
+      toast.warning("Phone number must be exactly 10 digits");
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -58,12 +59,9 @@ const OwnerSignupPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setInput((prevInput) => ({ ...prevInput, user_name: prevInput.email }));
-
     if (
       !input.name ||
       !input.email ||
-      !input.user_name ||
       !input.address ||
       !input.phone ||
       !input.password ||
@@ -80,6 +78,7 @@ const OwnerSignupPage = () => {
         const data = {
           ...input,
           phone: `+91${input.phone}`,
+          user_name: input.email,
         };
 
         if (!data.salespersoncode) {
@@ -87,7 +86,16 @@ const OwnerSignupPage = () => {
         }
 
         const response = await axiosApi.post("/v1/auth/sign-up", data);
-        toast.success("Signup successful!");
+        // toast.success("Signup successful!");
+
+        Swal.fire({
+          title: "Signup successful!",
+          text: "Click to continue to your Dashboard",
+          icon: "success",
+          confirmButtonText: "Go to Dashboard",
+        }).then((result) => {
+          window.location.href = dashboardUrl;
+        });
 
         setLoading(false);
         setInput({
@@ -101,15 +109,27 @@ const OwnerSignupPage = () => {
           confirmPassword: "",
         });
 
-        setTimeout(() => {
-          window.location.href = dashboardUrl;
-        }, 5000);
+        // setTimeout(() => {
+        //   window.location.href = dashboardUrl;
+        // }, 5000);
       } catch (error) {
         console.error("Signup error:", error);
+        if (error?.response && error?.response?.status === 403) {
+          toast.error("Email already exists. Please use a different email!");
+        } else {
+          toast.error("Signup failed. Please try again!");
+        }
         setLoading(false);
       } finally {
         setLoading(false);
       }
+    }
+  };
+
+  const handlePhoneChange = (value) => {
+    setInput({ ...input, phone: value });
+    if (value.length === 10) {
+      setErrors((prevErrors) => ({ ...prevErrors, phone: "" }));
     }
   };
 
@@ -137,22 +157,15 @@ const OwnerSignupPage = () => {
                 onChange={(e) => setInput({ ...input, name: e.target.value })}
               />
             </div>
-            <div className="input-group mb-3">
-              <span className="input-group-text" id="basic-phone">
-                +91
-              </span>
-              <input
-                type="number"
-                className="form-control"
-                placeholder="Phone"
-                aria-label="Phone"
-                aria-describedby="basic-phone"
-                required
-                value={input?.phone}
-                onChange={(e) => setInput({ ...input, phone: e.target.value })}
-              />
-            </div>
-            <div className="mb-3">
+
+            <PhoneNumberInput
+              value={input?.phone}
+              onChange={handlePhoneChange}
+              error={errors?.phone}
+              maxLength="10"
+            />
+
+            <div className="mb-3 mt-3">
               <input
                 type="email"
                 className="form-control"
@@ -171,10 +184,8 @@ const OwnerSignupPage = () => {
                 id="username"
                 placeholder="Username"
                 required
-                value={input?.user_name}
-                onChange={(e) =>
-                  setInput({ ...input, user_name: e.target.value })
-                }
+                value={input?.email}
+                onChange={(e) => setInput({ ...input, email: e.target.value })}
                 readOnly
               />
             </div>
@@ -213,7 +224,9 @@ const OwnerSignupPage = () => {
             <div className="password-input-container">
               <input
                 type={showConfirmPassword ? "text" : "password"}
-                className="form-control"
+                className={`form-control ${
+                  errors?.confirmPassword ? "is-invalid" : ""
+                }`}
                 id="confirm-password"
                 placeholder="Confirm Password"
                 required

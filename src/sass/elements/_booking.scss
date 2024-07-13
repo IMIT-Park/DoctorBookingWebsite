@@ -228,6 +228,11 @@ input[type="number"] {
   border-color: $blue;
 }
 
+.form-control.is-invalid,
+.was-validated .form-control:invalid {
+  background-image: none;
+}
+
 @media screen and (max-width: 515px) {
   .booking_form {
     padding: 0 2.5rem;

@@ -18,7 +18,7 @@ const SectionHeading = ({ title, subTitle }) => {
               data-wow-delay="0.2s"
             />
             <div className="st-seperator-center">
-              <img src="/icons/4.png" alt="icon" />
+              <img src="/icons/4.svg" alt="icon" />
             </div>
             <div
               className="st-seperator-right wow fadeInRight"

@@ -5,11 +5,11 @@ import Header from "../Header/Header";
 import Preloader from "../Preloader/Preloader";
 
 const headerData = {
-  logo: "/images/logo.png",
+  logo: "/images/logo.svg",
 };
 
 const footerData = {
-  logo: "/images/footer-logo.png",
+  logo: "/images/logo.svg",
   bgImg: "/images/footer-bg.png",
   subTitle:
     " Lorem ipsum dolor sit consectet adipisicing sed do eiusmod temp incididunt ut labore. Lorem Ipsum is simply dummy.",

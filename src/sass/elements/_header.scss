@@ -555,6 +555,10 @@
   display: inline-block;
 }
 
+.st-site-branding-img {
+  width: 18rem;
+}
+
 .st-opening-hr {
   margin-top: 57px;
 
@@ -699,4 +703,10 @@
   font-weight: 600;
   border: none;
   padding: 0.25rem 1rem;
+}
+
+@media screen and (max-width: 425px) {
+  .st-site-branding-img {
+    width: 15rem;
+  }
 }

@@ -51,8 +51,6 @@ const PatientRegister = () => {
           data
         );
 
-        console.log(response);
-
         if (response.status === 201) {
           const { accessToken, refreshToken, user } = response.data;
 
@@ -67,11 +65,9 @@ const PatientRegister = () => {
             navigate("/patient-login");
           }, 3000);
         } else {
-          console.error("Signup failed:", response);
           toast.error("Signup failed. Please try again.");
         }
       } catch (error) {
-        console.error("Signup error:", error);
         if (error?.response?.status === 403) {
           toast.error(error?.response?.data?.error || "User already exist");
         } else {
