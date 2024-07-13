@@ -129,15 +129,16 @@ const PatientLogin = () => {
                     <Spacing lg={35} md={20} />
                     <div className="mb-2">
                       <input
-                        type="text"
+                        type="email"
                         className="form-control"
-                        id="Username"
+                        id="Email"
                         placeholder="Email"
                         value={data.email}
                         onChange={(e) =>
                           setData({ ...data, email: e.target.value })
                         }
                         onKeyDown={handleEmailKeyDown}
+                        required
                       />
                     </div>
                     <div className="password-input-container mb-2">

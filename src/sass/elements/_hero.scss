@@ -447,6 +447,8 @@
   background-color: transparent;
   color: $blue;
   border: 2px solid $blue;
+  box-sizing: border-box;
+  padding: 0.62em 2.5em;
 }
 
 @media screen and (min-width: 1200px) {

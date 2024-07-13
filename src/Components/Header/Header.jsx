@@ -103,9 +103,9 @@ const Header = ({ data }) => {
         <div className="container">
           <div className="st-main-header-in">
             <div className="st-main-header-left">
-              <Link to="" className="st-site-branding">
-                <img src={logo} alt={logo} />
-              </Link>
+              <ScrollLink to="home" className="st-site-branding">
+                <img src={logo} alt={logo} className="st-site-branding-img"/>
+              </ScrollLink>
             </div>
             <div className="st-main-header-right">
               <div className="st-nav">
@@ -195,7 +195,7 @@ const Header = ({ data }) => {
                   <li>
                     <Link to={"/doctor-signup"}> Register as Doctor</Link>
                   </li>
-                  <li className="booknow_wrapper">
+                  {/* <li className="booknow_wrapper">
                     {userDetails ? (
                       <ScrollLink
                         to="doctors"
@@ -222,7 +222,7 @@ const Header = ({ data }) => {
                         </button>
                       </Link>
                     )}
-                  </li>
+                  </li> */}
                 </ul>
                 <div
                   className={`st-munu-toggle ${

@@ -209,4 +209,14 @@
     padding-top: 60px;
     padding-bottom: 20px;
   }
+
+  .st-footer-logo {
+    width: 18rem;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .st-footer-logo {
+    width: 15rem;
+  }
 }

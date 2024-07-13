@@ -1,26 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import Social from '../Social/Social';
-import { Icon } from '@iconify/react';
-import { Link } from 'react-router-dom';
-
-
-
+import React, { useEffect, useState } from "react";
+import Social from "../Social/Social";
+import { Icon } from "@iconify/react";
+import { Link } from "react-router-dom";
 
 const Footer = ({ data, varient }) => {
   const { logo, subTitle, bgImg, links } = data;
   const currentYear = new Date().getFullYear();
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
-
   const [scrollPosition, setScrollPosition] = useState(0);
-
 
   const handleScroll = () => {
     const currentPosition = window.scrollY;
@@ -30,20 +25,24 @@ const Footer = ({ data, varient }) => {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth',
+      behavior: "smooth",
     });
   };
 
   return (
-    <footer className={`st-site-footer st-sticky-footer st-dynamic-bg ${varient ? varient : ""}`}
-      style={{ backgroundImage: `url(${bgImg})` }}>
+    <footer
+      className={`st-site-footer st-sticky-footer st-dynamic-bg ${
+        varient ? varient : ""
+      }`}
+      style={{ backgroundImage: `url(${bgImg})` }}
+    >
       <div className="st-main-footer">
         <div className="container">
           <div className="row">
             <div className="col-lg-3">
               <div className="st-footer-widget">
                 <div className="st-text-field">
-                  {/* <img src={logo} alt={logo} className="st-footer-logo" /> */}
+                  <img src={logo} alt={logo} className="st-footer-logo" />
                   <div className="st-height-b25 st-height-lg-b25" />
                   <div className="st-footer-text">{subTitle}</div>
                   <div className="st-height-b25 st-height-lg-b25" />
@@ -121,16 +120,16 @@ const Footer = ({ data, varient }) => {
                 <h2 className="st-footer-widget-title">Contacts</h2>
                 <ul className="st-footer-contact-list st-mp0">
                   <li>
-                    <span className="st-footer-contact-title">Address:</span> 1223
-                    Fulton Street San Diego CA 941-23 USA
+                    <span className="st-footer-contact-title">Address:</span>{" "}
+                    1223 Fulton Street San Diego CA 941-23 USA
                   </li>
                   <li>
                     <span className="st-footer-contact-title">Email:</span>{" "}
-                    nischinto@Gmail.Com
+                    mydoctorstime@gmail.com
                   </li>
                   <li>
-                    <span className="st-footer-contact-title">Phone:</span> (+01) -
-                    234 567 890 <br />
+                    <span className="st-footer-contact-title">Phone:</span>{" "}
+                    (+01) - 234 567 890 <br />
                     (+01) - 345 678 901
                   </li>
                 </ul>
@@ -145,11 +144,15 @@ const Footer = ({ data, varient }) => {
           <div className="st-copyright-in">
             <div className="st-left-copyright">
               <div className="st-copyright-text">
-                Copyright {currentYear}. Design by Laralink
+                Copyright {currentYear}. mydoctorstime
               </div>
             </div>
             <div className="st-right-copyright">
-              <div id="st-backtotop" style={{ scale: `${scrollPosition >= 100 ? "1" : "0"}` }} onClick={scrollToTop}>
+              <div
+                id="st-backtotop"
+                style={{ scale: `${scrollPosition >= 100 ? "1" : "0"}` }}
+                onClick={scrollToTop}
+              >
                 <Icon icon="fa6-solid:angle-up" />
               </div>
             </div>
@@ -157,7 +160,7 @@ const Footer = ({ data, varient }) => {
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

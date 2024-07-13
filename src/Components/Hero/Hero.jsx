@@ -61,13 +61,23 @@ const Hero = ({ data }) => {
 
             <div className="st-hero-btn-container">
               <div className="st-hero-btn">
-                <ScrollLink
-                  to="appointment"
-                  className="st-btn st-style1 st-color1 st-smooth-move"
-                >
-                  {" "}
-                  Book Appointment{" "}
-                </ScrollLink>
+                {userDetails ? (
+                  <ScrollLink
+                    to="doctors"
+                    className="st-btn st-style1 st-color1 st-smooth-move"
+                  >
+                    {" "}
+                    Book Appointment{" "}
+                  </ScrollLink>
+                ) : (
+                  <Link
+                    to="/patient-login"
+                    className="st-btn st-style1 st-color1 st-smooth-move"
+                  >
+                    {" "}
+                    Book Appointment{" "}
+                  </Link>
+                )}
               </div>
               <div className="st-hero-btn ">
                 <Link
