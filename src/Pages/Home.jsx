@@ -523,7 +523,7 @@ const Home = () => {
       <Iconbox data={iconboxData} />
       <About data={aboutData} />
       <Department />
-      <Appointment />
+      {/* <Appointment /> */}
       <SpecialistsSlider />
       <hr />
       <MasonryGallery />

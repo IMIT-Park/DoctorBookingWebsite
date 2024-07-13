@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import Spacing from "../../Components/Spacing/Spacing";
-import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { BASIC_URL } from "../../axiosInstance";
 import Eye from "../../Components/PasswordEye/Eye";
@@ -20,14 +19,18 @@ const ForgotPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // navigate("/");
+  };
+
   return (
     <>
       <Spacing lg={120} md={60} />
       <div className="container mt-5">
         <div className="booking_container patient_login_container">
           <div className="booking_form_card">
-            <form>
-              {/* <form onSubmit={handleSubmit}> */}
+            <form onSubmit={handleSubmit}>
               <div className="patient_details_wrapper patient_details_form_wrapper">
                 <div className="patient_login_card_header">
                   <p className="password_reset">Reset password</p>
@@ -36,7 +39,7 @@ const ForgotPassword = () => {
                 <label className="email_to_recover mb-4">
                   <span>Enter your new password</span>
                 </label>
-                <div className="password-input-container mb-2">
+                <div className="password-input-container mb-3">
                   <input
                     type={showPassword ? "text" : "password"}
                     className="form-control"
@@ -78,18 +81,20 @@ const ForgotPassword = () => {
                 <div className="recover_btn_wrapper">
                   <button
                     className="booking_form_card_btn"
-                    onClick={() => navigate("/")}
+                    type="submit"
+                    style={{ minWidth: "13rem", height: "2.75rem" }}
+                    disabled={loading}
                   >
                     {loading ? <span className="loader"></span> : "Submit"}
                   </button>
                 </div>
 
-                <div
+                {/* <div
                   className="Back_to_Login"
                   onClick={() => navigate("/patient-login")}
                 >
                   Back to Login
-                </div>
+                </div> */}
               </div>
             </form>
           </div>

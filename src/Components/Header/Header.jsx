@@ -2,11 +2,10 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Link as ScrollLink } from "react-scroll";
 import { UserContext } from "../../Contexts/UseContext";
-import { Navigate } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Header = ({ data }) => {
-  const navigate = useNavigate();
   const { userDetails, setUserDetails } = useContext(UserContext);
 
   const { logo } = data;
@@ -44,6 +43,7 @@ const Header = ({ data }) => {
 
   const handleLogout = () => {
     setUserDetails(null);
+    toast.success("Logout Successfully");
   };
 
   return (
@@ -104,7 +104,7 @@ const Header = ({ data }) => {
           <div className="st-main-header-in">
             <div className="st-main-header-left">
               <ScrollLink to="home" className="st-site-branding">
-                <img src={logo} alt={logo} className="st-site-branding-img"/>
+                <img src={logo} alt={logo} className="st-site-branding-img" />
               </ScrollLink>
             </div>
             <div className="st-main-header-right">
@@ -237,6 +237,7 @@ const Header = ({ data }) => {
           </div>
         </div>
       </div>
+      <ToastContainer autoClose={2000} />
     </header>
   );
 };

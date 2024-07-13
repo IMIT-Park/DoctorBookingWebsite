@@ -5,6 +5,7 @@ import { UserContext } from "../../Contexts/UseContext";
 import { axiosApi } from "../../axiosInstance";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PhoneNumberInput from "../../Components/PhoneNumberInput/PhoneNumberInput";
 
 const PatientList = () => {
   const navigate = useNavigate();
@@ -16,11 +17,10 @@ const PatientList = () => {
     setBookingDetails,
     setBookingCompleted,
   } = useContext(UserContext);
-  
+
   useEffect(() => {
     setPageTitle("Select Patient");
   }, []);
-
 
   const [loading, setLoading] = useState(false);
   const [patientsList, setPatientsList] = useState([]);
@@ -35,8 +35,20 @@ const PatientList = () => {
     Remarks: "",
     Particulars: "",
   });
+  const [errors, setErrors] = useState({});
 
   const [tab, setTab] = useState("add-patient");
+
+  const validate = () => {
+    const newErrors = {};
+
+    if (input.phone.length !== 10) {
+      newErrors.phone = "Phone number must be exactly 10 digits";
+      toast.warning("Phone number must be exactly 10 digits");
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const addNewPatient = async (e) => {
     e.preventDefault();
@@ -46,30 +58,33 @@ const PatientList = () => {
       return;
     }
 
-    setButtonLoading(true);
+    if (validate()) {
+      setButtonLoading(true);
 
-    const prepareInput = (input) => {
-      return {
-        ...input,
-        Remarks: input.Remarks || null,
-        Particulars: input.Particulars || null,
+      const prepareInput = (input) => {
+        return {
+          ...input,
+          phone: `+91${input.phone}`,
+          Remarks: input.Remarks || null,
+          Particulars: input.Particulars || null,
+        };
       };
-    };
 
-    const preparedInput = prepareInput(input);
+      const preparedInput = prepareInput(input);
 
-    try {
-      const response = await axiosApi.post(
-        "/v1/patient/createpatient",
-        preparedInput
-      );
-      if (response.status === 201) {
-        createBooking(e, response?.data?.Patient?.patient_id);
+      try {
+        const response = await axiosApi.post(
+          "/v1/patient/createpatient",
+          preparedInput
+        );
+        if (response.status === 201) {
+          createBooking(e, response?.data?.Patient?.patient_id);
+        }
+      } catch (error) {
+        console.error(error?.response?.data?.error);
+      } finally {
+        setButtonLoading(false);
       }
-    } catch (error) {
-      console.error(error?.response?.data?.error);
-    } finally {
-      setButtonLoading(false);
     }
   };
 
@@ -144,6 +159,13 @@ const PatientList = () => {
     }
   };
 
+  const handlePhoneChange = (value) => {
+    setInput({ ...input, phone: value });
+    if (value.length === 10) {
+      setErrors((prevErrors) => ({ ...prevErrors, phone: "" }));
+    }
+  };
+
   return (
     <>
       <ToastContainer autoClose={2000} />
@@ -174,7 +196,7 @@ const PatientList = () => {
                 {tab === "add-patient" ? (
                   <form onSubmit={addNewPatient}>
                     <Spacing lg={50} md={40} />
-                    <div className="mb-2">
+                    <div className="mb-3">
                       <input
                         type="text"
                         className="form-control"
@@ -187,31 +209,21 @@ const PatientList = () => {
                         required
                       />
                     </div>
-                    <div className="input-group mb-2">
-                      <span className="input-group-text" id="basic-phone">
-                        +91
-                      </span>
-                      <input
-                        type="number"
-                        className="form-control"
-                        placeholder="Phone"
-                        aria-label="Phone"
-                        aria-describedby="basic-phone"
-                        value={input?.phone}
-                        onChange={(e) =>
-                          setInput({ ...input, phone: e.target.value })
-                        }
-                        required
-                      />
-                    </div>
-                    <div className="row g-2 mb-2">
+
+                    <PhoneNumberInput
+                      value={input?.phone}
+                      onChange={handlePhoneChange}
+                      error={errors?.phone}
+                      maxLength="10"
+                    />
+                    <div className="row g-2 mb-3 mt-1">
                       <div className="col-md-6">
                         <label
                           style={{ color: "gray" }}
                           htmlFor="dob"
                           className="form-label mb-0"
                         >
-                          DOB
+                          Date of Birth
                         </label>
                         <input
                           id="dob"
@@ -251,7 +263,7 @@ const PatientList = () => {
                         </select>
                       </div>
                     </div>
-                    <div className="mb-2">
+                    <div className="mb-3">
                       <textarea
                         className="form-control"
                         id="remarks"
@@ -281,6 +293,11 @@ const PatientList = () => {
                         className="booking_form_card_btn"
                         disabled={buttonLoading}
                         type="submit"
+                        style={{
+                          minWidth: "13rem",
+                          height: "2.75rem",
+                          padding: "0",
+                        }}
                       >
                         {buttonLoading ? (
                           <span className="loader"></span>
@@ -332,6 +349,12 @@ const PatientList = () => {
                               <button
                                 className="booking_form_card_btn"
                                 onClick={createBooking}
+                                style={{
+                                  minWidth: "13rem",
+                                  height: "2.75rem",
+                                  padding: "0",
+                                }}
+                                disabled={bookingLoading}
                               >
                                 {bookingLoading ? (
                                   <span className="loader"></span>

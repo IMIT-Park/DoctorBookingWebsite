@@ -42,6 +42,10 @@
   color: $white;
 }
 
+.booking_form_card_btn:disabled {
+  background-color: #025237b4;
+}
+
 .custom-input-group {
   position: relative;
 }

@@ -159,7 +159,11 @@ const PatientRegister = () => {
                 )}
                 <Spacing lg={40} md={30} />
                 <div className="patient_login_btn_wrapper">
-                  <button className="booking_form_card_btn">
+                  <button
+                    className="booking_form_card_btn"
+                    style={{ minWidth: "13rem", height: "2.75rem" }}
+                    disabled={loading}
+                  >
                     {loading ? <span className="loader"></span> : "Signup"}
                   </button>
                 </div>

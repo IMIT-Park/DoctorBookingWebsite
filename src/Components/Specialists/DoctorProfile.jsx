@@ -75,12 +75,22 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
     setSelectedConsultation(null);
   };
 
+  const resetReportInput = () => {
+    setReportInput({
+      email: "",
+      phone: "",
+      content: "",
+      doctor_id: doctorDetails && doctorDetails?.clinic_id,
+    });
+  };
+
   const handleReportClick = () => {
     setShowModal(true);
   };
 
   const handleCloseModal = () => {
     setShowModal(false);
+    resetReportInput();
   };
 
   // -- Add complaint function --
@@ -95,13 +105,7 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
         reportInput
       );
       toast.success("Report Submitted Successfully");
-
-      setReportInput({
-        email: "",
-        phone: "",
-        content: "",
-        doctor_id: doctorDetails && doctorDetails.doctor_id,
-      });
+      resetReportInput();
       handleCloseModal();
     } catch (error) {
       console.error("Error submitting complaint:", error);
