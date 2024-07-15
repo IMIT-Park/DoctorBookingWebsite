@@ -82,8 +82,6 @@ const DoctorSignupPage = () => {
 
         const response = await axiosApi.post("/v1/doctor/Dr-sign-up", data);
 
-        // toast.success("Signup successful!");
-
         Swal.fire({
           title: "Signup successful!",
           text: "Click to continue to your Dashboard",
@@ -109,9 +107,9 @@ const DoctorSignupPage = () => {
           fees: "",
         });
 
-        // setTimeout(() => {
-        //   window.location.href = dashboardUrl;
-        // }, 5000);
+        setTimeout(() => {
+          window.location.href = dashboardUrl;
+        }, 6000);
       } catch (error) {
         console.error("Signup error:", error);
         if (error.response && error.response.status === 403) {

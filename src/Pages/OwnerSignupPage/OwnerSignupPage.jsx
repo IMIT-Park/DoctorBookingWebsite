@@ -86,7 +86,6 @@ const OwnerSignupPage = () => {
         }
 
         const response = await axiosApi.post("/v1/auth/sign-up", data);
-        // toast.success("Signup successful!");
 
         Swal.fire({
           title: "Signup successful!",
@@ -109,9 +108,9 @@ const OwnerSignupPage = () => {
           confirmPassword: "",
         });
 
-        // setTimeout(() => {
-        //   window.location.href = dashboardUrl;
-        // }, 5000);
+        setTimeout(() => {
+          window.location.href = dashboardUrl;
+        }, 6000);
       } catch (error) {
         console.error("Signup error:", error);
         if (error?.response && error?.response?.status === 403) {
