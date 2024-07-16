@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { axiosApi } from "../../axiosInstance";
 import { UserContext } from "../../Contexts/UseContext";
+import { reverseFormatDate } from "../../utils/formatDate";
+import { formatTime } from "../../utils/FormatTime";
 
 const BookStatus = () => {
   const { setPageTitle, userDetails } = useContext(UserContext);
@@ -75,11 +77,15 @@ const BookStatus = () => {
                             </td>
                             <td>{booking?.booking?.token}</td>
                             <td>
-                              {new Date(
+                              {reverseFormatDate(
                                 booking?.booking?.schedule_date
-                              ).toLocaleDateString()}
+                              )}
                             </td>
-                            <td>{booking?.booking?.schedule_time}</td>
+                            {booking?.booking?.schedule_time && (
+                              <td>
+                                {formatTime(booking?.booking?.schedule_time)}
+                              </td>
+                            )}
                             <td>{booking?.booking?.Doctor?.name}</td>
                             <td>{booking?.booking?.Clinic?.name}</td>
                             <td className="queue_position">
