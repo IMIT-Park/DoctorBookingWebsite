@@ -148,6 +148,10 @@ const DoctorSignupPage = () => {
     }
   };
 
+  const handleFeesChange = (e) => {
+    setInput({ ...input, fees: e.target.value.replace(/\D/g, "") });
+  };
+
   return (
     <div className="container signup_main">
       <Spacing lg={80} md={80} />
@@ -318,13 +322,15 @@ const DoctorSignupPage = () => {
 
             <div className="mb-3">
               <input
-                type="number"
+                type="tel"
+              
+               
                 className="form-control"
                 id="fees"
                 placeholder="Fees"
                 required
                 value={input?.fees}
-                onChange={(e) => setInput({ ...input, fees: e.target.value })}
+                onChange={handleFeesChange}
               />
             </div>
 
