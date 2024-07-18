@@ -131,18 +131,20 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
           clinic_id: selectedClinic?.clinic_id || bookingDetails?.clinic_id,
         }
       );
-      setDoctorTimeSlots(response?.data?.doctorTimeSlots);
+      const filteredTimeSlots = response?.data?.doctorTimeSlots.filter(
+        (timeslot) => timeslot?.leave !== true
+      );
+
+      setDoctorTimeSlots(filteredTimeSlots);
     } catch (error) {
       if (error?.response?.status === 400) {
         setTimeslotWarning(
           error?.response?.data?.error
             ? error?.response?.data?.error
-            : "DoctorProfile.jsx:141 Doctor is not available on this date."
+            : "Doctor is not available on this date."
         );
       } else {
-        setTimeslotWarning(
-          "DoctorProfile.jsx:141 Doctor is not available on this date."
-        );
+        setTimeslotWarning("Doctor is not available on this date.");
       }
       setDoctorTimeSlots([]);
       console.error(error?.response?.data?.error);
@@ -184,7 +186,7 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
       );
       setConsultations(response?.data?.consultationSlots);
     } catch (error) {
-      setDoctorTimeSlots([]);
+      setConsultations([]);
       console.error(error?.response?.data?.error);
     } finally {
       setConsultationLoading(false);
@@ -404,39 +406,36 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
                                         timeslot?.timeSlot?.DoctorTimeSlot_id
                                       }
                                     >
-                                      {!timeslot?.leave && (
-                                        <label
-                                          className={`timeslot_selector_btn ${
+                                      <label
+                                        className={`timeslot_selector_btn ${
+                                          selectedTimeSlot?.timeSlot
+                                            ?.DoctorTimeSlot_id ===
+                                          timeslot?.timeSlot?.DoctorTimeSlot_id
+                                            ? "selected"
+                                            : ""
+                                        }`}
+                                      >
+                                        <input
+                                          type="checkbox"
+                                          checked={
                                             selectedTimeSlot?.timeSlot
                                               ?.DoctorTimeSlot_id ===
                                             timeslot?.timeSlot
                                               ?.DoctorTimeSlot_id
-                                              ? "selected"
-                                              : ""
-                                          }`}
-                                        >
-                                          <input
-                                            type="checkbox"
-                                            checked={
-                                              selectedTimeSlot?.timeSlot
-                                                ?.DoctorTimeSlot_id ===
-                                              timeslot?.timeSlot
-                                                ?.DoctorTimeSlot_id
-                                            }
-                                            //  disabled={true}
-                                            onChange={() =>
-                                              handleSelectTimeslot(timeslot)
-                                            }
-                                          />
-                                          {formatTime(
-                                            timeslot?.timeSlot?.startTime
-                                          )}{" "}
-                                          -{" "}
-                                          {formatTime(
-                                            timeslot?.timeSlot?.endTime
-                                          )}
-                                        </label>
-                                      )}
+                                          }
+                                          //  disabled={true}
+                                          onChange={() =>
+                                            handleSelectTimeslot(timeslot)
+                                          }
+                                        />
+                                        {formatTime(
+                                          timeslot?.timeSlot?.startTime
+                                        )}{" "}
+                                        -{" "}
+                                        {formatTime(
+                                          timeslot?.timeSlot?.endTime
+                                        )}
+                                      </label>
                                     </React.Fragment>
                                   ))}
                                 </div>
