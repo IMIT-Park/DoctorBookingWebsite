@@ -29,7 +29,7 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
   const [consultationLoading, setConsultationLoading] = useState(false);
   const [consultations, setConsultations] = useState([]);
   const [selectedConsultation, setSelectedConsultation] = useState(null);
-  const [timeslotWarning, setTimeslotWarning] = useState("");
+  const [timeslotWarning, setTimeslotWarning] = useState("Doctor is not available on this date.");
   const [reportInput, setReportInput] = useState({
     email: "",
     phone: "",
