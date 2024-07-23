@@ -192,9 +192,11 @@ const Header = ({ data }) => {
                       Contact
                     </ScrollLink>
                   </li>
-                  <li>
+                  
+                  {/* <li>
                     <Link to={"/doctor-signup"}> Register as Doctor</Link>
-                  </li>
+                  </li> */}
+
                   {/* <li className="booknow_wrapper">
                     {userDetails ? (
                       <ScrollLink
