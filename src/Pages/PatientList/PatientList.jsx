@@ -6,6 +6,7 @@ import { axiosApi } from "../../axiosInstance";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PhoneNumberInput from "../../Components/PhoneNumberInput/PhoneNumberInput";
+import Swal from "sweetalert2";
 
 const PatientList = () => {
   const navigate = useNavigate();
@@ -154,6 +155,17 @@ const PatientList = () => {
       }
     } catch (error) {
       console.error(error?.response?.data?.error);
+      if(error?.response?.status === 403) {
+        Swal.fire({
+          icon: "error",
+          title: "Todays Booking Slots Filled!",
+          text: "Todays Booking Slots Filled. Kindly Select Another date to book.",
+          padding: "2em",
+          customClass: "sweet-alerts",
+          confirmButtonColor: "#006241"
+        })
+        // toast.error("Todays Booking Slots Filled.Kindly Select Another dat to book.");
+      }
     } finally {
       setBookingLoading(false);
     }

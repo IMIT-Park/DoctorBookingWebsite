@@ -29,7 +29,9 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
   const [consultationLoading, setConsultationLoading] = useState(false);
   const [consultations, setConsultations] = useState([]);
   const [selectedConsultation, setSelectedConsultation] = useState(null);
-  const [timeslotWarning, setTimeslotWarning] = useState("Doctor is not available on this date.");
+  const [timeslotWarning, setTimeslotWarning] = useState(
+    "Doctor is not available on this date."
+  );
   const [reportInput, setReportInput] = useState({
     email: "",
     phone: "",
@@ -37,6 +39,7 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
     doctor_id: doctorDetails && doctorDetails?.doctor_id,
   });
   const [bookingType, setBookingType] = useState("member");
+  const [consultationWarning, setConsultationWarning] = useState("");
 
   useEffect(() => {
     const handlePageScroll = () => {
@@ -123,6 +126,7 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
   // fetch timeslots function
   const fetchTimeSlots = async (date) => {
     setTimeslotsLoading(true);
+    setConsultationWarning("");
     try {
       const response = await axiosApi.post(
         `/v1/booking/getdoctordate/${doctorId}`,
@@ -184,7 +188,11 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
           clinic_id: selectedClinic?.clinic_id || bookingDetails?.clinic_id,
         }
       );
-      setConsultations(response?.data?.consultationSlots);
+      if (response?.data?.noOfConsultationsPerDay?.length > 0) {
+        setConsultationWarning("No available consultations for this day. Please select another day.");
+      } else {
+        setConsultations(response?.data?.consultationSlots);
+      }
     } catch (error) {
       setConsultations([]);
       console.error(error?.response?.data?.error);
@@ -464,46 +472,64 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
                             </div>
                           )}
                           <Spacing lg={30} md={20} />
-
-                          {consultationLoading ? (
+                          {consultationWarning ? (
                             <div
-                              className="custom-loader_container"
-                              style={{ height: "3rem" }}
+                              style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                height: "100%",
+                                width: "100%",
+                                textAlign: "center",
+                              }}
                             >
-                              <span className="custom-loader"></span>
+                              {consultationWarning}
                             </div>
                           ) : (
-                            <div
-                              className="time_selector_list"
-                              style={{ gap: "0.85rem" }}
-                            >
-                              {consultations?.map((consultation, index) => (
-                                <label
-                                  key={index}
-                                  className={`time_selector_btn ${
-                                    selectedConsultation?.slot ===
-                                    consultation?.slot
-                                      ? "selected"
-                                      : ""
-                                  } ${
-                                    !consultation?.Available ? "disabled" : ""
-                                  }`}
+                            <>
+                              {consultationLoading ? (
+                                <div
+                                  className="custom-loader_container"
+                                  style={{ height: "3rem" }}
                                 >
-                                  <input
-                                    type="checkbox"
-                                    checked={
-                                      selectedConsultation?.slot ===
-                                      consultation?.slot
-                                    }
-                                    disabled={!consultation?.Available}
-                                    onChange={() =>
-                                      handleSelectConsultation(consultation)
-                                    }
-                                  />
-                                  {formatTime(consultation?.slot)}
-                                </label>
-                              ))}
-                            </div>
+                                  <span className="custom-loader"></span>
+                                </div>
+                              ) : (
+                                <div
+                                  className="time_selector_list"
+                                  style={{ gap: "0.85rem" }}
+                                >
+                                  {consultations?.map((consultation, index) => (
+                                    <label
+                                      key={index}
+                                      className={`time_selector_btn ${
+                                        selectedConsultation?.slot ===
+                                        consultation?.slot
+                                          ? "selected"
+                                          : ""
+                                      } ${
+                                        !consultation?.Available
+                                          ? "disabled"
+                                          : ""
+                                      }`}
+                                    >
+                                      <input
+                                        type="checkbox"
+                                        checked={
+                                          selectedConsultation?.slot ===
+                                          consultation?.slot
+                                        }
+                                        disabled={!consultation?.Available}
+                                        onChange={() =>
+                                          handleSelectConsultation(consultation)
+                                        }
+                                      />
+                                      {formatTime(consultation?.slot)}
+                                    </label>
+                                  ))}
+                                </div>
+                              )}
+                            </>
                           )}
                           <Spacing lg={30} md={20} />
 
