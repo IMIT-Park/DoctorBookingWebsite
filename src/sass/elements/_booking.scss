@@ -237,6 +237,13 @@ input[type="number"] {
   background-image: none;
 }
 
+.district-select:disabled{
+  background-color: transparent;
+}
+.form-textcolor{
+  color: gray;
+}
+
 @media screen and (max-width: 515px) {
   .booking_form {
     padding: 0 2.5rem;

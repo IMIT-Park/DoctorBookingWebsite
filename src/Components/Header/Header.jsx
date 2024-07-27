@@ -164,9 +164,12 @@ const Header = ({ data }) => {
                       Gallery
                     </ScrollLink>
                   </li> */}
-                  <li>
+                  {!userDetails && (
+                    <li>
                     <Link to={"/SubscriptionPlan"}>Plans</Link>
                   </li>
+                  )}
+                  
                   {/* <li className="menu-item-has-children">
                     <ScrollLink
                       to="blog"
@@ -192,10 +195,12 @@ const Header = ({ data }) => {
                       Contact
                     </ScrollLink>
                   </li>
-                  
-                  {/* <li>
-                    <Link to={"/doctor-signup"}> Register as Doctor</Link>
-                  </li> */}
+                  {!userDetails && (
+                     <li>
+                     <Link to={"/doctor-signup"}> Register as Doctor</Link>
+                   </li>
+                  )}
+                 
 
                   {/* <li className="booknow_wrapper">
                     {userDetails ? (

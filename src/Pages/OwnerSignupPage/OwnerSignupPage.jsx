@@ -24,15 +24,20 @@ const OwnerSignupPage = () => {
     user_name: "",
     phone: "",
     address: "",
+    country: "India",
+    state: "",
+    district: "",
+    city: "",
     salespersoncode: "",
     password: "",
     confirmPassword: "",
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [states, setStates] = useState([]);
+  const [districtvalue, setDistricts] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
   useEffect(() => {
     if (salespersoncode) {
       setInput((prevInput) => ({
@@ -64,6 +69,10 @@ const OwnerSignupPage = () => {
       !input.email ||
       !input.address ||
       !input.phone ||
+      !input.country ||
+      !input.state ||
+      !input.district ||
+      !input.city ||
       !input.password ||
       !input.confirmPassword
     ) {
@@ -103,6 +112,10 @@ const OwnerSignupPage = () => {
           user_name: "",
           phone: "",
           address: "",
+          country: "",
+          state: "",
+          district: "",
+          city: "",
           salespersoncode: "",
           password: "",
           confirmPassword: "",
@@ -129,6 +142,54 @@ const OwnerSignupPage = () => {
     setInput({ ...input, phone: value });
     if (value.length === 10) {
       setErrors((prevErrors) => ({ ...prevErrors, phone: "" }));
+    }
+  };
+
+  const fetchStateList = async () => {
+    try {
+      setLoading(true);
+      const response = await axiosApi.get(`/v1/owner/getAllStatesandDistrict`);
+      setStates(response?.data?.States || []);
+    } catch (error) {
+      console.error(" error:", error);
+
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchStateList();
+  }, []);
+
+  const handleStateSelect = (e) => {
+    const selectedStateName = e.target.value;
+    setInput({ ...input, state: selectedStateName });
+    const selectedState = states.find(
+      (state) => state.name === selectedStateName
+    );
+    const selectedStateId = selectedState?.state_id;
+    if (selectedStateId) {
+      fetchDistrictList(selectedStateId);
+    } else {
+      setDistricts([]); 
+    }
+  };
+
+  const fetchDistrictList = async (stateid) => {
+    try {
+      const response = await axiosApi.get(
+        `/v1/owner/getAllDistrictbystate/${stateid}`
+      );
+      setDistricts(response?.data?.District || []);
+      console.log(response);
+    } catch (error) {
+      console.error(" error:", error);
+
+      setLoading(false);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -200,6 +261,78 @@ const OwnerSignupPage = () => {
                   setInput({ ...input, address: e.target.value })
                 }
               ></textarea>
+            </div>
+            <div className="mb-3 mt-3">
+              <input
+                type="text"
+                className="form-control"
+                id="country"
+                placeholder="Country"
+                required
+                value={input?.country}
+                readOnly
+                onChange={(e) =>
+                  setInput({ ...input, country: e.target.value })
+                }
+                autoComplete="off"
+              />
+            </div>
+            <div className="mb-3 mt-3">
+              <select
+                className={`form-control form-select ${!input?.state && "form-textcolor"}`}
+                id="state"
+                placeholder="State"
+                required
+                value={input?.state}
+                onChange={(e) => {
+                  handleStateSelect(e);
+                  setInput({ ...input, state: e.target.value });
+                }}
+              >
+                <option className="" value="" disabled>
+                  Select State
+                </option>
+                {states.map((state) => (
+                  <option key={state?.state_id} value={state.name}>
+                    {state.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="mb-3 mt-3">
+              <select
+                className={`form-control form-select district-select ${!input?.district && "form-textcolor"}`}
+                id="districts"
+                placeholder="District"
+                required
+                value={input?.district || ""}
+                onChange={(e) =>
+                  setInput({ ...input, district: e.target.value })
+                }
+                disabled={districtvalue.length === 0}
+              >
+                <option value="" disabled>
+                  Select District
+                </option>
+                {districtvalue.map((district) => (
+                  <option key={district?.id} value={district?.district}>
+                    {district.district}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="mb-3">
+              <input
+                type="text"
+                className="form-control"
+                id="city"
+                placeholder="city"
+                required
+                value={input?.city}
+                onChange={(e) => setInput({ ...input, city: e.target.value })}
+                
+              />
             </div>
             <div className="password-input-container mb-3">
               <input
