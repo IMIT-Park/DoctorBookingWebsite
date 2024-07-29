@@ -43,6 +43,7 @@ const Header = ({ data }) => {
 
   const handleLogout = () => {
     setUserDetails(null);
+    sessionStorage.clear();
     toast.success("Logout Successfully");
   };
 
@@ -166,10 +167,10 @@ const Header = ({ data }) => {
                   </li> */}
                   {!userDetails && (
                     <li>
-                    <Link to={"/SubscriptionPlan"}>Plans</Link>
-                  </li>
+                      <Link to={"/SubscriptionPlan"}>Plans</Link>
+                    </li>
                   )}
-                  
+
                   {/* <li className="menu-item-has-children">
                     <ScrollLink
                       to="blog"
@@ -196,11 +197,10 @@ const Header = ({ data }) => {
                     </ScrollLink>
                   </li>
                   {!userDetails && (
-                     <li>
-                     <Link to={"/doctor-signup"}> Register as Doctor</Link>
-                   </li>
+                    <li>
+                      <Link to={"/doctor-signup"}> Register as Doctor</Link>
+                    </li>
                   )}
-                 
 
                   {/* <li className="booknow_wrapper">
                     {userDetails ? (

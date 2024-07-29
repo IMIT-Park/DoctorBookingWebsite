@@ -88,12 +88,13 @@ const SelectPatient = () => {
   // CreateBooking
   const createBooking = async (e, patient_id = null) => {
     e.preventDefault();
-    console.log("patient_id", patient_id);
+
     setButtonLoading(true);
 
     try {
       const bookingData = {
         ...bookingDetails,
+        created_by: "guest",
         patient_id: patient_id || bookingDetails.patient_id,
       };
 
@@ -114,6 +115,7 @@ const SelectPatient = () => {
           schedule_time: "",
           type: "application",
           DoctorTimeSlot_id: null,
+          created_by: "",
         });
         setBookingCompleted(response?.data);
       }
@@ -260,7 +262,7 @@ const SelectPatient = () => {
         </div>
       </div>
       <Spacing lg={120} md={80} />
-      <ToastContainer position="top-center" autoClose={2000} />
+      <ToastContainer autoClose={2000} />
     </>
   );
 };

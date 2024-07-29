@@ -23,6 +23,7 @@ const UserProvider = ({ children }) => {
           schedule_time: "",
           type: "application",
           DoctorTimeSlot_id: null,
+          created_by:"",
         };
   });
 

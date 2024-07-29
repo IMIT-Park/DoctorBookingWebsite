@@ -129,6 +129,7 @@ const PatientList = () => {
     try {
       const bookingData = {
         ...bookingDetails,
+        created_by: userDetails?.user_name || "",
         patient_id: patient_id || bookingDetails.patient_id,
       };
 
@@ -136,7 +137,7 @@ const PatientList = () => {
         "/v1/booking/createBooking",
         bookingData
       );
-      console.log(response);
+
       if (response.status === 201) {
         toast.success("Booking Added Successfully");
         setTimeout(() => {
@@ -150,20 +151,21 @@ const PatientList = () => {
           schedule_time: "",
           type: "application",
           DoctorTimeSlot_id: null,
+          created_by: "",
         });
         setBookingCompleted(response?.data);
       }
     } catch (error) {
       console.error(error?.response?.data?.error);
-      if(error?.response?.status === 403) {
+      if (error?.response?.status === 403) {
         Swal.fire({
           icon: "error",
           title: "Todays Booking Slots Filled!",
           text: "Todays Booking Slots Filled. Kindly Select Another date to book.",
           padding: "2em",
           customClass: "sweet-alerts",
-          confirmButtonColor: "#006241"
-        })
+          confirmButtonColor: "#006241",
+        });
         // toast.error("Todays Booking Slots Filled.Kindly Select Another dat to book.");
       }
     } finally {
