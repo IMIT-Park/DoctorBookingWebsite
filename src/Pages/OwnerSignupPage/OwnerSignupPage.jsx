@@ -327,7 +327,7 @@ const OwnerSignupPage = () => {
                 type="text"
                 className="form-control"
                 id="city"
-                placeholder="city"
+                placeholder="City"
                 required
                 value={input?.city}
                 onChange={(e) => setInput({ ...input, city: e.target.value })}
