@@ -54,7 +54,7 @@ const Header = ({ data }) => {
       }`}
     >
       <div className="st-top-header">
-        <div className="container">
+        <div className="container st-top-container">
           <div className="st-top-header-in">
             <ul className="st-top-header-list">
               <li>
@@ -94,7 +94,7 @@ const Header = ({ data }) => {
                 className="st-site-book-now-btn"
                 onClick={handleLogout}
               >
-                Logout
+                Log out
               </button>
             )}
           </div>

@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PhoneNumberInput from "../../Components/PhoneNumberInput/PhoneNumberInput";
 import Swal from "sweetalert2";
+import {formatDate} from "../../utils/formatDate"
 
 const PatientList = () => {
   const navigate = useNavigate();
@@ -180,6 +181,8 @@ const PatientList = () => {
     }
   };
 
+  const currentDate = formatDate(new Date());
+
   return (
     <>
       <ToastContainer autoClose={2000} />
@@ -249,6 +252,7 @@ const PatientList = () => {
                           onChange={(e) =>
                             setInput({ ...input, dateOfBirth: e.target.value })
                           }
+                          max={currentDate}
                           required
                         />
                       </div>
