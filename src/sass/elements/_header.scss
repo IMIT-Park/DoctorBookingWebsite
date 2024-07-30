@@ -180,12 +180,27 @@
 }
 
 @media screen and (max-width: 991px) {
-  .st-main-header .container {
+  .st-main-header .container  {
     max-width: 100%;
   }
 
-  .st-top-header {
+  // .st-top-header {
+  //   display: none;
+  // }
+  .st-top-header-list{
     display: none;
+  }
+
+  .st-site-book-now-btn{
+    margin-left: auto;
+    padding: 2px 10px !important; 
+    font-size: 12px !important; 
+    height: auto !important; 
+    width: auto !important;
+  }
+
+  .st-top-container{
+    max-width: 100%;
   }
 
   .st-site-header.st-style1 {

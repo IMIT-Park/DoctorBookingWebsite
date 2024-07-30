@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { axiosApi } from "../../axiosInstance";
 import { UserContext } from "../../Contexts/UseContext";
 import PhoneNumberInput from "../../Components/PhoneNumberInput/PhoneNumberInput";
+import { formatDate } from "../../utils/formatDate";
 
 const SelectPatient = () => {
   const { setPageTitle } = useContext(UserContext);
@@ -133,6 +134,8 @@ const SelectPatient = () => {
     }
   };
 
+  const currentDate = formatDate(new Date());
+
   return (
     <>
       <Spacing lg={120} md={60} />
@@ -183,6 +186,7 @@ const SelectPatient = () => {
                           placeholder="DOB"
                           required
                           value={input?.dateOfBirth}
+                          max={currentDate}
                           onChange={handleDateChange}
                         />
                       </div>

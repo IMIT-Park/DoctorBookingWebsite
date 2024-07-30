@@ -8,6 +8,7 @@ import Eye from "../../Components/PasswordEye/Eye";
 import CloseEye from "../../Components/PasswordEye/CloseEye";
 import PhoneNumberInput from "../../Components/PhoneNumberInput/PhoneNumberInput";
 import Swal from "sweetalert2";
+import { formatDate } from "../../utils/formatDate";
 
 const DoctorSignupPage = () => {
   const { setPageTitle } = useContext(UserContext);
@@ -152,6 +153,8 @@ const DoctorSignupPage = () => {
     setInput({ ...input, fees: e.target.value.replace(/\D/g, "") });
   };
 
+  const currentDate = formatDate(new Date());
+
   return (
     <div className="container signup_main">
       <Spacing lg={80} md={80} />
@@ -228,6 +231,7 @@ const DoctorSignupPage = () => {
                 onChange={(e) =>
                   setInput({ ...input, dateOfBirth: e.target.value })
                 }
+                max={currentDate}
                 placeholder="Date of Birth"
                 aria-label="Date of Birth"
                 aria-describedby="basic-dob"
