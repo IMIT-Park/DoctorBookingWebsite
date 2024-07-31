@@ -16,9 +16,11 @@
 }
 .clinicprofile__banner_wrapper {
   width: 100%;
-  min-height: 330px;
+  min-height: 350px;
+  max-height: 350px;
   border-radius: 8px;
   overflow: hidden;
+
 }
 .clinicprofile__banner_wrapper_image {
   width: 100%;
