@@ -31,6 +31,10 @@ const PatientRegister = () => {
     if (input.password !== input.confirmPassword) {
       newErrors.confirmPassword = "Passwords do not match";
     }
+    if(input.password.length < 6) {
+      newErrors.password = "Password should contain minimum 6 characters";
+      toast.warning("Password should contain minimum 6 characters");
+    }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -79,6 +83,25 @@ const PatientRegister = () => {
     }
   };
 
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    setInput({...input, password: value});
+    if(value >= 6){
+      setErrors((prevErrors) => ({...prevErrors, password: ""}));
+    }
+    if(value === input?.confirmPassword){
+      setErrors((prevErrors) => ({...prevErrors, confirmPassword:""}));
+    }
+  }
+
+  const handleConfirmPasswordChange = (e) => {
+    const value = e.target.value;
+    setInput({...input, confirmPassword: value});
+    if(value === input?.password){
+      setErrors((prevErrors) => ({...prevErrors, confirmPassword:""}));
+    }
+  }
+
   return (
     <>
       <Spacing lg={120} md={60} />
@@ -118,9 +141,7 @@ const PatientRegister = () => {
                     value={input.password}
                     placeholder="Password"
                     required
-                    onChange={(e) =>
-                      setInput({ ...input, password: e.target.value })
-                    }
+                    onChange={handlePasswordChange}
                   />
                   <div
                     className="icon-container"
@@ -129,6 +150,11 @@ const PatientRegister = () => {
                     {showPassword ? <Eye /> : <CloseEye />}
                   </div>
                 </div>
+                {errors.password && (
+                  <p className="text-danger">
+                    {errors.password}
+                  </p>
+                )}
                 <label
                   htmlFor="confirm_password"
                   className="form-label mb-2 mt-2"
@@ -143,9 +169,7 @@ const PatientRegister = () => {
                     value={input.confirmPassword}
                     placeholder="Confirm Password"
                     required
-                    onChange={(e) =>
-                      setInput({ ...input, confirmPassword: e.target.value })
-                    }
+                    onChange={handleConfirmPasswordChange}
                   />
                   <div
                     className="icon-container"
