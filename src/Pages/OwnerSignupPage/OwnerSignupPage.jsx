@@ -19,7 +19,8 @@ const OwnerSignupPage = () => {
   }, []);
 
   const [input, setInput] = useState({
-    name: "",
+    firstname: "",
+    lastname: "",
     email: "",
     user_name: "",
     phone: "",
@@ -69,7 +70,8 @@ const OwnerSignupPage = () => {
     e.preventDefault();
 
     if (
-      !input.name ||
+      !input.firstname ||
+      !input.lastname ||
       !input.email ||
       !input.address ||
       !input.phone ||
@@ -84,6 +86,8 @@ const OwnerSignupPage = () => {
       return;
     }
 
+    const fullname = `${input?.firstname} ${input?.lastname}`
+
     if (validate()) {
       setLoading(true);
 
@@ -92,6 +96,7 @@ const OwnerSignupPage = () => {
           ...input,
           phone: `+91${input.phone}`,
           user_name: input.email,
+          name: fullname
         };
 
         if (!data.salespersoncode) {
@@ -111,7 +116,8 @@ const OwnerSignupPage = () => {
 
         setLoading(false);
         setInput({
-          name: "",
+          firstname: "",
+          lastname: "",
           email: "",
           user_name: "",
           phone: "",
@@ -234,10 +240,22 @@ const OwnerSignupPage = () => {
                 type="text"
                 className="form-control"
                 id="name"
-                placeholder="Name"
+                placeholder="First Name"
                 required
-                value={input?.name}
-                onChange={(e) => setInput({ ...input, name: e.target.value })}
+                value={input?.firstname}
+                onChange={(e) => setInput({ ...input, firstname: e.target.value })}
+              />
+            </div>
+
+            <div className="mb-3">
+              <input
+                type="text"
+                className="form-control"
+                id="name"
+                placeholder="Last Name"
+                required
+                value={input?.lastname}
+                onChange={(e) => setInput({ ...input, lastname: e.target.value })}
               />
             </div>
 
