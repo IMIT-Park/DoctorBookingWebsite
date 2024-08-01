@@ -46,6 +46,10 @@ const DoctorSignupPage = () => {
       newErrors.phone = "Phone number must be exactly 10 digits";
       toast.warning("Phone number must be exactly 10 digits");
     }
+    if (input?.password.length < 6) {
+      newErrors.password = "Password should contain minimum 6 characters";
+      toast.warning("Password should contain minimum 6 letters");
+    }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -146,6 +150,25 @@ const DoctorSignupPage = () => {
     setInput({ ...input, phone: value });
     if (value.length === 10) {
       setErrors((prevErrors) => ({ ...prevErrors, phone: "" }));
+    }
+  };
+
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    setInput({ ...input, password: value });
+    if (value.length >= 6) {
+      setErrors((prevErrors) => ({ ...prevErrors, password: "" }));
+    }
+    if (value === input?.confirmPassword) {
+      setErrors((prevErrors) => ({ ...prevErrors, confirmPassword: "" }));
+    }
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    const value = e.target.value;
+    setInput({ ...input, confirmPassword: value });
+    if (value === input?.password) {
+      setErrors((prevErrors) => ({ ...prevErrors, confirmPassword: "" }));
     }
   };
 
@@ -327,8 +350,6 @@ const DoctorSignupPage = () => {
             <div className="mb-3">
               <input
                 type="tel"
-              
-               
                 className="form-control"
                 id="fees"
                 placeholder="Fees"
@@ -351,7 +372,8 @@ const DoctorSignupPage = () => {
                 }
               ></textarea>
             </div>
-            <div className="password-input-container mb-3">
+
+            <div className= "password-input-container mb-3">
               <input
                 type={showPassword ? "text" : "password"}
                 className="form-control"
@@ -359,9 +381,7 @@ const DoctorSignupPage = () => {
                 placeholder="Password"
                 required
                 value={input?.password}
-                onChange={(e) =>
-                  setInput({ ...input, password: e.target.value })
-                }
+                onChange={handlePasswordChange}
               />
               <div
                 className="icon-container"
@@ -370,6 +390,13 @@ const DoctorSignupPage = () => {
                 {showPassword ? <Eye /> : <CloseEye />}
               </div>
             </div>
+
+            {errors.password && (
+              <p className="text-danger" style={{marginTop:"-5px"}}>
+                {errors.password}
+              </p>
+            )}
+
             <div className="password-input-container">
               <input
                 type={showConfirmPassword ? "text" : "password"}
@@ -380,9 +407,7 @@ const DoctorSignupPage = () => {
                 placeholder="Confirm Password"
                 required
                 value={input?.confirmPassword}
-                onChange={(e) =>
-                  setInput({ ...input, confirmPassword: e.target.value })
-                }
+                onChange={handleConfirmPasswordChange}
               />
               <div
                 className="icon-container"
@@ -394,6 +419,7 @@ const DoctorSignupPage = () => {
             {errors.confirmPassword && (
               <p className="text-danger">{errors.confirmPassword}</p>
             )}
+
             <Spacing lg={40} md={30} />
             <div className="booking_form_card_btn_wrapper">
               <button

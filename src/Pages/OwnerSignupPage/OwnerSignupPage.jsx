@@ -56,6 +56,10 @@ const OwnerSignupPage = () => {
       newErrors.phone = "Phone number must be exactly 10 digits";
       toast.warning("Phone number must be exactly 10 digits");
     }
+    if(input.password.length < 6){
+      newErrors.password = "Password should contain minimum 6 characters";
+      toast.warning("Password should contain minimum 6 characters");
+    }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -144,6 +148,25 @@ const OwnerSignupPage = () => {
       setErrors((prevErrors) => ({ ...prevErrors, phone: "" }));
     }
   };
+
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    setInput({...input, password: value});
+    if(value >= 6){
+      setErrors((prevErrors) => ({...prevErrors, password: ""}));
+    }
+    if(value === input?.confirmPassword){
+      setErrors((prevErrors) => ({...prevErrors, confirmPassword:""}));
+    }
+  }
+
+  const handleConfirmPasswordChange = (e) => {
+    const value = e.target.value;
+    setInput({...input, confirmPassword: value});
+    if(value === input?.password){
+      setErrors((prevErrors) => ({...prevErrors, confirmPassword:""}));
+    }
+  }
 
   const fetchStateList = async () => {
     try {
@@ -334,6 +357,7 @@ const OwnerSignupPage = () => {
                 
               />
             </div>
+
             <div className="password-input-container mb-3">
               <input
                 type={showPassword ? "text" : "password"}
@@ -342,9 +366,7 @@ const OwnerSignupPage = () => {
                 placeholder="Password"
                 required
                 value={input?.password}
-                onChange={(e) =>
-                  setInput({ ...input, password: e.target.value })
-                }
+                onChange={handlePasswordChange}
               />
               <div
                 className="icon-container"
@@ -353,6 +375,10 @@ const OwnerSignupPage = () => {
                 {showPassword ? <Eye /> : <CloseEye />}
               </div>
             </div>
+            {errors.password && (
+              <p className="text-danger">{errors.password}</p>
+            )}
+
             <div className="password-input-container">
               <input
                 type={showConfirmPassword ? "text" : "password"}
@@ -363,9 +389,7 @@ const OwnerSignupPage = () => {
                 placeholder="Confirm Password"
                 required
                 value={input?.confirmPassword}
-                onChange={(e) =>
-                  setInput({ ...input, confirmPassword: e.target.value })
-                }
+                onChange={handleConfirmPasswordChange}
               />
               <div
                 className="icon-container"
@@ -377,6 +401,7 @@ const OwnerSignupPage = () => {
             {errors.confirmPassword && (
               <p className="text-danger">{errors.confirmPassword}</p>
             )}
+
             <Spacing lg={40} md={30} />
             <div className="booking_form_card_btn_wrapper">
               <button
