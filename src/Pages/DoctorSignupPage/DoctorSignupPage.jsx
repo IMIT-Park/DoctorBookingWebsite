@@ -18,7 +18,8 @@ const DoctorSignupPage = () => {
   }, []);
 
   const [input, setInput] = useState({
-    name: "",
+    firstname: "",
+    lastname: "",
     phone: "",
     email: "",
     user_name: "",
@@ -59,7 +60,8 @@ const DoctorSignupPage = () => {
     e.preventDefault();
 
     if (
-      !input.name ||
+      !input.firstname ||
+      !input.lastname ||
       !input.email ||
       !input.dateOfBirth ||
       !input.qualification ||
@@ -75,6 +77,9 @@ const DoctorSignupPage = () => {
       return;
     }
 
+    const fullname = `${input?.firstname} ${input?.lastname}`;
+
+
     if (validate()) {
       setLoading(true);
 
@@ -83,8 +88,9 @@ const DoctorSignupPage = () => {
           ...input,
           phone: `+91${input.phone}`,
           user_name: input.email,
+          name: fullname
         };
-
+        
         const response = await axiosApi.post("/v1/doctor/Dr-sign-up", data);
 
         Swal.fire({
@@ -98,7 +104,8 @@ const DoctorSignupPage = () => {
 
         setLoading(false);
         setInput({
-          name: "",
+          firstname: "",
+          lastname: "",
           phone: "",
           email: "",
           user_name: "",
@@ -202,10 +209,26 @@ const DoctorSignupPage = () => {
                 type="text"
                 className="form-control"
                 id="name"
-                placeholder="Name"
+                placeholder="First Name"
                 required
-                value={input?.name}
-                onChange={(e) => setInput({ ...input, name: e.target.value })}
+                value={input?.firstname}
+                onChange={(e) =>
+                  setInput({ ...input, firstname: e.target.value })
+                }
+              />
+            </div>
+
+            <div className="mb-3">
+              <input
+                type="text"
+                className="form-control"
+                id="name"
+                placeholder="Last Name"
+                required
+                value={input?.lastname}
+                onChange={(e) =>
+                  setInput({ ...input, lastname: e.target.value })
+                }
               />
             </div>
 
@@ -373,7 +396,7 @@ const DoctorSignupPage = () => {
               ></textarea>
             </div>
 
-            <div className= "password-input-container mb-3">
+            <div className="password-input-container mb-3">
               <input
                 type={showPassword ? "text" : "password"}
                 className="form-control"
@@ -392,7 +415,7 @@ const DoctorSignupPage = () => {
             </div>
 
             {errors.password && (
-              <p className="text-danger" style={{marginTop:"-5px"}}>
+              <p className="text-danger" style={{ marginTop: "-5px" }}>
                 {errors.password}
               </p>
             )}
