@@ -90,7 +90,9 @@ const DoctorSignupPage = () => {
           user_name: input.email,
           name: fullname
         };
-        
+        delete data.firstname;
+        delete data.lastname;
+                
         const response = await axiosApi.post("/v1/doctor/Dr-sign-up", data);
 
         Swal.fire({
@@ -208,7 +210,7 @@ const DoctorSignupPage = () => {
               <input
                 type="text"
                 className="form-control"
-                id="name"
+                id="firstname"
                 placeholder="First Name"
                 required
                 value={input?.firstname}
@@ -222,7 +224,7 @@ const DoctorSignupPage = () => {
               <input
                 type="text"
                 className="form-control"
-                id="name"
+                id="lastname"
                 placeholder="Last Name"
                 required
                 value={input?.lastname}

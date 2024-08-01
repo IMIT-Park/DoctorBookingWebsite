@@ -91,13 +91,18 @@ const OwnerSignupPage = () => {
     if (validate()) {
       setLoading(true);
 
+      const {firstname, lastname, ...rest} = input;
+
       try {
         const data = {
-          ...input,
+          ...rest,
           phone: `+91${input.phone}`,
           user_name: input.email,
           name: fullname
         };
+        // delete data.firstname;
+        // delete data.lastname;
+        console.log(data);
 
         if (!data.salespersoncode) {
           delete data.salespersoncode;
@@ -212,7 +217,7 @@ const OwnerSignupPage = () => {
         `/v1/owner/getAllDistrictbystate/${stateid}`
       );
       setDistricts(response?.data?.District || []);
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       console.error(" error:", error);
 
@@ -239,7 +244,7 @@ const OwnerSignupPage = () => {
               <input
                 type="text"
                 className="form-control"
-                id="name"
+                id="firstname"
                 placeholder="First Name"
                 required
                 value={input?.firstname}
@@ -251,7 +256,7 @@ const OwnerSignupPage = () => {
               <input
                 type="text"
                 className="form-control"
-                id="name"
+                id="lastname"
                 placeholder="Last Name"
                 required
                 value={input?.lastname}
