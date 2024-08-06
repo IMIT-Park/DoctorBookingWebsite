@@ -7,10 +7,14 @@ import ComplaintModal from "../../Components/ComplaintModal/ComplaintModal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ReactPaginate from "react-paginate";
+import { decode } from "base-64";
 
 const ClinicSingleView = () => {
   const navigate = useNavigate();
-  const { clinicId } = useParams();
+  const params = useParams();
+
+  const encodedClinicId = params?.clinicId;
+  const clinicId = decode(encodedClinicId);
 
   const { setPageTitle, userDetails, bookingDetails, setBookingDetails } =
     useContext(UserContext);
