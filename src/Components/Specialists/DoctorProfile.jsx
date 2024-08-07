@@ -132,7 +132,7 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
         `/v1/booking/getdoctordate/${doctorId}`,
         {
           date: date,
-          clinic_id: selectedClinic?.clinic_id || bookingDetails?.clinic_id,
+          clinic_id: selectedClinic?.clinicDetails?.clinic_id || bookingDetails?.clinic_id,
         }
       );
       const filteredTimeSlots = response?.data?.doctorTimeSlots.filter(
@@ -158,10 +158,10 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
   };
 
   useEffect(() => {
-    if (selectedClinic?.clinic_id || bookingDetails?.clinic_id) {
+    if (selectedClinic?.clinicDetails?.clinic_id || bookingDetails?.clinic_id) {
       fetchTimeSlots(formatDate(selectedDate));
     }
-  }, [selectedClinic?.clinic_id, selectedDate]);
+  }, [selectedClinic?.clinicDetails?.clinic_id, selectedDate]);
 
   // timeslot select function
   const handleSelectTimeslot = (time) => {
@@ -185,7 +185,7 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
         {
           DoctorTimeSlot_id: selectedTimeSlot?.timeSlot?.DoctorTimeSlot_id,
           date: date,
-          clinic_id: selectedClinic?.clinic_id || bookingDetails?.clinic_id,
+          clinic_id: selectedClinic?.clinicDetails?.clinic_id || bookingDetails?.clinic_id,
         }
       );
       if (response?.data?.noOfConsultationsPerDay?.length > 0) {
@@ -203,7 +203,7 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
 
   useEffect(() => {
     if (
-      (selectedClinic?.clinic_id &&
+      (selectedClinic?.clinicDetails?.clinic_id &&
         selectedTimeSlot?.timeSlot?.DoctorTimeSlot_id) ||
       (bookingDetails?.clinic_id &&
         selectedTimeSlot?.timeSlot?.DoctorTimeSlot_id)
@@ -217,7 +217,7 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
   };
 
   const handleBookNow = () => {
-    if (!selectedClinic?.clinic_id && !bookingDetails?.clinic_id) {
+    if (!selectedClinic?.clinicDetails?.clinic_id && !bookingDetails?.clinic_id) {
       toast.warning("Please select a clinic.");
       return;
     }
@@ -237,7 +237,7 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
     setBookingDetails({
       ...bookingDetails,
       doctor_id: parseFloat(doctorId),
-      clinic_id: selectedClinic?.clinic_id || bookingDetails?.clinic_id,
+      clinic_id: selectedClinic?.clinicDetails?.clinic_id || bookingDetails?.clinic_id,
       schedule_date: formatDate(selectedDate),
       schedule_time: selectedConsultation?.slot,
       DoctorTimeSlot_id: selectedTimeSlot?.timeSlot?.DoctorTimeSlot_id,
@@ -325,17 +325,17 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
                           <div className="dr_clinic_card_container">
                             {doctorClinics?.map((clinic) => (
                               <div
-                                key={clinic?.clinic_id}
+                                key={clinic?.clinicDetails?.clinic_id}
                                 className={`dr_clinic_card ${
-                                  selectedClinic?.clinic_id ===
-                                    clinic?.clinic_id && "active"
+                                  selectedClinic?.clinicDetails?.clinic_id ===
+                                    clinic?.clinicDetails?.clinic_id && "active"
                                 }`}
                                 onClick={() => handleClinicSelect(clinic)}
                               >
                                 <img
                                   src={
-                                    clinic?.banner_img_url
-                                      ? imageBase_URL + clinic?.banner_img_url
+                                    clinic?.clinicDetails?.banner_img_url
+                                      ? imageBase_URL + clinic?.clinicDetails?.banner_img_url
                                       : ""
                                   }
                                   alt="Clinic"
@@ -343,16 +343,16 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
                                 />
                                 <div>
                                   <h4 className="dr_clinic_name">
-                                    {clinic?.name || ""}
+                                    {clinic?.clinicDetails?.name || ""}
                                   </h4>
                                   <p className="dr_clinic_place">
-                                    {clinic?.place || ""}
+                                    {clinic?.clinicDetails?.place || ""}
                                   </p>
                                 </div>
                                 <img
                                   src={
-                                    selectedClinic?.clinic_id ===
-                                    clinic?.clinic_id
+                                    selectedClinic?.clinicDetails?.clinic_id ===
+                                    clinic?.clinicDetails?.clinic_id
                                       ? `${process.env.PUBLIC_URL}/icons/left-arrow.svg`
                                       : `${process.env.PUBLIC_URL}/icons/vector-down.svg`
                                   }
@@ -372,7 +372,7 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
                             type="button"
                             className="profile_direction_btn"
                             onClick={() =>
-                              getMapLocation(selectedClinic?.googleLocation)
+                              getMapLocation(selectedClinic?.clinicDetails?.googleLocation)
                             }
                           >
                             Get Direction
