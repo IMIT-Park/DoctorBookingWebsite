@@ -132,7 +132,9 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
         `/v1/booking/getdoctordate/${doctorId}`,
         {
           date: date,
-          clinic_id: selectedClinic?.clinicDetails?.clinic_id || bookingDetails?.clinic_id,
+          clinic_id:
+            selectedClinic?.clinicDetails?.clinic_id ||
+            bookingDetails?.clinic_id,
         }
       );
       const filteredTimeSlots = response?.data?.doctorTimeSlots.filter(
@@ -185,11 +187,15 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
         {
           DoctorTimeSlot_id: selectedTimeSlot?.timeSlot?.DoctorTimeSlot_id,
           date: date,
-          clinic_id: selectedClinic?.clinicDetails?.clinic_id || bookingDetails?.clinic_id,
+          clinic_id:
+            selectedClinic?.clinicDetails?.clinic_id ||
+            bookingDetails?.clinic_id,
         }
       );
       if (response?.data?.noOfConsultationsPerDay?.length > 0) {
-        setConsultationWarning("No available consultations for this day. Please select another day.");
+        setConsultationWarning(
+          "No available consultations for this day. Please select another day."
+        );
       } else {
         setConsultations(response?.data?.consultationSlots);
       }
@@ -217,7 +223,10 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
   };
 
   const handleBookNow = () => {
-    if (!selectedClinic?.clinicDetails?.clinic_id && !bookingDetails?.clinic_id) {
+    if (
+      !selectedClinic?.clinicDetails?.clinic_id &&
+      !bookingDetails?.clinic_id
+    ) {
       toast.warning("Please select a clinic.");
       return;
     }
@@ -237,7 +246,8 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
     setBookingDetails({
       ...bookingDetails,
       doctor_id: parseFloat(doctorId),
-      clinic_id: selectedClinic?.clinicDetails?.clinic_id || bookingDetails?.clinic_id,
+      clinic_id:
+        selectedClinic?.clinicDetails?.clinic_id || bookingDetails?.clinic_id,
       schedule_date: formatDate(selectedDate),
       schedule_time: selectedConsultation?.slot,
       DoctorTimeSlot_id: selectedTimeSlot?.timeSlot?.DoctorTimeSlot_id,
@@ -335,7 +345,8 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
                                 <img
                                   src={
                                     clinic?.clinicDetails?.banner_img_url
-                                      ? imageBase_URL + clinic?.clinicDetails?.banner_img_url
+                                      ? imageBase_URL +
+                                        clinic?.clinicDetails?.banner_img_url
                                       : ""
                                   }
                                   alt="Clinic"
@@ -372,233 +383,259 @@ const DoctorProfile = ({ doctorId, doctorDetails, doctorClinics, loading }) => {
                             type="button"
                             className="profile_direction_btn"
                             onClick={() =>
-                              getMapLocation(selectedClinic?.clinicDetails?.googleLocation)
+                              getMapLocation(
+                                selectedClinic?.clinicDetails?.googleLocation
+                              )
                             }
                           >
                             Get Direction
                           </button>
                         )}
                       </div>
-                      <div className="date_selector_wrapper">
-                        <div className="date_picker_container">
-                          <div className="booking_title_card">Select Date</div>
-                          <Spacing lg={50} md={30} />
+                      {selectedClinic?.Subscription_Status === "Active" ? (
+                        <>
+                          <div className="date_selector_wrapper">
+                            <div className="date_picker_container">
+                              <div className="booking_title_card">
+                                Select Date
+                              </div>
+                              <Spacing lg={50} md={30} />
 
-                          <Flatpickr
-                            options={{
-                              defaultDate: selectedDate,
-                              inline: true,
-                              dateFormat: "d-m-Y",
-                              enableTime: false,
-                            }}
-                            onChange={handleDateChange}
-                          />
-                        </div>
-                        <div className="time_picker_container">
-                          <div className="booking_title_card">
-                            Select Timeslot
-                          </div>
-                          <Spacing lg={40} md={30} />
-                          {timeslotsLoading ? (
-                            <div className="custom-loader_container">
-                              <span className="custom-loader"></span>
+                              <Flatpickr
+                                options={{
+                                  defaultDate: selectedDate,
+                                  inline: true,
+                                  dateFormat: "d-m-Y",
+                                  enableTime: false,
+                                }}
+                                onChange={handleDateChange}
+                              />
                             </div>
-                          ) : (
-                            <>
-                              {doctorTimeSlots &&
-                              doctorTimeSlots?.length > 0 ? (
-                                <div className="time_selector_list">
-                                  {doctorTimeSlots?.map((timeslot) => (
-                                    <React.Fragment
-                                      key={
-                                        timeslot?.timeSlot?.DoctorTimeSlot_id
-                                      }
-                                    >
-                                      <label
-                                        className={`timeslot_selector_btn ${
-                                          selectedTimeSlot?.timeSlot
-                                            ?.DoctorTimeSlot_id ===
-                                          timeslot?.timeSlot?.DoctorTimeSlot_id
-                                            ? "selected"
-                                            : ""
-                                        }`}
-                                      >
-                                        <input
-                                          type="checkbox"
-                                          checked={
-                                            selectedTimeSlot?.timeSlot
-                                              ?.DoctorTimeSlot_id ===
-                                            timeslot?.timeSlot
-                                              ?.DoctorTimeSlot_id
-                                          }
-                                          //  disabled={true}
-                                          onChange={() =>
-                                            handleSelectTimeslot(timeslot)
-                                          }
-                                        />
-                                        {formatTime(
-                                          timeslot?.timeSlot?.startTime
-                                        )}{" "}
-                                        -{" "}
-                                        {formatTime(
-                                          timeslot?.timeSlot?.endTime
-                                        )}
-                                      </label>
-                                    </React.Fragment>
-                                  ))}
-                                </div>
-                              ) : (
-                                <div
-                                  style={{
-                                    display: "grid",
-                                    placeItems: "center",
-                                    width: "100%",
-                                    height: "100%",
-                                    textAlign: "center",
-                                  }}
-                                >
-                                  {/* {No slots found on this date} */}
-                                  {timeslotWarning}
-                                </div>
-                              )}
-                            </>
-                          )}
-
-                          {/* <h4 className="booking_time_label">Afternoon</h4> */}
-                          <Spacing lg={40} md={30} />
-                          {consultations && consultations?.length > 0 && (
-                            <div className="booking_title_card">
-                              Select Time
-                            </div>
-                          )}
-                          <Spacing lg={30} md={20} />
-                          {consultationWarning ? (
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                height: "100%",
-                                width: "100%",
-                                textAlign: "center",
-                              }}
-                            >
-                              {consultationWarning}
-                            </div>
-                          ) : (
-                            <>
-                              {consultationLoading ? (
-                                <div
-                                  className="custom-loader_container"
-                                  style={{ height: "3rem" }}
-                                >
+                            <div className="time_picker_container">
+                              <div className="booking_title_card">
+                                Select Timeslot
+                              </div>
+                              <Spacing lg={40} md={30} />
+                              {timeslotsLoading ? (
+                                <div className="custom-loader_container">
                                   <span className="custom-loader"></span>
                                 </div>
                               ) : (
-                                <div
-                                  className="time_selector_list"
-                                  style={{ gap: "0.85rem" }}
-                                >
-                                  {consultations?.map((consultation, index) => (
-                                    <label
-                                      key={index}
-                                      className={`time_selector_btn ${
-                                        selectedConsultation?.slot ===
-                                        consultation?.slot
-                                          ? "selected"
-                                          : ""
-                                      } ${
-                                        !consultation?.Available
-                                          ? "disabled"
-                                          : ""
-                                      }`}
+                                <>
+                                  {doctorTimeSlots &&
+                                  doctorTimeSlots?.length > 0 ? (
+                                    <div className="time_selector_list">
+                                      {doctorTimeSlots?.map((timeslot) => (
+                                        <React.Fragment
+                                          key={
+                                            timeslot?.timeSlot
+                                              ?.DoctorTimeSlot_id
+                                          }
+                                        >
+                                          <label
+                                            className={`timeslot_selector_btn ${
+                                              selectedTimeSlot?.timeSlot
+                                                ?.DoctorTimeSlot_id ===
+                                              timeslot?.timeSlot
+                                                ?.DoctorTimeSlot_id
+                                                ? "selected"
+                                                : ""
+                                            }`}
+                                          >
+                                            <input
+                                              type="checkbox"
+                                              checked={
+                                                selectedTimeSlot?.timeSlot
+                                                  ?.DoctorTimeSlot_id ===
+                                                timeslot?.timeSlot
+                                                  ?.DoctorTimeSlot_id
+                                              }
+                                              onChange={() =>
+                                                handleSelectTimeslot(timeslot)
+                                              }
+                                            />
+                                            {formatTime(
+                                              timeslot?.timeSlot?.startTime
+                                            )}{" "}
+                                            -{" "}
+                                            {formatTime(
+                                              timeslot?.timeSlot?.endTime
+                                            )}
+                                          </label>
+                                        </React.Fragment>
+                                      ))}
+                                    </div>
+                                  ) : (
+                                    <div
+                                      style={{
+                                        display: "grid",
+                                        placeItems: "center",
+                                        width: "100%",
+                                        height: "100%",
+                                        textAlign: "center",
+                                      }}
                                     >
-                                      <input
-                                        type="checkbox"
-                                        checked={
-                                          selectedConsultation?.slot ===
-                                          consultation?.slot
-                                        }
-                                        disabled={!consultation?.Available}
-                                        onChange={() =>
-                                          handleSelectConsultation(consultation)
-                                        }
-                                      />
-                                      {formatTime(consultation?.slot)}
-                                    </label>
-                                  ))}
+                                      {timeslotWarning}
+                                    </div>
+                                  )}
+                                </>
+                              )}
+
+                              <Spacing lg={40} md={30} />
+                              {consultations && consultations?.length > 0 && (
+                                <div className="booking_title_card">
+                                  Select Time
                                 </div>
                               )}
-                            </>
-                          )}
-                          <Spacing lg={30} md={20} />
+                              <Spacing lg={30} md={20} />
+                              {consultationWarning ? (
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    height: "100%",
+                                    width: "100%",
+                                    textAlign: "center",
+                                  }}
+                                >
+                                  {consultationWarning}
+                                </div>
+                              ) : (
+                                <>
+                                  {consultationLoading ? (
+                                    <div
+                                      className="custom-loader_container"
+                                      style={{ height: "3rem" }}
+                                    >
+                                      <span className="custom-loader"></span>
+                                    </div>
+                                  ) : (
+                                    <div
+                                      className="time_selector_list"
+                                      style={{ gap: "0.85rem" }}
+                                    >
+                                      {consultations?.map(
+                                        (consultation, index) => (
+                                          <label
+                                            key={index}
+                                            className={`time_selector_btn ${
+                                              selectedConsultation?.slot ===
+                                              consultation?.slot
+                                                ? "selected"
+                                                : ""
+                                            } ${
+                                              !consultation?.Available
+                                                ? "disabled"
+                                                : ""
+                                            }`}
+                                          >
+                                            <input
+                                              type="checkbox"
+                                              checked={
+                                                selectedConsultation?.slot ===
+                                                consultation?.slot
+                                              }
+                                              disabled={
+                                                !consultation?.Available
+                                              }
+                                              onChange={() =>
+                                                handleSelectConsultation(
+                                                  consultation
+                                                )
+                                              }
+                                            />
+                                            {formatTime(consultation?.slot)}
+                                          </label>
+                                        )
+                                      )}
+                                    </div>
+                                  )}
+                                </>
+                              )}
+                              <Spacing lg={30} md={20} />
 
-                          <div className="timeSelector_labels_container">
-                            <div className="timeSelector_label">
-                              <div className="color_box" />
-                              Selected
-                            </div>
-                            <div className="timeSelector_label">
-                              <div className="color_box booked" />
-                              Booked Slots
-                            </div>
-                            <div className="timeSelector_label">
-                              <div className="color_box available" />
-                              Available Slots
+                              <div className="timeSelector_labels_container">
+                                <div className="timeSelector_label">
+                                  <div className="color_box" />
+                                  Selected
+                                </div>
+                                <div className="timeSelector_label">
+                                  <div className="color_box booked" />
+                                  Booked Slots
+                                </div>
+                                <div className="timeSelector_label">
+                                  <div className="color_box available" />
+                                  Available Slots
+                                </div>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
-                      <Spacing lg={50} md={30} />
+                          <Spacing lg={50} md={30} />
 
-                      <div className="booking_form_radio_wrpper">
-                        <div className="form-check">
-                          <input
-                            className="form-check-input"
-                            type="radio"
-                            name="flexRadioDefault"
-                            id="flexRadioDefault1"
-                            checked={bookingType === "guest"}
-                            onChange={() => setBookingType("guest")}
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="flexRadioDefault1"
-                          >
-                            Guest Booking
-                          </label>
-                        </div>
-                        <div className="form-check">
-                          <input
-                            className="form-check-input"
-                            type="radio"
-                            name="flexRadioDefault"
-                            id="flexRadioDefault2"
-                            checked={bookingType === "member"}
-                            onChange={() => setBookingType("member")}
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="flexRadioDefault2"
-                          >
-                            Already Member
-                          </label>
-                        </div>
-                      </div>
+                          <div className="booking_form_radio_wrpper">
+                            <div className="form-check">
+                              <input
+                                className="form-check-input"
+                                type="radio"
+                                name="flexRadioDefault"
+                                id="flexRadioDefault1"
+                                checked={bookingType === "guest"}
+                                onChange={() => setBookingType("guest")}
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="flexRadioDefault1"
+                              >
+                                Guest Booking
+                              </label>
+                            </div>
+                            <div className="form-check">
+                              <input
+                                className="form-check-input"
+                                type="radio"
+                                name="flexRadioDefault"
+                                id="flexRadioDefault2"
+                                checked={bookingType === "member"}
+                                onChange={() => setBookingType("member")}
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="flexRadioDefault2"
+                              >
+                                Already Member
+                              </label>
+                            </div>
+                          </div>
 
-                      <div className="booking_form_card_btn_wrapper">
-                        <button
-                          className="booking_form_card_btn"
-                          onClick={handleBookNow}
+                          <div className="booking_form_card_btn_wrapper">
+                            <button
+                              className="booking_form_card_btn"
+                              onClick={handleBookNow}
+                            >
+                              Book Now
+                            </button>
+                          </div>
+                        </>
+                      ) : (
+                        <div
+                          style={{
+                            display: "grid",
+                            placeItems: "center",
+                            width: "100%",
+                            height: "18rem",
+                            textAlign: "center",
+                          }}
                         >
-                          Book Now
-                        </button>
-                      </div>
+                          {"This clinic currently not taking online booking"}
+                        </div>
+                      )}
                     </>
                   ) : (
                     <div className="custom-loader_container pt-4">
                       <div className="row_border mb-5" />
-                      This doctor currently does not have a clinic listed.
+                      This clinic is not accepting online appointments at the
+                      moment.
                     </div>
                   )}
                 </div>
