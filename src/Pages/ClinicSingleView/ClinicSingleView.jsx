@@ -28,6 +28,7 @@ const ClinicSingleView = () => {
   const [doctorClinics, setDoctorClinics] = useState([]);
   const [totalPages, setTotlaPages] = useState(0);
   const [clinicDetails, setClinicDetails] = useState(null);
+  const [clinicSubscriptionStatus, setClinicSubscriptionStatus] = useState("");
   const [reportInput, setReportInput] = useState({
     email: "",
     phone: "",
@@ -83,6 +84,7 @@ const ClinicSingleView = () => {
       try {
         const response = await axiosApi.get(`/v1/clinic/getbyId/${clinicId}`);
         setClinicDetails(response?.data?.Clinic);
+        setClinicSubscriptionStatus(response.data?.Subscription_Status);
       } catch (error) {
         console.error("Error fetching clinic details:", error);
       } finally {
@@ -298,15 +300,16 @@ const ClinicSingleView = () => {
                                     </div>
                                   ))}
                                 </div>
-
-                                <button
-                                  onClick={() =>
-                                    handleBookAppoinment(doc?.doctor_id)
-                                  }
-                                  className="clinic_dr_book_appoinment_btn"
-                                >
-                                  Book Appointment
-                                </button>
+                                {clinicSubscriptionStatus === "Active" && (
+                                  <button
+                                    onClick={() =>
+                                      handleBookAppoinment(doc?.doctor_id)
+                                    }
+                                    className="clinic_dr_book_appoinment_btn"
+                                  >
+                                    Book Appointment
+                                  </button>
+                                )}
                               </div>
                             </div>
                           ))}
